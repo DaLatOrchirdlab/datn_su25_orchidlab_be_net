@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using orchid_backend_net.Domain.Common.Interfaces;
 
 namespace orchid_backend_net.Infrastructure.Persistence
 {
-    public class OrchidDbContext(DbContextOptions<OrchidDbContext> options) : DbContext(options)
+    public class OrchidDbContext(DbContextOptions<OrchidDbContext> options) : DbContext(options), IUnitOfWork
     {
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
