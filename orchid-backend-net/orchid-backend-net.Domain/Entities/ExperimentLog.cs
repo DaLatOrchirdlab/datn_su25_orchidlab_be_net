@@ -13,13 +13,13 @@ namespace orchid_backend_net.Domain.Entities
     {
         [Key]
         public string ID {  get; set; }
-        public string Method {  get; set; }
-        [ForeignKey("Method")]
-        public virtual Method MethodID {  get; set; }
+        public string MethodID {  get; set; }
+        [ForeignKey("MethodID")]
+        public virtual Method Method {  get; set; }
         public string Description { get; set; }
-        public string TissueCultureBatch {  get; set; }
-        [ForeignKey("TissueCultureBatch")]
-        public virtual TissueCultureBatch TissueCultureBatchID {  get; set; }
+        public string TissueCultureBatchID {  get; set; }
+        [ForeignKey("TissueCultureBatchID")]
+        public virtual TissueCultureBatch TissueCultureBatch {  get; set; }
         //public enum Status
     }
 }

@@ -13,15 +13,15 @@ namespace orchid_backend_net.Domain.Entities
     {
         [Key]
         public int ID { get; set; }
-        public string Task {  get; set; }
-        [ForeignKey(nameof(Task))]
-        public virtual Task TaskID { get; set; }
-        public string Sample {  get; set; }
-        [ForeignKey(nameof(Sample))]
-        public virtual Sample SampleID { get; set; }
-        public string ExperimentLog {  get; set; }
-        [ForeignKey(nameof(ExperimentLog))]
-        public virtual ExperimentLog ExperimentLogID { get; set; }
+        public string TaskID {  get; set; }
+        [ForeignKey(nameof(TaskID))]
+        public virtual Task Task { get; set; }
+        public string SampleID {  get; set; }
+        [ForeignKey(nameof(SampleID))]
+        public virtual Sample Sample { get; set; }
+        public string ExperimentLogID {  get; set; }
+        [ForeignKey(nameof(ExperimentLogID))]
+        public virtual ExperimentLog ExperimentLog { get; set; }
         public bool Status {  get; set; }
     }
 }

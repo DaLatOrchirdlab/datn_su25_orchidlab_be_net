@@ -13,12 +13,12 @@ namespace orchid_backend_net.Domain.Entities
     {
         [Key]
         public string ID {  get; set; }
-        public string Stage {  get; set; }
-        [ForeignKey("Stage")]
-        public virtual Stage StageID {  get; set; }
-        public string Element { get; set; }
-        [ForeignKey("Element")]
-        public virtual Element ElementID {  get; set; }
+        public string StageID {  get; set; }
+        [ForeignKey("StageID")]
+        public virtual Stage Stage {  get; set; }
+        public string ElementID { get; set; }
+        [ForeignKey("ElementID")]
+        public virtual Element Element {  get; set; }
         public bool Status {  get; set; }
     }
 }

@@ -13,12 +13,12 @@ namespace orchid_backend_net.Domain.Entities
     {
         [Key]
         public int ID { get; set; }
-        public string Technician {  get; set; }
-        [ForeignKey(nameof(Technician))]
-        public virtual User TechnicianID { get; set; }
-        public string Task {  get; set; }
-        [ForeignKey(nameof(Task))]
-        public virtual Task TaskID { get; set; }
+        public string TechnicianID {  get; set; }
+        [ForeignKey(nameof(TechnicianID))]
+        public virtual User Technician { get; set; }
+        public string TaskID {  get; set; }
+        [ForeignKey(nameof(TaskID))]
+        public virtual Task Task { get; set; }
         public bool Status { get; set; }
     }
 }
