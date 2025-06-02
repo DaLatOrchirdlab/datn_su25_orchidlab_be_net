@@ -1,0 +1,24 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using orchid_backend_net.Domain.Entities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace orchid_backend_net.Infrastructure.Persistence.Configuration
+{
+    internal class ConfigReportAttribute : IEntityTypeConfiguration<ReportAttribute>
+    {
+        public void Configure(EntityTypeBuilder<ReportAttribute> builder)
+        {
+            builder.HasOne(x => x.ReferentDataID)
+                .WithMany()
+                .HasForeignKey(x => x.ReferentData);
+            builder.HasOne(x => x.ReportID)
+                .WithMany()
+                .HasForeignKey(x => x.Report);
+        }
+    }
+}

@@ -19,9 +19,9 @@ namespace orchid_backend_net.Domain.Entities
         public string UserName {  get; set; }
         public string PhoneNumber { get; set; }
         public bool Status { get; set; }
-        public string Role { get; set; }
-        [ForeignKey(nameof(Role))]
-        public virtual Role RoleID { get; set; }
+        public string RoleID { get; set; }
+        [ForeignKey(nameof(RoleID))]
+        public virtual Role Role { get; set; }
         public DateTime Create_at {  get; set; }
         public string Create_by { get; set; }
         public string? AvatarUrl { get; set; }

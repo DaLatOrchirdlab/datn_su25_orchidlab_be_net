@@ -15,9 +15,9 @@ namespace orchid_backend_net.Domain.Entities
         public string ID {  get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public string LabRoom {  get; set; }
-        [ForeignKey(nameof(LabRoom))]
-        public virtual labRoom LabRoomID { get; set; }
+        public string LabRoomID {  get; set; }
+        [ForeignKey(nameof(LabRoomID))]
+        public virtual labRoom LabRoom { get; set; }
         public bool Status {  get; set; }
     }
 }

@@ -14,9 +14,9 @@ namespace orchid_backend_net.Domain.Entities
         [Key]
         public string ID {  get; set; }
         public string Url {  get; set; }
-        public string Report {  get; set; }
-        [ForeignKey("Report")]
-        public virtual Report ReportID { get; set; }
+        public string ReportID {  get; set; }
+        [ForeignKey("ReportID")]
+        public virtual Report Report { get; set; }
         public bool Status {  get; set; }
     }
 }

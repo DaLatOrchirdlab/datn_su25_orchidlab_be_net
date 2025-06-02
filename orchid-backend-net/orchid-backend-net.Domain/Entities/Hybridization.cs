@@ -13,12 +13,12 @@ namespace orchid_backend_net.Domain.Entities
     {
         [Key]
         public string ID {  get; set; }
-        public string Parent {  get; set; }
-        [ForeignKey("Parent")]
-        public virtual Seedling ParentID { get; set; }
-        public string ExperimentLog {  get; set; }
-        [ForeignKey("ExperimentLog")]
-        public virtual ExperimentLog ExperimentLogID { get; set; }
+        public string ParentID {  get; set; }
+        [ForeignKey("ParentID")]
+        public virtual Seedling Parent { get; set; }
+        public string ExperimentLogID {  get; set; }
+        [ForeignKey("ExperimentLogID")]
+        public virtual ExperimentLog ExperimentLog { get; set; }
         public bool Status {  get; set; }
     }
 }
