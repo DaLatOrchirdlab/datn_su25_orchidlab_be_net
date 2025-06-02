@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,14 @@ namespace orchid_backend_net.Domain.Entities.Base
 {
     public class Entity : IDisposable
     {
+        protected Entity()
+        {
+            ID = Guid.NewGuid().ToString();
+        }
+
+        [Key]
+        public string ID { get; set; }
+
         [NotMapped]
         private bool IsDisposed { get; set; }
 
