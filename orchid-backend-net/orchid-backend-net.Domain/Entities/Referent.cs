@@ -12,7 +12,7 @@ namespace orchid_backend_net.Domain.Entities
     public class Referent : Entity
     {
         [Key]
-        public int ID { get; set; }
+        public string ID { get; set; }
         public string StageID {  get; set; }
         [ForeignKey(nameof(StageID))]
         public virtual Stage Stage { get; set; }

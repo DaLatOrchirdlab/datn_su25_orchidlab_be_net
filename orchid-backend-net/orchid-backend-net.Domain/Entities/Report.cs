@@ -9,7 +9,7 @@ namespace orchid_backend_net.Domain.Entities
 {
     public class Report : Entity
     {
-        public int ID { get; set; }
+        public string ID { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string Technician {  get; set; }

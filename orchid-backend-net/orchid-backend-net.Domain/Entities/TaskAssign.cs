@@ -12,7 +12,7 @@ namespace orchid_backend_net.Domain.Entities
     public class TaskAssign : Entity
     {
         [Key]
-        public int ID { get; set; }
+        public string ID { get; set; }
         public string TechnicianID {  get; set; }
         [ForeignKey(nameof(TechnicianID))]
         public virtual User Technician { get; set; }
