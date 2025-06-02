@@ -23,8 +23,8 @@ namespace orchid_backend_net.Infrastructure.Persistence
         public virtual DbSet<User> Users { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(OrchidDbContext).Assembly);
             base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(OrchidDbContext).Assembly);
             modelBuilder.ApplyConfiguration(new ConfigUser());
             modelBuilder.ApplyConfiguration(new ConfigTissueCultureBatch());
             modelBuilder.ApplyConfiguration(new ConfigTaskAttribute());
