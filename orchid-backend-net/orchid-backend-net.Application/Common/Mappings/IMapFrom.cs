@@ -1,0 +1,15 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using AutoMapper;
+
+namespace orchid_backend_net.Application.Common.Mappings
+{
+    internal interface IMapFrom<T>
+    {
+        void Mapping(Profile profile);
+    }
+}
