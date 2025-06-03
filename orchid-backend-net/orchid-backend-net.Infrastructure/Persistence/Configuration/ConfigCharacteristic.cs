@@ -8,13 +8,13 @@ namespace orchid_backend_net.Infrastructure.Persistence.Configuration
     {
         public void Configure(EntityTypeBuilder<Characteristic> builder)
         {
-            builder.HasOne(x => x.SeedlingAttributeID)
+            builder.HasOne(x => x.SeedlingAttribute)
                 .WithMany()
-                .HasForeignKey(x => x.SeedlingAttribute)
+                .HasForeignKey(x => x.SeedlingAttributeID)
                 .OnDelete(DeleteBehavior.Restrict);
-            builder.HasOne(x => x.SeedlingID)
+            builder.HasOne(x => x.Seedling)
                 .WithMany()
-                .HasForeignKey(x => x.Seedling)
+                .HasForeignKey(x => x.SeedlingID)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

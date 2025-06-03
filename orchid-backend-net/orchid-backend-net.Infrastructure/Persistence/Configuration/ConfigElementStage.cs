@@ -1,11 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using orchid_backend_net.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace orchid_backend_net.Infrastructure.Persistence.Configuration
 {
@@ -13,13 +8,13 @@ namespace orchid_backend_net.Infrastructure.Persistence.Configuration
     {
         public void Configure(EntityTypeBuilder<ElementInStage> builder)
         {
-            builder.HasOne(x => x.ElementID)
+            builder.HasOne(x => x.Element)
                 .WithMany()
-                .HasForeignKey(x => x.Element)
+                .HasForeignKey(x => x.ElementID)
                 .OnDelete(DeleteBehavior.Restrict);
-            builder.HasOne(x => x.StageID)
+            builder.HasOne(x => x.Stage)
                 .WithMany()
-                .HasForeignKey(x => x.Stage)
+                .HasForeignKey(x => x.StageID)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

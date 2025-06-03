@@ -2,11 +2,6 @@
 using orchid_backend_net.Application.Authentication.Refrestoken.GenerateRefreshToken;
 using orchid_backend_net.Domain.Common.Exceptions;
 using orchid_backend_net.Domain.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace orchid_backend_net.Application.Authentication.Login
 {
@@ -23,9 +18,10 @@ namespace orchid_backend_net.Application.Authentication.Login
             string Role = "";
             Role = user.RoleID switch
             {
-                "1" => "Admin",
-                "2" => "Researcher",
-                "3" => "Technician",
+                0 => "Account does not have a role",
+                1 => "Admin",
+                2 => "Researcher",
+                3 => "Technician",
             };
             var refresh = sender.Send(new RefreshTokenCommand(), cancellationToken).Result.Token;
             user.RefreshToken = refresh;

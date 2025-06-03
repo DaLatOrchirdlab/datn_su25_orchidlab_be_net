@@ -13,7 +13,7 @@ namespace orchid_backend_net.Infrastructure
             services.AddDbContext<OrchidDbContext>((sp, options) =>
             {
                 options.UseSqlServer(
-                    configuration.GetConnectionString("Lamma"),
+                    configuration.GetConnectionString("Lamma2"),
                     b =>
                     {
                         b.MigrationsAssembly(typeof(OrchidDbContext).Assembly.FullName);

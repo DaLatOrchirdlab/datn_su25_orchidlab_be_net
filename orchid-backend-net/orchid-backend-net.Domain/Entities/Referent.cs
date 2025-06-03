@@ -1,18 +1,10 @@
 ﻿using orchid_backend_net.Domain.Entities.Base;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace orchid_backend_net.Domain.Entities
 {
-    public class Referent : Entity
+    public class Referent : BaseIntEntity
     {
-        [Key]
-        public int ID { get; set; }
         public string StageID {  get; set; }
         [ForeignKey(nameof(StageID))]
         public virtual Stage Stage { get; set; }

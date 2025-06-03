@@ -1,11 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using orchid_backend_net.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace orchid_backend_net.Infrastructure.Persistence.Configuration
 {
@@ -13,13 +8,13 @@ namespace orchid_backend_net.Infrastructure.Persistence.Configuration
     {
         public void Configure(EntityTypeBuilder<ExperimentLog> builder)
         {
-            builder.HasOne(x => x.TissueCultureBatchID)
+            builder.HasOne(x => x.TissueCultureBatch)
                 .WithMany()
-                .HasForeignKey(x => x.TissueCultureBatch)
+                .HasForeignKey(x => x.TissueCultureBatchID)
                 .OnDelete(DeleteBehavior.Restrict);
-            builder.HasOne(x => x.MethodID)
+            builder.HasOne(x => x.Method)
                 .WithMany()
-                .HasForeignKey(x => x.Method)
+                .HasForeignKey(x => x.MethodID)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }
