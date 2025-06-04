@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using orchid_backend_net.Application.Common.Mappings;
-using orchid_backend_net.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace orchid_backend_net.Application.Authentication.Login
 {
-    public class LoginDTO : IMapFrom<User>
+    public class LoginDTO : IMapFrom<orchid_backend_net.Domain.Entities.User>
     {
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<User, LoginDTO>();
+            profile.CreateMap<orchid_backend_net.Domain.Entities.User, LoginDTO>();
 
         }
         public string Id { get; set; }

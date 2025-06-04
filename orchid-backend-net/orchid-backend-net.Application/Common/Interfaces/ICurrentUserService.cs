@@ -10,7 +10,6 @@ namespace orchid_backend_net.Application.Common.Interfaces
     {
         string? UserId { get; }
         string? UserName { get; }
-        string? RestaurantID { get; }
         Task<bool> IsInRoleAsync(string role);
         Task<bool> AuthorizeAsync(string policy);
     }
