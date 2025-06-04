@@ -7,7 +7,7 @@ namespace orchid_backend_net.Infrastructure.Persistence
 {
     public class OrchidDbContext(DbContextOptions<OrchidDbContext> options) : DbContext(options), IUnitOfWork
     {
-        public virtual DbSet<Characteristic> Chrateristic { get; set; }
+        public virtual DbSet<Characteristic> Characteristic { get; set; }
         public virtual DbSet<ElementInStage> ElementInStage { get; set; }
         public virtual DbSet<ExperimentLog> ExperimentLogs { get; set; }
         public virtual DbSet<Hybridization> Hybridization { get; set; }
@@ -23,14 +23,15 @@ namespace orchid_backend_net.Infrastructure.Persistence
         public virtual DbSet<User> Users { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(OrchidDbContext).Assembly);
             base.OnModelCreating(modelBuilder);
+            //modelBuilder.ApplyConfigurationsFromAssembly(typeof(OrchidDbContext).Assembly);
+            modelBuilder.ApplyConfiguration(new ConfigCharacteristic());
+            modelBuilder.ApplyConfiguration(new ConfigElementStage());
             modelBuilder.ApplyConfiguration(new ConfigUser());
             modelBuilder.ApplyConfiguration(new ConfigTissueCultureBatch());
             modelBuilder.ApplyConfiguration(new ConfigTaskAttribute());
             modelBuilder.ApplyConfiguration(new ConfigTaskAssign());
             modelBuilder.ApplyConfiguration(new ConfigStage());
-            modelBuilder.ApplyConfiguration(new ConfigElementStage());
             modelBuilder.ApplyConfiguration(new ConfigExperimentLog());
             modelBuilder.ApplyConfiguration(new ConfigReferent());
             modelBuilder.ApplyConfiguration(new ConfigReportAttribute());
@@ -38,7 +39,6 @@ namespace orchid_backend_net.Infrastructure.Persistence
             modelBuilder.ApplyConfiguration(new ConfigInfectedSample());
             modelBuilder.ApplyConfiguration(new ConfigImg());
             modelBuilder.ApplyConfiguration(new ConfigHybridization());
-            modelBuilder.ApplyConfiguration(new ConfigCharacteristic());
         }
         private static void ConfigureModel(ModelBuilder modelBuilder)
         {

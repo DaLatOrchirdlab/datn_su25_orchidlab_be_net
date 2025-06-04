@@ -1,4 +1,4 @@
-using orchid_backend_net.Infrastructure.Extensions;
+using orchid_backend_net.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 

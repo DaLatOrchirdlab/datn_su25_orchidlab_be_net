@@ -1,11 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using orchid_backend_net.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace orchid_backend_net.Infrastructure.Persistence.Configuration
 {
@@ -13,9 +9,9 @@ namespace orchid_backend_net.Infrastructure.Persistence.Configuration
     {
         public void Configure(EntityTypeBuilder<Img> builder)
         {
-            builder.HasOne(x => x.ReportID)
+            builder.HasOne(x => x.Report)
                 .WithMany()
-                .HasForeignKey(x => x.Report)
+                .HasForeignKey(x => x.ReportID)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }
