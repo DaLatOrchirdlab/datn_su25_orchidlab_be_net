@@ -1,10 +1,5 @@
 ﻿using AutoMapper;
 using orchid_backend_net.Application.Common.Mappings;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace orchid_backend_net.Application.Authentication.Login
 {
@@ -18,7 +13,7 @@ namespace orchid_backend_net.Application.Authentication.Login
         public string Id { get; set; }
         public string RoleID { get; set; }
         public required string RefreshToken { get; set; }
-        
+
         public static LoginDTO Create(string UserID, string Role, string RefreshToken)
         {
             return new LoginDTO

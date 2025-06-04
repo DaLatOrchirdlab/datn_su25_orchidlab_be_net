@@ -1,12 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using orchid_backend_net.Domain.Common.Exceptions;
-using orchid_backend_net.Domain.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using orchid_backend_net.Domain.IRepositories;
 
 namespace orchid_backend_net.Application.Element.GetElementInfor
 {
@@ -23,7 +18,7 @@ namespace orchid_backend_net.Application.Element.GetElementInfor
                     throw new NotFoundException($"Not found element with ID :{request.ID}");
                 return element.MapToElementDTO(_mapper);
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 throw new Exception($"{ex.Message}");
             }

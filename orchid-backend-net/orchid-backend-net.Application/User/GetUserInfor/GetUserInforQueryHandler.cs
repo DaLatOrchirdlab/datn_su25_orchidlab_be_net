@@ -2,7 +2,7 @@
 using MediatR;
 using orchid_backend_net.Application.Common.Pagination;
 using orchid_backend_net.Domain.Common.Exceptions;
-using orchid_backend_net.Domain.Repositories;
+using orchid_backend_net.Domain.IRepositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;

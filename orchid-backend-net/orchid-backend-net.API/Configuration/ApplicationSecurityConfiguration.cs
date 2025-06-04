@@ -1,11 +1,10 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using orchid_backend_net.API.Service;
 using orchid_backend_net.Application.Common.Interfaces;
-using System.IdentityModel.Tokens.Jwt;
-using System.Text;
 
 namespace orchid_backend_net.API.Configuration
 {

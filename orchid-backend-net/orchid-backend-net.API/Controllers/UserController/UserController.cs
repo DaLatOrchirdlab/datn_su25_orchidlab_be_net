@@ -1,11 +1,10 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Http;
+﻿using System.Net.Mime;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using orchid_backend_net.API.Controllers.ResponseTypes;
 using orchid_backend_net.Application.Common.Pagination;
 using orchid_backend_net.Application.User;
 using orchid_backend_net.Application.User.GetAllUser;
-using System.Net.Mime;
 
 namespace orchid_backend_net.API.Controllers.UserController
 {
@@ -24,14 +23,7 @@ namespace orchid_backend_net.API.Controllers.UserController
         public async Task<ActionResult<JsonResponse<PageResult<UserDTO>>>> GetAllUser(
             [FromQuery] GetAllUserQuery query, CancellationToken cancellationToken)
         {
-            try
-            {
-                return Ok(await this._sender.Send(query,cancellationToken));
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"{ex.Message}");
-            }
+            return Ok(await this._sender.Send(query, cancellationToken));
         }
     }
 }
