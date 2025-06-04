@@ -18,6 +18,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddApplication(builder.Configuration);
 builder.Services.ConfigureApplicationSecurity(builder.Configuration);
 builder.Services.ConfigureApiVersioning();
+builder.Services.ConfigureProblemDetails();
 builder.Services.ConfigureSwagger(builder.Configuration);
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.ConfigurationCors();
