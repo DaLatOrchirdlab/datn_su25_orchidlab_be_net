@@ -28,7 +28,6 @@
     <Folder Include="LabRoom\" />
     <Folder Include="Method\" />
     <Folder Include="StageAttribute\" />
-    <Folder Include="Sample\" />
     <Folder Include="SeedlingAttribute\" />
     <Folder Include="Seedling\" />
     <Folder Include="TaskAttribute\" />
