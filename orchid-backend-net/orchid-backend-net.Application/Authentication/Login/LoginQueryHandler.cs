@@ -1,7 +1,7 @@
 ﻿using MediatR;
-using orchid_backend_net.Application.Authentication.Refrestoken.GenerateRefreshToken;
+using orchid_backend_net.Application.Authentication.Refreshtoken.GenerateRefreshToken;
 using orchid_backend_net.Domain.Common.Exceptions;
-using orchid_backend_net.Domain.Repositories;
+using orchid_backend_net.Domain.IRepositories;
 
 namespace orchid_backend_net.Application.Authentication.Login
 {

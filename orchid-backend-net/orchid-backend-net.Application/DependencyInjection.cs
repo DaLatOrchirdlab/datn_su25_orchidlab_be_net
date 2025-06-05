@@ -1,19 +1,15 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System.Reflection;
+using FluentValidation;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using orchid_backend_net.Application.Common.Behaviours;
 using orchid_backend_net.Application.Common.Validation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using FluentValidation;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace orchid_backend_net.Application
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddApplication(this IServiceCollection services)
+        public static IServiceCollection AddApplication(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly(), lifetime: ServiceLifetime.Transient);
             services.AddMediatR(cfg =>

@@ -1,7 +1,7 @@
 ﻿using orchid_backend_net.Domain.Common.Interfaces;
 using System.Linq.Expressions;
 
-namespace orchid_backend_net.Domain.Repositories
+namespace orchid_backend_net.Domain.IRepositories
 {
     public interface IEFRepository<TDomain, TPersistence> : IRepository<TDomain>
     {

@@ -1,10 +1,5 @@
-﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Reflection;
+using AutoMapper;
 
 namespace orchid_backend_net.Application.Common.Mappings
 {

@@ -1,13 +1,8 @@
-﻿using orchid_backend_net.Application.Common.Exceptions;
+﻿using System.Reflection;
+using MediatR;
+using orchid_backend_net.Application.Common.Exceptions;
 using orchid_backend_net.Application.Common.Interfaces;
 using orchid_backend_net.Application.Common.Security;
-using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace orchid_backend_net.Application.Common.Behaviours
 {
