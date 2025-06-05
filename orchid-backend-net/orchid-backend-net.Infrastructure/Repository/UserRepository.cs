@@ -5,7 +5,7 @@ using orchid_backend_net.Infrastructure.Persistence;
 
 namespace orchid_backend_net.Infrastructure.Repository
 {
-    public class UserRepository(OrchidServerDbContext context, IMapper mapper) : RepositoryBase<User, User, OrchidServerDbContext>(context, mapper), IUserRepository
+    public class UserRepository(OrchidDbContext context, IMapper mapper) : RepositoryBase<User, User, OrchidDbContext>(context, mapper), IUserRepository
     {
         public string HashPassword(string password)
         {

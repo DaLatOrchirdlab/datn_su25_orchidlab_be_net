@@ -14,34 +14,20 @@ namespace orchid_backend_net.Infrastructure
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
             var dbType = configuration.GetValue<string>("DatabaseType")?.ToLowerInvariant();
-            if (dbType == "postgres")
-            {
-                services.AddDbContext<OrchidServerDbContext>(options =>
-                {
-                    options.UseNpgsql(configuration.GetConnectionString("Server"), b =>
-                    {
-                        b.MigrationsAssembly(typeof(OrchidServerDbContext).Assembly.FullName);
-                        b.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
-                    });
-                    options.UseLazyLoadingProxies();
-                });
-                services.AddScoped<IUnitOfWork>(provider => (IUnitOfWork)provider.GetRequiredService<OrchidServerDbContext>());
-            }
 
-            if (dbType == "mssql")
+            //database context
+            services.AddDbContext<OrchidDbContext>(options =>
             {
-                services.AddDbContext<OrchidLocalDbContext>(options =>
+                options.UseNpgsql(configuration.GetConnectionString("Server"), b =>
                 {
-                    options.UseSqlServer(configuration.GetConnectionString("Lamma-local"), b =>
-                    {
-                        b.MigrationsAssembly(typeof(OrchidLocalDbContext).Assembly.FullName);
-                        b.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
-                    });
-                    options.UseLazyLoadingProxies();
+                    b.MigrationsAssembly(typeof(OrchidDbContext).Assembly.FullName);
+                    b.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
                 });
-                services.AddScoped<IUnitOfWork>(provider => (IUnitOfWork)provider.GetRequiredService<OrchidLocalDbContext>());
-            }
+                options.UseLazyLoadingProxies();
+            });
+            services.AddScoped<IUnitOfWork>(provider => (IUnitOfWork)provider.GetRequiredService<OrchidDbContext>());
 
+            //redis cache
             services.AddStackExchangeRedisCache(options =>
             {
                 options.Configuration = configuration.GetSection("Redis")["Configuration"];

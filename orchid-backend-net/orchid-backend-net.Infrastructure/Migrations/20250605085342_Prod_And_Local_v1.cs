@@ -4,10 +4,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace orchid_backend_net.Infrastructure.Migrations.Server
+namespace orchid_backend_net.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Postgres_v1 : Migration
+    public partial class Prod_And_Local_v1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

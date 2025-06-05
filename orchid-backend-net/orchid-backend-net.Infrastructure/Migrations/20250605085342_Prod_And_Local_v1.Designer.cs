@@ -9,11 +9,11 @@ using orchid_backend_net.Infrastructure.Persistence;
 
 #nullable disable
 
-namespace orchid_backend_net.Infrastructure.Migrations.Server
+namespace orchid_backend_net.Infrastructure.Migrations
 {
-    [DbContext(typeof(OrchidServerDbContext))]
-    [Migration("20250605075757_Postgres_v1")]
-    partial class Postgres_v1
+    [DbContext(typeof(OrchidDbContext))]
+    [Migration("20250605085342_Prod_And_Local_v1")]
+    partial class Prod_And_Local_v1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,6 +21,9 @@ namespace orchid_backend_net.Infrastructure.Migrations.Server
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "9.0.5")
+                .HasAnnotation("Proxies:ChangeTracking", false)
+                .HasAnnotation("Proxies:CheckEquality", false)
+                .HasAnnotation("Proxies:LazyLoading", true)
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
