@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace orchid_backend_net.Domain.Entities.Base
 {
-    public class Entity : IDisposable
+    public abstract class BaseEntity<T> : IDisposable
     {
+        [Key]
+        public abstract T ID { get; set; }
+
         [NotMapped]
         private bool IsDisposed { get; set; }
 
@@ -34,7 +33,7 @@ namespace orchid_backend_net.Domain.Entities.Base
         {
         }
 
-        ~Entity()
+        ~BaseEntity()
         {
             Dispose(isDisposing: false);
         }

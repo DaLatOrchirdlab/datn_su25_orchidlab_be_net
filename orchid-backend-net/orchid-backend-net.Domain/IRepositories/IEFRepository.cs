@@ -1,12 +1,7 @@
 ﻿using orchid_backend_net.Domain.Common.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace orchid_backend_net.Domain.Repositories
+namespace orchid_backend_net.Domain.IRepositories
 {
     public interface IEFRepository<TDomain, TPersistence> : IRepository<TDomain>
     {

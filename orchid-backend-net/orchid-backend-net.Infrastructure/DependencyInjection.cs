@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using orchid_backend_net.Domain.Common.Interfaces;
 using orchid_backend_net.Infrastructure.Persistence;
+using orchid_backend_net.Domain.IRepositories;
+using orchid_backend_net.Infrastructure.Repository;
+using orchid_backend_net.Application.Common.Interfaces;
 
 namespace orchid_backend_net.Infrastructure
 {
@@ -13,19 +16,19 @@ namespace orchid_backend_net.Infrastructure
             services.AddDbContext<OrchidDbContext>((sp, options) =>
             {
                 options.UseSqlServer(
-                    configuration.GetConnectionString("Server"),
+                    configuration.GetConnectionString("Lamma"),
                     b =>
                     {
                         b.MigrationsAssembly(typeof(OrchidDbContext).Assembly.FullName);
                         b.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
                     });
                 options.UseLazyLoadingProxies();
-
-
             });
 
             services.AddScoped<IUnitOfWork>(provider => (IUnitOfWork)provider.GetRequiredService<OrchidDbContext>());
-
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IElementRepositoty, ElementRepository>();
+            services.AddScoped<IOrchidAnalyzerService, OrchidAnalyzerService>();
             return services;
         }
     }
