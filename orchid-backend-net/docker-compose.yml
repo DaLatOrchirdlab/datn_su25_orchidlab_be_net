@@ -15,6 +15,10 @@ services:
     networks:
       - backend-network
 
+networks:
+    backend-network:
+        driver: bridge
+
 volumes:
     redis-data:
         driver: local
