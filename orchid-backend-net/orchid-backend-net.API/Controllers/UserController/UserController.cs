@@ -1,17 +1,16 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Http;
+﻿using System.Net.Mime;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using orchid_backend_net.API.Controllers.ResponseTypes;
 using orchid_backend_net.Application.Common.Pagination;
 using orchid_backend_net.Application.User;
 using orchid_backend_net.Application.User.GetAllUser;
-using System.Net.Mime;
 
 namespace orchid_backend_net.API.Controllers.UserController
 {
-    [Route("api/[controller]")]
+    [Route("api/user")]
     [ApiController]
-    public class UserController(ISender _sender) : BaseController(_sender)
+    public class UserController(ISender _sender, ILogger<UserController> _logger) : BaseController(_sender)
     {
         [HttpGet]
         [Produces(MediaTypeNames.Application.Json)]
@@ -24,14 +23,8 @@ namespace orchid_backend_net.API.Controllers.UserController
         public async Task<ActionResult<JsonResponse<PageResult<UserDTO>>>> GetAllUser(
             [FromQuery] GetAllUserQuery query, CancellationToken cancellationToken)
         {
-            try
-            {
-                return Ok(await this._sender.Send(query,cancellationToken));
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"{ex.Message}");
-            }
+            _logger.LogInformation("Received GET request at {Time}", DateTime.UtcNow);
+            return Ok(await this._sender.Send(query, cancellationToken));
         }
     }
 }

@@ -1,14 +1,8 @@
 ﻿using AutoMapper;
 using MediatR;
 using orchid_backend_net.Application.Common.Pagination;
-using orchid_backend_net.Application.User;
 using orchid_backend_net.Domain.Common.Exceptions;
-using orchid_backend_net.Domain.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using orchid_backend_net.Domain.IRepositories;
 
 namespace orchid_backend_net.Application.Element.GetAllElement
 {

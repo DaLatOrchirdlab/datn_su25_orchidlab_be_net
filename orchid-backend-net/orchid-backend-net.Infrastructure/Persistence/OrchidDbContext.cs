@@ -24,7 +24,7 @@ namespace orchid_backend_net.Infrastructure.Persistence
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            //modelBuilder.ApplyConfigurationsFromAssembly(typeof(OrchidDbContext).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(OrchidDbContext).Assembly);
             modelBuilder.ApplyConfiguration(new ConfigCharacteristic());
             modelBuilder.ApplyConfiguration(new ConfigElementStage());
             modelBuilder.ApplyConfiguration(new ConfigUser());

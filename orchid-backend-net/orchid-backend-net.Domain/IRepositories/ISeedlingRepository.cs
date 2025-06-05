@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace orchid_backend_net.Domain.Repositories
+namespace orchid_backend_net.Domain.IRepositories
 {
-    public interface IElementRepositoty : IEFRepository<Element, Element>
+    public interface ISeedlingRepository : IEFRepository<Seedling, Seedling>
     {
     }
 }

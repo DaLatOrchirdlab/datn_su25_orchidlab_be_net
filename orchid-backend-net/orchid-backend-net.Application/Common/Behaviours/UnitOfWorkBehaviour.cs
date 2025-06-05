@@ -1,12 +1,7 @@
-﻿using MediatR;
-using orchid_backend_net.Domain.Common.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Transactions;
+﻿using System.Transactions;
 using System.Windows.Input;
+using MediatR;
+using orchid_backend_net.Domain.Common.Interfaces;
 
 namespace orchid_backend_net.Application.Common.Behaviours
 {

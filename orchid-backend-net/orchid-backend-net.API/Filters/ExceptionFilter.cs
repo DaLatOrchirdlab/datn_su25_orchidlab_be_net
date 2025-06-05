@@ -1,11 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc.Filters;
+﻿using System.Diagnostics;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Mvc.Filters;
 using orchid_backend_net.Application.Common.Exceptions;
 using orchid_backend_net.Domain.Common.Exceptions;
-using Swashbuckle.AspNetCore.SwaggerGen;
-using System.Diagnostics;
-using FluentValidation;
 
 namespace orchid_backend_net.API.Filters
 {

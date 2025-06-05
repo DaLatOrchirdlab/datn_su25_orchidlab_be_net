@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Diagnostics;
-using System.Diagnostics;
+﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Diagnostics;
 
 namespace orchid_backend_net.API.Configuration
 {

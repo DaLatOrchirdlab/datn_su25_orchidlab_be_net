@@ -1,4 +1,5 @@
-﻿using Asp.Versioning.ApiExplorer;
+﻿using System.Reflection;
+using Asp.Versioning.ApiExplorer;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
@@ -6,13 +7,12 @@ using orchid_backend_net.API.Filters;
 using orchid_backend_net.Application;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Swashbuckle.AspNetCore.SwaggerUI;
-using System.Reflection;
 
 namespace orchid_backend_net.API.Configuration
 {
     public static class SwashbuckleConfiguration
     {
-        public static IServiceCollection ConfigureSwagger(this IServiceCollection services)
+        public static IServiceCollection ConfigureSwagger(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ApiVersionSwaggerGenOptions>();
             services.AddSwaggerGen(

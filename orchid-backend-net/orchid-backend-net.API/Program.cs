@@ -1,15 +1,49 @@
+using orchid_backend_net.API.Configuration;
+using orchid_backend_net.API.Filters;
+using orchid_backend_net.Application;
 using orchid_backend_net.Infrastructure;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+//serilog service mf
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .Enrich.FromLogContext()
+    .WriteTo.Console()
+    .WriteTo.File("Logs/log-.txt", rollingInterval: RollingInterval.Day)
+    .CreateLogger();
+
+builder.Host.UseSerilog();
+
+builder.Services.AddControllers(opt =>
+{
+    opt.Filters.Add<ExceptionFilter>();
+});
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
+// Register application and infrastructure services
+builder.Services.AddApplication(builder.Configuration);
+builder.Services.ConfigureApplicationSecurity(builder.Configuration);
+builder.Services.ConfigureApiVersioning();
+builder.Services.ConfigureProblemDetails();
+builder.Services.ConfigureSwagger(builder.Configuration);
+builder.Services.ConfigurationCors();
 builder.Services.AddInfrastructure(builder.Configuration);
+
+//optimization
+builder.Services.AddMemoryCache();
+
+builder.Services.AddLogging(opt =>
+{
+    opt.ClearProviders(); // Clear default providers
+    opt.AddConsole(); // Add console logging
+    opt.AddDebug(); // Add debug logging
+    opt.SetMinimumLevel(LogLevel.Information); // Set minimum log level
+});
 
 var app = builder.Build();
 
