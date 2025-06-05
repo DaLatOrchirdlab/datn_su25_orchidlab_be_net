@@ -3,27 +3,21 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using orchid_backend_net.Infrastructure.Persistence;
 
 #nullable disable
 
-namespace orchid_backend_net.Infrastructure.Migrations
+namespace orchid_backend_net.Infrastructure.Migrations.Local
 {
-    [DbContext(typeof(OrchidDbContext))]
-    [Migration("20250604075000_OrchidLabDB_v1")]
-    partial class OrchidLabDB_v1
+    [DbContext(typeof(OrchidLocalDbContext))]
+    partial class OrchidLocalDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "9.0.5")
-                .HasAnnotation("Proxies:ChangeTracking", false)
-                .HasAnnotation("Proxies:CheckEquality", false)
-                .HasAnnotation("Proxies:LazyLoading", true)
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);

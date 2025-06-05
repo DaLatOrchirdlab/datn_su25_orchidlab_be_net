@@ -5,7 +5,7 @@ using orchid_backend_net.Infrastructure.Persistence.Configuration;
 
 namespace orchid_backend_net.Infrastructure.Persistence
 {
-    public class OrchidDbContext(DbContextOptions<OrchidDbContext> options) : DbContext(options), IUnitOfWork
+    public class OrchidServerDbContext(DbContextOptions<OrchidServerDbContext> options) : DbContext(options), IUnitOfWork
     {
         public virtual DbSet<Characteristic> Characteristic { get; set; }
         public virtual DbSet<ElementInStage> ElementInStage { get; set; }
@@ -24,7 +24,7 @@ namespace orchid_backend_net.Infrastructure.Persistence
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            //modelBuilder.ApplyConfigurationsFromAssembly(typeof(OrchidDbContext).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(OrchidServerDbContext).Assembly);
             modelBuilder.ApplyConfiguration(new ConfigCharacteristic());
             modelBuilder.ApplyConfiguration(new ConfigElementStage());
             modelBuilder.ApplyConfiguration(new ConfigUser());

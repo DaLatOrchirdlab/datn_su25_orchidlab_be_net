@@ -10,7 +10,7 @@ namespace orchid_backend_net.API.Controllers.UserController
 {
     [Route("api/user")]
     [ApiController]
-    public class UserController(ISender _sender) : BaseController(_sender)
+    public class UserController(ISender _sender, ILogger<UserController> _logger) : BaseController(_sender)
     {
         [HttpGet]
         [Produces(MediaTypeNames.Application.Json)]
@@ -23,6 +23,7 @@ namespace orchid_backend_net.API.Controllers.UserController
         public async Task<ActionResult<JsonResponse<PageResult<UserDTO>>>> GetAllUser(
             [FromQuery] GetAllUserQuery query, CancellationToken cancellationToken)
         {
+            _logger.LogInformation("Received GET request at {Time}", DateTime.UtcNow);
             return Ok(await this._sender.Send(query, cancellationToken));
         }
     }
