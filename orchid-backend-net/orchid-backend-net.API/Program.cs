@@ -23,6 +23,17 @@ builder.Services.ConfigureSwagger(builder.Configuration);
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.ConfigurationCors();
 
+//optimization
+builder.Services.AddMemoryCache();
+
+builder.Services.AddLogging(opt =>
+{
+    opt.ClearProviders(); // Clear default providers
+    opt.AddConsole(); // Add console logging
+    opt.AddDebug(); // Add debug logging
+    opt.SetMinimumLevel(LogLevel.Information); // Set minimum log level
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

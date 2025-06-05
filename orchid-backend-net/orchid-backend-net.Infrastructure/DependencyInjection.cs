@@ -5,6 +5,7 @@ using orchid_backend_net.Domain.Common.Interfaces;
 using orchid_backend_net.Infrastructure.Persistence;
 using orchid_backend_net.Domain.IRepositories;
 using orchid_backend_net.Infrastructure.Repository;
+using orchid_backend_net.Application.Common.Interfaces;
 
 namespace orchid_backend_net.Infrastructure
 {
@@ -27,6 +28,7 @@ namespace orchid_backend_net.Infrastructure
             services.AddScoped<IUnitOfWork>(provider => (IUnitOfWork)provider.GetRequiredService<OrchidDbContext>());
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IElementRepositoty, ElementRepository>();
+            services.AddScoped<IOrchidAnalyzerService, OrchidAnalyzerService>();
             return services;
         }
     }

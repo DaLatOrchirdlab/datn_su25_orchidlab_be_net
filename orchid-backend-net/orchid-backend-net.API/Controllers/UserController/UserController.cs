@@ -8,7 +8,7 @@ using orchid_backend_net.Application.User.GetAllUser;
 
 namespace orchid_backend_net.API.Controllers.UserController
 {
-    [Route("api/[controller]")]
+    [Route("api/user")]
     [ApiController]
     public class UserController(ISender _sender) : BaseController(_sender)
     {
