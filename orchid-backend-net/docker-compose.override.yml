@@ -1,0 +1,16 @@
+services:
+  orchid-backend-net.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_HTTP_PORTS=8080
+      - REDIS_HOST=orchid-redis
+    ports:
+      - "8080"
+    volumes:
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+    networks:
+      - backend-network
+networks:
+  backend-network:
+    driver: bridge

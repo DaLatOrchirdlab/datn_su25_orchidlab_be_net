@@ -1,0 +1,42 @@
+name: Build & Run .NET Docker Compose
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-run-clean:
+    runs-on: [self-hosted, dotnet]
+
+    steps:
+      - name: 🧾 Checkout code
+        uses: actions/checkout@v3
+
+      - name: 📂 Move to project root
+        working-directory: orchid-backend-net
+        run: ls -la
+
+      - name: 🐳 Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: 🛠️ Docker Compose Build & Up
+        working-directory: orchid-backend-net
+        run: docker compose up -d --build
+
+      - name: 🧪 Check running containers
+        run: docker ps
+
+      - name: ✅ Healthcheck (optional)
+        run: curl --fail http://localhost:8080 || exit 1
+
+      - name: 🧹 Docker Compose Down
+        working-directory: orchid-backend-net
+        run: docker compose down
+
+      - name: 🧼 Clean up Docker cache
+        run: |
+          echo "🧽 Pruning Docker..."
+          docker image prune -af
+          docker builder prune -af
