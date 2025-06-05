@@ -1,15 +1,12 @@
-﻿using orchid_backend_net.Domain.Entities;
-using System.Diagnostics;
+﻿using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using orchid_backend_net.Application.Common.Interfaces;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Caching.Memory;
+using orchid_backend_net.Domain.Entities;
 
 namespace orchid_backend_net.Infrastructure.Repository
 {
     public class OrchidAnalyzerService(IConfiguration configuration) : IOrchidAnalyzerService
     {
-        private static readonly SemaphoreSlim _pythonLock = new(1, 1);
 
         public async Task<OrchidAnalysisResult> AnalyzeAsync(byte[] imageBytes)
         {
