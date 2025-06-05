@@ -1,4 +1,4 @@
-name: Build & Run .NET Docker Compose
+name: .NET Docker CI Pipeline
 
 on:
   push:
@@ -7,12 +7,13 @@ on:
     branches: [main]
 
 jobs:
-  build-run-clean:
-    runs-on: [self-hosted, dotnet]
+  build-image:
+    name: 🛠️ Build Docker Image
+    runs-on: [self-hosted, dotnet,]
 
     steps:
       - name: 🧾 Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: 📂 Move to project root
         working-directory: orchid-backend-net
@@ -21,22 +22,50 @@ jobs:
       - name: 🐳 Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: 🛠️ Docker Compose Build & Up
+      - name: 🔨 Build Docker Compose
         working-directory: orchid-backend-net
-        run: docker compose up -d --build
+        run: docker compose build
 
-      - name: 🧪 Check running containers
-        run: docker ps
+  run-compose:
+    name: 🚀 Run Docker Compose
+    runs-on: [self-hosted, dotnet]
+    needs: build-image
 
-      - name: ✅ Healthcheck (optional)
-        run: curl --fail http://localhost:8080 || exit 1
+    steps:
+      - name: 🧾 Checkout code
+        uses: actions/checkout@v4
 
-      - name: 🧹 Docker Compose Down
+      - name: 🚀 Docker Compose Up
         working-directory: orchid-backend-net
-        run: docker compose down
+        run: docker compose up -d
 
-      - name: 🧼 Clean up Docker cache
+      - name: 📜 Show Service Status
+        run: docker compose ps
+        working-directory: orchid-backend-net
+
+  show-logs:
+    name: 📋 Show Logs
+    runs-on: [self-hosted, dotnet]
+    needs: run-compose
+
+    steps:
+      - name: 🧾 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 📜 Docker Compose Logs
+        run: docker compose logs orchid-backend-net.api
+        working-directory: orchid-backend-net
+
+  cleanup:
+    name: 🧹 Clean Up
+    runs-on: [self-hosted, dotnet]
+    needs: show-logs
+
+    steps:
+      - name: 🧾 Checkout code
+        uses: actions/checkout@v4
+      
+      - name: 🧽 Prune Docker Images
         run: |
-          echo "🧽 Pruning Docker..."
           docker image prune -af
           docker builder prune -af
