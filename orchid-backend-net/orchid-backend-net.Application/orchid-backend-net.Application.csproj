@@ -26,7 +26,6 @@
 
   <ItemGroup>
     <Folder Include="LabRoom\" />
-    <Folder Include="ExperimentLog\" />
     <Folder Include="Method\" />
     <Folder Include="StageAttribute\" />
     <Folder Include="Sample\" />

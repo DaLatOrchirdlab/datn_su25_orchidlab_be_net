@@ -1,11 +1,11 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using orchid_backend_net.Domain.Common.Interfaces;
-using orchid_backend_net.Infrastructure.Persistence;
-using orchid_backend_net.Domain.IRepositories;
-using orchid_backend_net.Infrastructure.Repository;
 using orchid_backend_net.Application.Common.Interfaces;
+using orchid_backend_net.Domain.Common.Interfaces;
+using orchid_backend_net.Domain.IRepositories;
+using orchid_backend_net.Infrastructure.Persistence;
+using orchid_backend_net.Infrastructure.Repository;
 
 namespace orchid_backend_net.Infrastructure
 {
@@ -13,21 +13,41 @@ namespace orchid_backend_net.Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<OrchidDbContext>((sp, options) =>
+            var dbType = configuration.GetValue<string>("DatabaseType")?.ToLowerInvariant();
+
+            //database context
+            services.AddDbContext<OrchidDbContext>(options =>
             {
-                options.UseSqlServer(
-                    configuration.GetConnectionString("Lamma"),
-                    b =>
-                    {
-                        b.MigrationsAssembly(typeof(OrchidDbContext).Assembly.FullName);
-                        b.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
-                    });
+                options.UseNpgsql(configuration.GetConnectionString("Server"), b =>
+                {
+                    b.MigrationsAssembly(typeof(OrchidDbContext).Assembly.FullName);
+                    b.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
+                });
                 options.UseLazyLoadingProxies();
             });
-
             services.AddScoped<IUnitOfWork>(provider => (IUnitOfWork)provider.GetRequiredService<OrchidDbContext>());
+
+            //redis cache
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = configuration.GetSection("Redis")["Configuration"];
+                options.InstanceName = configuration.GetSection("Redis")["InstanceName"];
+            });
+
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IElementRepositoty, ElementRepository>();
+            services.AddScoped<IExperimentLogRepository, ExperimentLogRepository>();
+            services.AddScoped<ILabRoomRepository, LabRoomRepository>();
+            services.AddScoped<IMethodRepository, MethodRepository>();
+            services.AddScoped<IRepostRepository, RepostRepository>();
+            services.AddScoped<ISampleRepository, SampleRepository>();
+            services.AddScoped<ISeedlingAttributeRepository,SeedlingAttributeRepository>();
+            services.AddScoped<ISeedlingRepository, SeedlingRepository>();
+            services.AddScoped<IStageAttributeRepository, StageAttributeRepository>();
+            services.AddScoped<IStageRepository, StageRepository>();
+            services.AddScoped<ITaskAttributeRepository, TaskAttributeRepository>();
+            services.AddScoped<ITaskRepository, TaskRepository>();
+            services.AddScoped<ITissueCultureBatchRepository,TissueCultureBatchRepository>();
             services.AddScoped<IOrchidAnalyzerService, OrchidAnalyzerService>();
             return services;
         }

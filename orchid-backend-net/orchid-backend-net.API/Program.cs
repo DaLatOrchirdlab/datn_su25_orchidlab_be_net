@@ -2,10 +2,21 @@ using orchid_backend_net.API.Configuration;
 using orchid_backend_net.API.Filters;
 using orchid_backend_net.Application;
 using orchid_backend_net.Infrastructure;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+//serilog service mf
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .Enrich.FromLogContext()
+    .WriteTo.Console()
+    .WriteTo.File("Logs/log-.txt", rollingInterval: RollingInterval.Day)
+    .CreateLogger();
+
+builder.Host.UseSerilog();
 
 builder.Services.AddControllers(opt =>
 {
@@ -20,8 +31,8 @@ builder.Services.ConfigureApplicationSecurity(builder.Configuration);
 builder.Services.ConfigureApiVersioning();
 builder.Services.ConfigureProblemDetails();
 builder.Services.ConfigureSwagger(builder.Configuration);
-builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.ConfigurationCors();
+builder.Services.AddInfrastructure(builder.Configuration);
 
 //optimization
 builder.Services.AddMemoryCache();

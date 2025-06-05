@@ -9,7 +9,7 @@ namespace orchid_backend_net.API.Controllers.OrchidAnalyzer
 {
     [Route("api/orchid-analysis")]
     [ApiController]
-    public class OrchidAnalysisController(ISender _sender) : BaseController(_sender)
+    public class OrchidAnalysisController(ISender _sender, ILogger<OrchidAnalysisController> _logger) : BaseController(_sender)
     {
         [HttpPost("analyze")]
         [Produces(MediaTypeNames.Application.Json)]
@@ -32,7 +32,7 @@ namespace orchid_backend_net.API.Controllers.OrchidAnalyzer
 
             var command = new OrchidAnalyzerCommand { ImageBytes = imageBytes };
             var result = await _sender.Send(command);
-
+            _logger.LogInformation("Received GET request at {Time}", DateTime.UtcNow);
             return Ok(result);
         }
     }
