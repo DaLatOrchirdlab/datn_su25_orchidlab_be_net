@@ -7,19 +7,11 @@ using orchid_backend_net.Domain.IRepositories;
 
 namespace orchid_backend_net.Infrastructure.Repository
 {
-    public class RepositoryBase<TDomain, TPersistence, TDbContext> : IEFRepository<TDomain, TPersistence>
+    public class RepositoryBase<TDomain, TPersistence, TDbContext>(TDbContext _context, IMapper _mapper) : IEFRepository<TDomain, TPersistence>
     where TDomain : class
     where TPersistence : class, TDomain
     where TDbContext : DbContext, IUnitOfWork
     {
-        private readonly TDbContext _context;
-        private readonly IMapper _mapper;
-
-        public RepositoryBase(TDbContext context, IMapper mapper)
-        {
-            _context = context;
-            _mapper = mapper;
-        }
 
         public IUnitOfWork UnitOfWork => _context;
 
