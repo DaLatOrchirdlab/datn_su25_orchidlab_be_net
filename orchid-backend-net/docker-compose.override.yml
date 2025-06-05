@@ -15,7 +15,6 @@ services:
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
     networks:
       - backend-network
-
 networks:
   backend-network:
     external: true
