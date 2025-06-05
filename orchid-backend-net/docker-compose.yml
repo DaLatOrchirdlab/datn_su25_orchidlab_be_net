@@ -4,8 +4,12 @@ services:
     build:
       context: .
       dockerfile: orchid-backend-net.API/Dockerfile
+    ports:
+      - "8080:8080"
     depends_on:
       - orchid-redis
+    networks:
+      - backend-network
 
   orchid-redis: 
     image: redis:latest
