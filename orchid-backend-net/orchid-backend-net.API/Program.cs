@@ -1,5 +1,6 @@
 using orchid_backend_net.API.Configuration;
 using orchid_backend_net.API.Filters;
+using orchid_backend_net.API.Middleware;
 using orchid_backend_net.Application;
 using orchid_backend_net.Infrastructure;
 
@@ -43,6 +44,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseMiddleware<RateLimitingMiddleware>();
 
 app.UseHttpsRedirection();
 

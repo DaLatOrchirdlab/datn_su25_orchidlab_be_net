@@ -1,0 +1,20 @@
+services:
+  orchid-backend-net.api:
+    image: ${DOCKER_REGISTRY-}orchidbackendnetapi
+    build:
+      context: .
+      dockerfile: orchid-backend-net.API/Dockerfile
+    depends_on:
+      - orchid-redis
+
+  orchid-redis: 
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    restart: always
+    networks:
+      - backend-network
+
+volumes:
+    redis-data:
+        driver: local
