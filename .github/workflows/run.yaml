@@ -6,10 +6,6 @@ on:
   pull_request:
     branches: [main]
 jobs:
-  test:
-    runs-on: [self-hosted,dotnet]
-    steps:
-      - run: echo "Runner is working"
  
   build-image:
     name: 🛠️ Build Docker Image
