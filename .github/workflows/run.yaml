@@ -6,14 +6,10 @@ on:
   pull_request:
     branches: [main]
 jobs:
-  test:
-    runs-on: [self-hosted, dotnet]
-    steps:
-      - run: echo "Runner is working"
  
   build-image:
     name: 🛠️ Build Docker Image
-    runs-on: [self-hosted, dotnet]
+    runs-on: [self-hosted,dotnet]
 
     steps:
       - name: 🧾 Checkout code
@@ -32,7 +28,7 @@ jobs:
 
   run-compose:
     name: 🚀 Run Docker Compose
-    runs-on: [self-hosted, dotnet]
+    runs-on: [self-hosted,dotnet]
     needs: build-image
 
     steps:
@@ -49,7 +45,7 @@ jobs:
 
   show-logs:
     name: 📋 Show Logs
-    runs-on: [self-hosted, dotnet]
+    runs-on: [self-hosted,dotnet]
     needs: run-compose
 
     steps:
@@ -62,7 +58,7 @@ jobs:
 
   cleanup:
     name: 🧹 Clean Up
-    runs-on: [self-hosted, dotnet]
+    runs-on: [self-hosted,dotnet]
     needs: show-logs
 
     steps:
