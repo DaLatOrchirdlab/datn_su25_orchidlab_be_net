@@ -10,9 +10,6 @@ services:
       - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_HTTP_PORTS=8080
       - REDIS_HOST=orchid-redis
-      - VIRTUAL_HOST=api.orchid-lab.systems
-      - LETSENCRYPT_HOST=api.orchid-lab.systems
-      - LETSENCRYPT_EMAIL=dotranlam2003@gmail.com
     expose:
       - "8080"
     volumes:
@@ -28,8 +25,8 @@ services:
     image: redis:latest
     volumes:
       - redis-data:/data
-    expose:
-      - "6379"  # expose thay vì publish port nếu chỉ dùng nội bộ
+    ports:
+      - "6379:6379"
     networks:
       - backend-network
     restart: always
