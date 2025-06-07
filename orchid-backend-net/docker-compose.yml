@@ -18,7 +18,7 @@ services:
     depends_on:
       - orchid-redis
     networks:
-      - backend-network
+      - sep-orchid-lab-network
     restart: always
 
   orchid-redis:
@@ -28,11 +28,12 @@ services:
     ports:
       - "6379:6379"
     networks:
-      - backend-network
+      - sep-orchid-lab-network
     restart: always
 
 networks:
-  backend-network:
+  sep-orchid-lab-network:
+    external: true
     driver: bridge
 
 volumes:
