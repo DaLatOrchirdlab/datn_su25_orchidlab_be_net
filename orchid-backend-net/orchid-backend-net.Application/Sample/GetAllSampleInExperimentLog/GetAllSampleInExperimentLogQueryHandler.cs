@@ -27,7 +27,7 @@ namespace orchid_backend_net.Application.Sample.GetAllSampleInExperimentLog
         {
             try
             {
-                var listSample = await this._linkedRepository.FindAllAsync(x => x.ExperimentLogID.Equals(request.ExperimentLogID) && x.Status == true, request.PageNumber, request.PageSize, cancellationToken);
+                var listSample = await this._linkedRepository.FindAllAsync(x => x.ExperimentLogID.Equals(request.ExperimentLogID) && x.Status == true && x.TaskID == null, request.PageNumber, request.PageSize, cancellationToken);
                 List<orchid_backend_net.Domain.Entities.Sample> result = new List<Domain.Entities.Sample>();
                 foreach (var sample in listSample)
                 {
@@ -37,7 +37,7 @@ namespace orchid_backend_net.Application.Sample.GetAllSampleInExperimentLog
                 }
                 return PageResult<SampleDTO>.Create(
                     totalCount: result.Count,
-                    pageCount: result.Count,
+                    pageCount: (result.Count / request.PageSize),
                     pageNumber: request.PageNumber,
                     pageSize: request.PageSize,
                     data: result.MapToSampleDTOList(_mapper)

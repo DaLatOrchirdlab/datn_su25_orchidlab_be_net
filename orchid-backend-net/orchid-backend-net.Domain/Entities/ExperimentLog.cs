@@ -5,7 +5,7 @@ namespace orchid_backend_net.Domain.Entities
 {
     public class ExperimentLog : BaseGuidEntity
     {
-        public int MethodID {  get; set; }
+        public string MethodID {  get; set; }
         [ForeignKey(nameof(MethodID))]
         public virtual Method Method {  get; set; }
         public string Description { get; set; }

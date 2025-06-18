@@ -14,11 +14,11 @@ namespace orchid_backend_net.Application.ExperimentLog
 {
     public class ExperimentLogDTO : IMapFrom<orchid_backend_net.Domain.Entities.ExperimentLog>
     {
-        public int MethodID { get; set; }
+        public string MethodID { get; set; }
         public string Description { get; set; }
         public string TissueCultureBatchID { get; set; }
 
-        public static ExperimentLogDTO Create(int methodid, string tissueculturebatchid, string description)
+        public static ExperimentLogDTO Create(string methodid, string tissueculturebatchid, string description)
         {
             return new ExperimentLogDTO
             {

@@ -24,17 +24,4 @@
 	<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.5" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="LabRoom\" />
-    <Folder Include="Method\" />
-    <Folder Include="StageAttribute\" />
-    <Folder Include="SeedlingAttribute\" />
-    <Folder Include="Seedling\" />
-    <Folder Include="TaskAttribute\" />
-    <Folder Include="Stage\" />
-    <Folder Include="TissueCultureBatch\" />
-    <Folder Include="Report\" />
-    <Folder Include="Task\" />
-  </ItemGroup>
-
 </Project>

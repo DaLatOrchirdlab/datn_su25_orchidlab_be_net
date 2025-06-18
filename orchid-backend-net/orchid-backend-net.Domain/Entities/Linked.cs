@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace orchid_backend_net.Domain.Entities
 {
-    public class Linked : BaseIntEntity
+    public class Linked : BaseGuidEntity
     {
         public string TaskID {  get; set; }
         [ForeignKey(nameof(TaskID))]
