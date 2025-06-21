@@ -6,14 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace orchid_backend_net.Application.Method.GetMethodInfor
+namespace orchid_backend_net.Application.ExperimentLog.DeleteExperimentLog
 {
-    public class GetMethodInforQuery : IRequest<MethodDTO>, IQuery
+    public class DeleteExperimentLogCommand : IRequest<string>, ICommand
     {
         public string ID {  get; set; }
-        public GetMethodInforQuery(string id)
+        public DeleteExperimentLogCommand(string ID)
         {
-            ID = id;
+            this.ID = ID;
         }
     }
 }

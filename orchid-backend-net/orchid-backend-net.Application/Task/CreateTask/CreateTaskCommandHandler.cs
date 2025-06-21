@@ -44,7 +44,7 @@ namespace orchid_backend_net.Application.Task.CreateTask
                     var taskAssign = new Domain.Entities.TaskAssign()
                     {
                         ID = Guid.NewGuid().ToString(),
-                        Status = true,
+                        Status = 1,
                         TaskID = task.ID,
                         TechnicianID = technician
                     };

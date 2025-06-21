@@ -5,19 +5,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace orchid_backend_net.Application.LabRoom.UpdateLabRoom
+namespace orchid_backend_net.Application.Element.UpdateElement
 {
-    public class UpdateLabRoomCommandValidator : AbstractValidator<UpdateLabRoomCommand>
+    public class UpdateElementCommandValidator : AbstractValidator<UpdateElementCommand>
     {
-        public UpdateLabRoomCommandValidator() 
+        public UpdateElementCommandValidator() 
         {
             Configuration();
         }
         void Configuration()
         {
             RuleFor(x => x.Description.Count())
-                .LessThanOrEqualTo(200)
-                .WithMessage("Description is too long.");
+                .LessThanOrEqualTo(250)
+                .WithMessage("Element description is too long.");
         }
     }
 }

@@ -6,15 +6,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace orchid_backend_net.Application.LabRoom.CreateLabRoom
+namespace orchid_backend_net.Application.Element.CreateElement
 {
-    public class CreateLabRoomCommand : IRequest<string>, ICommand
+    public class CreateElementCommand : IRequest<string>, ICommand
     {
         public string Name { get; set; }
         public string Description { get; set; }
-        public CreateLabRoomCommand(string name, string description)
+        public CreateElementCommand(string name, string description)
         {
-            Name = name; 
+            Name = name;
             Description = description;
         }
     }

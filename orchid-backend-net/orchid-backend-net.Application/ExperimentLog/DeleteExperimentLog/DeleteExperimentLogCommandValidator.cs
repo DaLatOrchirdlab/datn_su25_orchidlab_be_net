@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace orchid_backend_net.Application.Method.GetMethodInfor
+namespace orchid_backend_net.Application.ExperimentLog.DeleteExperimentLog
 {
-    public class GetMethodInforQueryValidator : AbstractValidator<GetMethodInforQuery>
+    public class DeleteExperimentLogCommandValidator : AbstractValidator<DeleteExperimentLogCommand>
     {
-        public GetMethodInforQueryValidator() 
+        public DeleteExperimentLogCommandValidator() 
         {
             Configuration();
         }

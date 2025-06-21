@@ -6,14 +6,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace orchid_backend_net.Application.Method.GetMethodInfor
+namespace orchid_backend_net.Application.Element.DeleteElement
 {
-    public class GetMethodInforQuery : IRequest<MethodDTO>, IQuery
+    public class DeleteElementCommand : IRequest<string>, ICommand
     {
         public string ID {  get; set; }
-        public GetMethodInforQuery(string id)
+        public DeleteElementCommand() { }
+        public DeleteElementCommand(string ID)
         {
-            ID = id;
+            this.ID = ID;
         }
     }
 }

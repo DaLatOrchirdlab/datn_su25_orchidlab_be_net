@@ -6,20 +6,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace orchid_backend_net.Application.Method.UpdateMethod
+namespace orchid_backend_net.Application.Element.UpdateElement
 {
-    public class UpdateMethodCommand : IRequest<string>, ICommand
+    public class UpdateElementCommand : IRequest<string>, ICommand
     {
         public string ID {  get; set; }
-        public string Name { get; set; }
+        public string Name {  get; set; }
         public string Description { get; set; }
-        public string Type { get; set; }
-        public UpdateMethodCommand(string id, string name, string description, string type)
+        public UpdateElementCommand(string id, string name, string description)
         {
-            ID = id;    
+            ID = id;
             Name = name;
             Description = description;
-            Type = type;
         }
+        public UpdateElementCommand() { }
     }
 }
