@@ -23,10 +23,9 @@ services:
 
   orchid-redis:
     image: redis:latest
+    command: redis-server --requirepass "0911861612Val@"
     volumes:
       - redis-data:/data
-    ports:
-      - "6379:6379"
     networks:
       - sep-orchid-lab-network
     restart: always
