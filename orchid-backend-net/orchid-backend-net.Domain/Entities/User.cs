@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace orchid_backend_net.Domain.Entities
 {
-    public class User : BaseIntEntity
+    public class User : BaseGuidEntity
     {
         public string Name { get; set; }
         public string Email { get; set; }

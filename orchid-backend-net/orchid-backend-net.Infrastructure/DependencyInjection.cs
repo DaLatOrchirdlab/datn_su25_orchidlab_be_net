@@ -47,6 +47,8 @@ namespace orchid_backend_net.Infrastructure
             services.AddScoped<IStageRepository, StageRepository>();
             services.AddScoped<ITaskAttributeRepository, TaskAttributeRepository>();
             services.AddScoped<ITaskRepository, TaskRepository>();
+            services.AddScoped<IHybridizationRepository, HybridizationRepository>();
+            services.AddScoped<ILinkedRepository, LinkedRepository>();
             services.AddScoped<ITissueCultureBatchRepository,TissueCultureBatchRepository>();
             services.AddScoped<IOrchidAnalyzerService, OrchidAnalyzerService>();
             return services;

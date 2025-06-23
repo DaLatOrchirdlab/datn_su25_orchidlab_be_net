@@ -2,7 +2,7 @@
 
 namespace orchid_backend_net.Domain.Entities
 {
-    public class Method : BaseIntEntity
+    public class Method : BaseGuidEntity
     {
         public string Name { get; set; }
         public string Description { get; set; }

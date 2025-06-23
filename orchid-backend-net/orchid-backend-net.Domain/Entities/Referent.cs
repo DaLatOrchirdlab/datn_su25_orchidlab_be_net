@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace orchid_backend_net.Domain.Entities
 {
-    public class Referent : BaseIntEntity
+    public class Referent : BaseGuidEntity
     {
         public string StageID {  get; set; }
         [ForeignKey(nameof(StageID))]
