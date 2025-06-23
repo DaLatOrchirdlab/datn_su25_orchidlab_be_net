@@ -7,6 +7,7 @@ namespace orchid_backend_net.Domain.Entities
         public string Name { get; set; }
         public string Description { get; set; }
         public string Technician {  get; set; }
+        public string Sample {  get; set; }
         public bool Status {  get; set; }
     }
 }

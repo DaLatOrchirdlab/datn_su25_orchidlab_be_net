@@ -7,10 +7,11 @@ namespace orchid_backend_net.Domain.Entities
     {
         public string ReferentDataID {  get; set; }
         [ForeignKey(nameof(ReferentDataID))]
-        public virtual SeedlingAttribute ReferentData {  get; set; }
+        public virtual Referent ReferentData {  get; set; }
         public string ReportID { get; set; }
         [ForeignKey(nameof(ReportID))]
         public virtual Report Report { get; set; }
         //public enum Status
+        public int Status {  get; set; }
     }
 }
