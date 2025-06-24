@@ -1,12 +1,9 @@
 ﻿using orchid_backend_net.Domain.Entities.Base;
-using System.ComponentModel.DataAnnotations;
 
 namespace orchid_backend_net.Domain.Entities
 {
-    public class Task : BaseAutotable
+    public class Task : BaseSoftDelete
     {
-        [Key]
-        public string ID {  get; set; }
         public string Researcher { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }

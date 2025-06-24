@@ -1,36 +1,31 @@
 ﻿using AutoMapper;
 using orchid_backend_net.Application.Common.Mappings;
-using orchid_backend_net.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Net.NetworkInformation;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace orchid_backend_net.Application.ExperimentLog
 {
     public class ExperimentLogDTO : IMapFrom<orchid_backend_net.Domain.Entities.ExperimentLog>
     {
-        public string MethodID { get; set; }
+        public string Id { get; set; }
+        public string MethodName { get; set; }
         public string Description { get; set; }
-        public string TissueCultureBatchID { get; set; }
+        public string TissueCultureBatchName { get; set; }
 
-        public static ExperimentLogDTO Create(string methodid, string tissueculturebatchid, string description)
+        public static ExperimentLogDTO Create(string methodName, string tissueCultureBatchName, string description, string Id)
         {
             return new ExperimentLogDTO
             {
-                MethodID = methodid,
-                Description = description,
-                TissueCultureBatchID = tissueculturebatchid
+                Id = Id,
+                MethodName = methodName,
+                TissueCultureBatchName = tissueCultureBatchName,
+                Description = description
             };
         }
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<orchid_backend_net.Domain.Entities.ExperimentLog, ExperimentLogDTO>();
+            profile.CreateMap<orchid_backend_net.Domain.Entities.ExperimentLog, ExperimentLogDTO>()
+                .ForMember(dest => dest.TissueCultureBatchName, opt => opt.MapFrom(src => src.TissueCultureBatch.Name))
+                .ForMember(dest => dest.MethodName, opt => opt.MapFrom(src => src.Method.Name));
         }
     }
 }

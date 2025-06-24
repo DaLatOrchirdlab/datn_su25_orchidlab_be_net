@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace orchid_backend_net.Domain.Entities.Base
 {
-    public class BaseAutotable
+    public class BaseSoftDelete : BaseGuidEntity
     {
         public string Create_by {  get; set; }
         public DateTime Create_date { get; set; }
