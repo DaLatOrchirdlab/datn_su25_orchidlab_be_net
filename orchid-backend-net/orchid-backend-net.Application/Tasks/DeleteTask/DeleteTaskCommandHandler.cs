@@ -3,13 +3,8 @@ using MediatR;
 using orchid_backend_net.Application.Common.Interfaces;
 using orchid_backend_net.Domain.Common.Exceptions;
 using orchid_backend_net.Domain.IRepositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace orchid_backend_net.Application.Task.DeleteTask
+namespace orchid_backend_net.Application.Tasks.DeleteTask
 {
     public class DeleteTaskCommandHandler : IRequestHandler<DeleteTaskCommand, string>
     {
@@ -38,7 +33,7 @@ namespace orchid_backend_net.Application.Task.DeleteTask
                 task.Delete_by = _currentUserService.UserId;
                 return await _taskRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? $"Task {task.Name} is deleted." : $"Failed to delete task {task.Name}";
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 throw new Exception($"{ex.Message}");
             }

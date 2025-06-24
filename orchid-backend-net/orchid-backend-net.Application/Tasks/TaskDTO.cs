@@ -1,13 +1,7 @@
 ﻿using AutoMapper;
 using orchid_backend_net.Application.Common.Mappings;
-using orchid_backend_net.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace orchid_backend_net.Application.Task
+namespace orchid_backend_net.Application.Tasks
 {
     public class TaskDTO : IMapFrom<Domain.Entities.Task>
     {
@@ -18,8 +12,8 @@ namespace orchid_backend_net.Application.Task
         public DateTime Start_date { get; set; }
         public DateTime End_date { get; set; }
         public DateTime Create_at { get; set; }
-        public Domain.Enums.TaskStatus StatusEnum {  get; set; }
-        public int Status {  get; set; }
+        public Domain.Enums.TaskStatus StatusEnum { get; set; }
+        public int Status { get; set; }
         //public List<Domain.Entities.TaskAttribute> Attribute { get; set; }
         //public List<string> TechnicianID {  get; set; }
 

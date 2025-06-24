@@ -2,13 +2,8 @@
 using orchid_backend_net.Application.Common.Interfaces;
 using orchid_backend_net.Domain.Common.Exceptions;
 using orchid_backend_net.Domain.IRepositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace orchid_backend_net.Application.Task.UpdateTask
+namespace orchid_backend_net.Application.Tasks.UpdateTask
 {
     public class UpdateTaskCommandHandler : IRequestHandler<UpdateTaskCommand, string>
     {
@@ -33,7 +28,7 @@ namespace orchid_backend_net.Application.Task.UpdateTask
                 task.Update_by = _currentUserService.UserId;
                 return await _taskRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? $"Updated task ID :{request.ID}" : $"Failed update task with ID :{request.ID}";
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 throw new Exception($"{ex.Message}");
             }

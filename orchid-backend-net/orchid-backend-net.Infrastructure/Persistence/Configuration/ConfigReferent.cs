@@ -11,9 +11,9 @@ namespace orchid_backend_net.Infrastructure.Persistence.Configuration
             builder.HasOne(x => x.Stage)
                 .WithMany()
                 .HasForeignKey(x => x.StageID);
-            builder.HasOne(x => x.StageAttribute)
-                .WithMany()
-                .HasForeignKey(x => x.StageAttributeID);
+            //builder.HasOne(x => x.StageAttribute)
+            //    .WithMany()
+            //    .HasForeignKey(x => x.StageAttributeID);
         }
     }
 }

@@ -1,13 +1,8 @@
 ﻿using MediatR;
 using orchid_backend_net.Application.Common.Interfaces;
 using orchid_backend_net.Domain.IRepositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace orchid_backend_net.Application.Task.CreateTask
+namespace orchid_backend_net.Application.Tasks.CreateTask
 {
     public class CreateTaskCommandHandler : IRequestHandler<CreateTaskCommand, string>
     {
@@ -39,7 +34,7 @@ namespace orchid_backend_net.Application.Task.CreateTask
                     Status = 0,
                 };
                 _taskRepository.Add(task);
-                foreach (var technician in request.TechnicianID) 
+                foreach (var technician in request.TechnicianID)
                 {
                     var taskAssign = new Domain.Entities.TaskAssign()
                     {
@@ -50,15 +45,15 @@ namespace orchid_backend_net.Application.Task.CreateTask
                     };
                     _taskAssignRepository.Add(taskAssign);
                 }
-                await _taskAssignRepository.UnitOfWork.SaveChangesAsync(cancellationToken); 
-                foreach(var item in request.Attribute)
+                await _taskAssignRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
+                foreach (var item in request.Attribute)
                 {
                     var taskAttribute = new Domain.Entities.TaskAttribute()
                     {
                         ID = Guid.NewGuid().ToString(),
                         Description = item.Description,
                         Status = true,
-                        TaskID= task.ID,
+                        TaskID = task.ID,
                         Value = item.Value
                     };
                     _taskAttributeRepository.Add(taskAttribute);
@@ -66,7 +61,7 @@ namespace orchid_backend_net.Application.Task.CreateTask
                 await this._taskAttributeRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
                 return await this._taskRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? "Create task successfully." : "Failed to create task.";
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 throw new Exception($"{ex.Message}");
             }

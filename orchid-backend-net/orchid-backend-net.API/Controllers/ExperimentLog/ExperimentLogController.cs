@@ -27,11 +27,11 @@ namespace orchid_backend_net.API.Controllers.ExperimentLog
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<JsonResponse<PageResult<ExperimentLogDTO>>>> GetAllExperimentLog(
-            [FromRoute] int pageSize, [FromRoute] int pageNumber, CancellationToken cancellationToken)
+            [FromRoute] int pageSize, [FromRoute] int pageNumber, [FromRoute] string filter, [FromRoute] string searchTerm, CancellationToken cancellationToken)
         {
             try
             {
-                var result = await this._sender.Send(new GetAllExperimentLogQuery(pageNumber, pageSize), cancellationToken);
+                var result = await this._sender.Send(new GetAllExperimentLogQuery(pageNumber, pageSize, filter, searchTerm), cancellationToken);
                 return Ok(new JsonResponse<PageResult<ExperimentLogDTO>>(result));
             }
             catch (Exception ex) 
@@ -52,7 +52,7 @@ namespace orchid_backend_net.API.Controllers.ExperimentLog
         {
             try
             {
-                var result = await this._sender.Send(new GetExperimentLogInforQuery(ID), cancellationToken);
+                var result = await this._sender.Send(new GetExperimentLogInforQuery { ID=ID}, cancellationToken);
                 return Ok(new JsonResponse<ExperimentLogDTO>(result));
             }
             catch (Exception ex) 
