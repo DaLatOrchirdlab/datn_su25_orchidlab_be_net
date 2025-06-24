@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using orchid_backend_net.Application.Common.Interfaces;
 using orchid_backend_net.Domain.Entities;
+using orchid_backend_net.Infrastructure.Service;
 
 namespace orchid_backend_net.Infrastructure.Repository
 {
@@ -10,6 +11,8 @@ namespace orchid_backend_net.Infrastructure.Repository
 
         public async Task<OrchidAnalysisResult> AnalyzeAsync(byte[] imageBytes)
         {
+            var processedBytes = ResizeAndCompressingImage.ResizeAndCompressImages(imageBytes, 1024, 1024, 70);
+
             var pythonApiUrl = configuration["OrchidAnalyzer:PythonApiUrl"];
             if (string.IsNullOrEmpty(pythonApiUrl))
                 throw new InvalidOperationException("OrchidAnalyzer:PythonApiUrl not configured");
@@ -17,7 +20,7 @@ namespace orchid_backend_net.Infrastructure.Repository
             using var httpClient = new HttpClient();
             using var content = new MultipartFormDataContent
             {
-                { new ByteArrayContent(imageBytes), "file", "image.jpg" }
+                { new ByteArrayContent(processedBytes), "file", "image.jpg" }
             };
 
             var response = await httpClient.PostAsync(pythonApiUrl, content);

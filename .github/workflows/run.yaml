@@ -1,0 +1,69 @@
+name: Docker CI
+
+on:
+  push:
+    branches: [main]
+jobs:
+ 
+  build-image:
+    name: 🛠️ Build Docker Image
+    runs-on: [self-hosted,dotnet]
+
+    steps:
+      - name: 🧾 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 📂 Move to project root
+        working-directory: orchid-backend-net
+        run: ls -la
+
+      - name: 🐳 Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: 🔨 Build Docker Compose
+        working-directory: orchid-backend-net
+        run: docker compose build
+
+  run-compose:
+    name: 🚀 Run Docker Compose
+    runs-on: [self-hosted,dotnet]
+    needs: build-image
+
+    steps:
+      - name: 🧾 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🚀 Docker Compose Up
+        working-directory: orchid-backend-net
+        run: docker compose up -d
+
+      - name: 📜 Show Service Status
+        run: docker compose ps
+        working-directory: orchid-backend-net
+
+  show-logs:
+    name: 📋 Show Logs
+    runs-on: [self-hosted,dotnet]
+    needs: run-compose
+
+    steps:
+      - name: 🧾 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 📜 Docker Compose Logs
+        run: docker compose logs orchid-backend-net.api
+        working-directory: orchid-backend-net
+
+  cleanup:
+    name: 🧹 Clean Up
+    runs-on: [self-hosted,dotnet]
+    needs: show-logs
+
+    steps:
+      - name: 🧾 Checkout code
+        uses: actions/checkout@v4
+      
+      - name: 🧽 Prune Docker Images
+        run: |
+          docker image prune -af
+          docker builder prune -af
