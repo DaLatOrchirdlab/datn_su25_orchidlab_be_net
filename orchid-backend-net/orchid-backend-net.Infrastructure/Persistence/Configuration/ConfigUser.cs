@@ -4,9 +4,9 @@ using orchid_backend_net.Domain.Entities;
 
 namespace orchid_backend_net.Infrastructure.Persistence.Configuration
 {
-    internal class ConfigUser : IEntityTypeConfiguration<User>
+    internal class ConfigUser : IEntityTypeConfiguration<Users>
     {
-        public void Configure(EntityTypeBuilder<User> builder)
+        public void Configure(EntityTypeBuilder<Users> builder)
         {
             builder.HasOne(x => x.Role)
                 .WithMany()

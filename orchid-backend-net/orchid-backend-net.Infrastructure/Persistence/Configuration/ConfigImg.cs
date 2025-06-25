@@ -5,9 +5,9 @@ using orchid_backend_net.Domain.Entities;
 
 namespace orchid_backend_net.Infrastructure.Persistence.Configuration
 {
-    internal class ConfigImg : IEntityTypeConfiguration<Img>
+    internal class ConfigImg : IEntityTypeConfiguration<Imgs>
     {
-        public void Configure(EntityTypeBuilder<Img> builder)
+        public void Configure(EntityTypeBuilder<Imgs> builder)
         {
             builder.HasOne(x => x.Report)
                 .WithMany()

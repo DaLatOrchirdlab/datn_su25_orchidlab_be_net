@@ -1,13 +1,14 @@
 ﻿using AutoMapper;
 using orchid_backend_net.Application.Common.Mappings;
+using orchid_backend_net.Domain.Entities;
 
 namespace orchid_backend_net.Application.Authentication.Login
 {
-    public class LoginDTO : IMapFrom<orchid_backend_net.Domain.Entities.User>
+    public class LoginDTO : IMapFrom<Users>
     {
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<orchid_backend_net.Domain.Entities.User, LoginDTO>();
+            profile.CreateMap<Users, LoginDTO>();
 
         }
         public string Id { get; set; }

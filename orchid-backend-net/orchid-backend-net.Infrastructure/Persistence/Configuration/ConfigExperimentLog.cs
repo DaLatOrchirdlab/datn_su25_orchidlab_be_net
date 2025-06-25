@@ -4,9 +4,9 @@ using orchid_backend_net.Domain.Entities;
 
 namespace orchid_backend_net.Infrastructure.Persistence.Configuration
 {
-    internal class ConfigExperimentLog : IEntityTypeConfiguration<ExperimentLog>
+    internal class ConfigExperimentLog : IEntityTypeConfiguration<ExperimentLogs>
     {
-        public void Configure(EntityTypeBuilder<ExperimentLog> builder)
+        public void Configure(EntityTypeBuilder<ExperimentLogs> builder)
         {
             builder.HasOne(x => x.TissueCultureBatch)
                 .WithMany()

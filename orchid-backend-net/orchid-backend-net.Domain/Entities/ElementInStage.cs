@@ -7,10 +7,10 @@ namespace orchid_backend_net.Domain.Entities
     {
         public string StageID {  get; set; }
         [ForeignKey(nameof(StageID))]
-        public virtual Stage Stage {  get; set; }
-        public int ElementID { get; set; }
+        public virtual Stages Stage {  get; set; }
+        public string ElementID { get; set; }
         [ForeignKey(nameof(ElementID))]
-        public virtual Element Element {  get; set; }
+        public virtual Elements Element {  get; set; }
         public bool Status {  get; set; }
     }
 }

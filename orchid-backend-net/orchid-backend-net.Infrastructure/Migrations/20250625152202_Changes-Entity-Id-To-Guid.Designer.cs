@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using orchid_backend_net.Infrastructure.Persistence;
@@ -11,9 +12,11 @@ using orchid_backend_net.Infrastructure.Persistence;
 namespace orchid_backend_net.Infrastructure.Migrations
 {
     [DbContext(typeof(OrchidDbContext))]
-    partial class OrchidDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250625152202_Changes-Entity-Id-To-Guid")]
+    partial class ChangesEntityIdToGuid
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -404,10 +407,7 @@ namespace orchid_backend_net.Infrastructure.Migrations
             modelBuilder.Entity("orchid_backend_net.Domain.Entities.Role", b =>
                 {
                     b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ID"));
 
                     b.Property<string>("Description")
                         .IsRequired()

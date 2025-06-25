@@ -5,7 +5,7 @@ using orchid_backend_net.Infrastructure.Persistence;
 
 namespace orchid_backend_net.Infrastructure.Repository
 {
-    public class ElementRepository(OrchidDbContext context, IMapper mapper) : RepositoryBase<Element, Element, OrchidDbContext>(context, mapper), IElementRepositoty
+    public class ElementRepository(OrchidDbContext context, IMapper mapper) : RepositoryBase<Elements, Elements, OrchidDbContext>(context, mapper), IElementRepositoty
     {
     }
 }

@@ -4,9 +4,9 @@ using orchid_backend_net.Domain.Entities;
 
 namespace orchid_backend_net.Infrastructure.Persistence.Configuration
 {
-    internal class ConfigStage : IEntityTypeConfiguration<Stage>
+    internal class ConfigStage : IEntityTypeConfiguration<Stages>
     {
-        public void Configure(EntityTypeBuilder<Stage> builder)
+        public void Configure(EntityTypeBuilder<Stages> builder)
         {
             builder.HasOne(x => x.Method)
                 .WithMany()
