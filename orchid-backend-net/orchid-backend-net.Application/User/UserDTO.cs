@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
 using orchid_backend_net.Application.Common.Mappings;
+using orchid_backend_net.Domain.Entities;
 
 namespace orchid_backend_net.Application.User
 {
-    public class UserDTO : IMapFrom<orchid_backend_net.Domain.Entities.User>
+    public class UserDTO : IMapFrom<Users>
     {
         public string ID { get; set; }
         public string Name { get; set; }
@@ -32,7 +33,7 @@ namespace orchid_backend_net.Application.User
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<orchid_backend_net.Domain.Entities.User, UserDTO>();
+            profile.CreateMap<orchid_backend_net.Domain.Entities.Users, UserDTO>();
         }
     }
 }

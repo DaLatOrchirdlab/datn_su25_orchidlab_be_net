@@ -2,12 +2,12 @@
 
 namespace orchid_backend_net.Domain.Entities
 {
-    public class Seedling : BaseGuidEntity
+    public class Seedlings : BaseGuidEntity
     {
         public string Name { get; set; }
         public string Description { get; set; }
-        public string Parent {  get; set; }
-        public string Parent1 { get; set; }
+        public string? Mother {  get; set; }
+        public string? Father { get; set; }
         public DateOnly Dob {  get; set; }
         public DateTime Create_at {  get; set; }
         public DateTime Update_at { get; set; }

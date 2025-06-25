@@ -4,9 +4,9 @@ using orchid_backend_net.Domain.Entities;
 
 namespace orchid_backend_net.Infrastructure.Persistence.Configuration
 {
-    internal class ConfigInfectedSample : IEntityTypeConfiguration<InfectedSample>
+    internal class ConfigInfectedSample : IEntityTypeConfiguration<InfectedSamples>
     {
-        public void Configure(EntityTypeBuilder<InfectedSample> builder)
+        public void Configure(EntityTypeBuilder<InfectedSamples> builder)
         {
             builder.HasOne(x => x.Sample)
                 .WithMany()

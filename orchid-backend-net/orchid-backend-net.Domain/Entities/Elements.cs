@@ -2,7 +2,7 @@
 
 namespace orchid_backend_net.Domain.Entities
 {
-    public class SeedlingAttribute : BaseGuidEntity
+    public class Elements : BaseGuidEntity
     {
         public string Name { get; set; }
         public string Description { get; set; }

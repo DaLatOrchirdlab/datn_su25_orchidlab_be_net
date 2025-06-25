@@ -3,7 +3,7 @@
 
 namespace orchid_backend_net.Domain.IRepositories
 {
-    public interface IElementRepositoty : IEFRepository<Element, Element>
+    public interface IElementRepositoty : IEFRepository<Elements, Elements>
     {
     }
 }
