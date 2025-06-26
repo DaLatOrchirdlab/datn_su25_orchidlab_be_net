@@ -4,9 +4,9 @@ using orchid_backend_net.Domain.Entities;
 
 namespace orchid_backend_net.Infrastructure.Persistence.Configuration
 {
-    internal class ConfigTaskAttribute : IEntityTypeConfiguration<TaskAttribute>
+    internal class ConfigTaskAttribute : IEntityTypeConfiguration<TaskAttributes>
     {
-        public void Configure(EntityTypeBuilder<TaskAttribute> builder)
+        public void Configure(EntityTypeBuilder<TaskAttributes> builder)
         {
             builder.HasOne(x => x.Task)
                 .WithMany()

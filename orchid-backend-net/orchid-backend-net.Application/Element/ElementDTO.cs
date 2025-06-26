@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
 using orchid_backend_net.Application.Common.Mappings;
+using orchid_backend_net.Domain.Entities;
 
 namespace orchid_backend_net.Application.Element
 {
-    public class ElementDTO : IMapFrom<orchid_backend_net.Domain.Entities.Element>
+    public class ElementDTO : IMapFrom<Elements>
     {
         public string ID { get; set; }
         public string Name { get; set; }
@@ -22,7 +23,7 @@ namespace orchid_backend_net.Application.Element
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<orchid_backend_net.Domain.Entities.Element, ElementDTO>();
+            profile.CreateMap<Elements, ElementDTO>();
         }
     }
 }

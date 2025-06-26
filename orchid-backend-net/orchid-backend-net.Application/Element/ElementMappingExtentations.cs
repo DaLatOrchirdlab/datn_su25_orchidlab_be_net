@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
+using orchid_backend_net.Domain.Entities;
 
 namespace orchid_backend_net.Application.Element
 {
     public static class ElementMappingExtentations
     {
-        public static ElementDTO MapToElementDTO(this orchid_backend_net.Domain.Entities.Element element, IMapper mapper)
+        public static ElementDTO MapToElementDTO(this Elements element, IMapper mapper)
             => mapper.Map<ElementDTO>(element);
-        public static List<ElementDTO> MapToElementDTOList(this IEnumerable<orchid_backend_net.Domain.Entities.Element> elementList, IMapper mapper)
+        public static List<ElementDTO> MapToElementDTOList(this IEnumerable<Elements> elementList, IMapper mapper)
             => elementList.Select(x => x.MapToElementDTO(mapper)).ToList();
     }
 }

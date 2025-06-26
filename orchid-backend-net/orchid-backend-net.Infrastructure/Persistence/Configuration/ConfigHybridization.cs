@@ -4,9 +4,9 @@ using orchid_backend_net.Domain.Entities;
 
 namespace orchid_backend_net.Infrastructure.Persistence.Configuration
 {
-    internal class ConfigHybridization : IEntityTypeConfiguration<Hybridization>
+    internal class ConfigHybridization : IEntityTypeConfiguration<Hybridizations>
     {
-        public void Configure(EntityTypeBuilder<Hybridization> builder)
+        public void Configure(EntityTypeBuilder<Hybridizations> builder)
         {
             builder.HasOne(x => x.Parent)
                 .WithMany()

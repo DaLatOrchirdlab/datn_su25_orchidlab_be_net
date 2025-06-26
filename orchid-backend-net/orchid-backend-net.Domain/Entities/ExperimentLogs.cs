@@ -3,15 +3,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace orchid_backend_net.Domain.Entities
 {
-    public class ExperimentLog : BaseGuidEntity
+    public class ExperimentLogs : BaseGuidEntity
     {
-        public int MethodID {  get; set; }
+        public string MethodID {  get; set; }
         [ForeignKey(nameof(MethodID))]
-        public virtual Method Method {  get; set; }
+        public virtual Methods Method {  get; set; }
         public string Description { get; set; }
         public string TissueCultureBatchID {  get; set; }
         [ForeignKey(nameof(TissueCultureBatchID))]
-        public virtual TissueCultureBatch TissueCultureBatch {  get; set; }
+        public virtual TissueCultureBatches TissueCultureBatch {  get; set; }
         //public enum Status
     }
 }
