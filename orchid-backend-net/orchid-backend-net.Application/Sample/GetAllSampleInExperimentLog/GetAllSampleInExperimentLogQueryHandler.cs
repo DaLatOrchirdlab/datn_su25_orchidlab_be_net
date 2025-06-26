@@ -1,13 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using orchid_backend_net.Application.Common.Pagination;
-using orchid_backend_net.Domain.Entities;
 using orchid_backend_net.Domain.IRepositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace orchid_backend_net.Application.Sample.GetAllSampleInExperimentLog
 {
@@ -28,7 +22,7 @@ namespace orchid_backend_net.Application.Sample.GetAllSampleInExperimentLog
             try
             {
                 var listSample = await this._linkedRepository.FindAllAsync(x => x.ExperimentLogID.Equals(request.ExperimentLogID) && x.Status == true && x.TaskID == null, request.PageNumber, request.PageSize, cancellationToken);
-                List<orchid_backend_net.Domain.Entities.Sample> result = new List<Domain.Entities.Sample>();
+                List<orchid_backend_net.Domain.Entities.Samples> result = new List<Domain.Entities.Samples>();
                 foreach (var sample in listSample)
                 {
                     var a = _sampleRepository.FindAsync(x => x.ID.Equals(sample.SampleID), cancellationToken);
@@ -43,7 +37,7 @@ namespace orchid_backend_net.Application.Sample.GetAllSampleInExperimentLog
                     data: result.MapToSampleDTOList(_mapper)
                     );
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 throw new Exception($"{ex.Message}");
             }

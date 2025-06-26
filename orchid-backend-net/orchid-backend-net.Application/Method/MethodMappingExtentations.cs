@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using orchid_backend_net.Application.ExperimentLog;
+using orchid_backend_net.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +11,9 @@ namespace orchid_backend_net.Application.Method
 {
     public static class MethodMappingExtentations
     {
-        public static MethodDTO MapToMethodDTO(this orchid_backend_net.Domain.Entities.Method method, IMapper mapper)
+        public static MethodDTO MapToMethodDTO(this Methods method, IMapper mapper)
             => mapper.Map<MethodDTO>(method);
-        public static List<MethodDTO> MapToMethodDTOList(this IEnumerable<orchid_backend_net.Domain.Entities.Method> methodList, IMapper mapper)
+        public static List<MethodDTO> MapToMethodDTOList(this IEnumerable<Methods> methodList, IMapper mapper)
             => methodList.Select(x => x.MapToMethodDTO(mapper)).ToList();
     }
 }

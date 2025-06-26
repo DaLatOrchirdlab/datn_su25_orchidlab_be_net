@@ -2,15 +2,10 @@
 using orchid_backend_net.Domain.Entities;
 using orchid_backend_net.Domain.IRepositories;
 using orchid_backend_net.Infrastructure.Persistence;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace orchid_backend_net.Infrastructure.Repository
 {
-    public class SeedlingRepository(OrchidDbContext context, IMapper mapper) : RepositoryBase<Seedling, Seedling, OrchidDbContext>(context, mapper), ISeedlingRepository
+    public class SeedlingRepository(OrchidDbContext context, IMapper mapper) : RepositoryBase<Seedlings, Seedlings, OrchidDbContext>(context, mapper), ISeedlingRepository
     {
     }
 }

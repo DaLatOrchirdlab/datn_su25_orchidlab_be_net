@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using orchid_backend_net.Application.Common.Interfaces;
+using orchid_backend_net.Domain.Entities;
 
 namespace orchid_backend_net.Application.Tasks.CreateTask
 {
@@ -13,9 +14,9 @@ namespace orchid_backend_net.Application.Tasks.CreateTask
         public DateTime Create_at { get; set; }
         public int Status { get; set; }
         public Domain.Enums.TaskStatus StatusEnum { get; set; }
-        public List<Domain.Entities.TaskAttribute> Attribute { get; set; }
+        public List<TaskAttributes> Attribute { get; set; }
         public List<string> TechnicianID { get; set; }
-        public CreateTaskCommand(string researcher, string name, string description, DateTime start_date, DateTime end_date, DateTime create_at, int status, List<Domain.Entities.TaskAttribute> attribute, List<string> technicianID, Domain.Enums.TaskStatus StatusEnum)
+        public CreateTaskCommand(string researcher, string name, string description, DateTime start_date, DateTime end_date, DateTime create_at, int status, List<TaskAttributes> attribute, List<string> technicianID, Domain.Enums.TaskStatus StatusEnum)
         {
             Researcher = researcher;
             Name = name;

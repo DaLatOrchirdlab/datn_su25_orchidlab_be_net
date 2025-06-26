@@ -1,11 +1,6 @@
 ﻿using MediatR;
 using orchid_backend_net.Domain.Common.Exceptions;
 using orchid_backend_net.Domain.IRepositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace orchid_backend_net.Application.Report.CreateReport
 {
@@ -28,19 +23,19 @@ namespace orchid_backend_net.Application.Report.CreateReport
                     throw new NotFoundException("Teachnician not found in the system.");
                 if (await this._sampleRepository.FindAsync(x => x.ID.Equals(request.Sample), cancellationToken) == null)
                     throw new NotFoundException("Sample not found in the system.");
-                Domain.Entities.Report obj = new Domain.Entities.Report()
+                Domain.Entities.Reports obj = new Domain.Entities.Reports()
                 {
                     ID = Guid.NewGuid().ToString(),
                     Description = request.Description,
                     Name = request.Name,
-                    Sample = request.Sample,
-                    Technician = request.Technician,
+                    SampleID = request.Sample,
+                    TechnicianID = request.Technician,
                     Status = true
                 };
                 this._reportRepository.Add(obj);
                 return await this._reportRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? "Created report." : "Failed to create report.";
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 throw new Exception($"{ex.Message}");
             }

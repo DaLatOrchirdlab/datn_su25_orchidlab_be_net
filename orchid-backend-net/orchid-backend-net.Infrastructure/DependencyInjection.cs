@@ -6,6 +6,7 @@ using orchid_backend_net.Domain.Common.Interfaces;
 using orchid_backend_net.Domain.IRepositories;
 using orchid_backend_net.Infrastructure.Persistence;
 using orchid_backend_net.Infrastructure.Repository;
+using orchid_backend_net.Infrastructure.Service;
 
 namespace orchid_backend_net.Infrastructure
 {
@@ -16,7 +17,7 @@ namespace orchid_backend_net.Infrastructure
             //database context
             services.AddDbContext<OrchidDbContext>(options =>
             {
-                options.UseNpgsql(configuration.GetConnectionString("local"), b =>
+                options.UseNpgsql(configuration.GetConnectionString("Server"), b =>
                 {
                     b.MigrationsAssembly(typeof(OrchidDbContext).Assembly.FullName);
                     b.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
@@ -32,6 +33,12 @@ namespace orchid_backend_net.Infrastructure
                 options.InstanceName = configuration.GetSection("Redis")["InstanceName"];
             });
 
+            using (var scope = services.BuildServiceProvider().CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<OrchidDbContext>();
+                SeedDataGenerator.SeedAsync(dbContext).GetAwaiter().GetResult();
+            }
+
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IElementRepositoty, ElementRepository>();
             services.AddScoped<IExperimentLogRepository, ExperimentLogRepository>();
@@ -41,7 +48,6 @@ namespace orchid_backend_net.Infrastructure
             services.AddScoped<ISampleRepository, SampleRepository>();
             services.AddScoped<ISeedlingAttributeRepository,SeedlingAttributeRepository>();
             services.AddScoped<ISeedlingRepository, SeedlingRepository>();
-            services.AddScoped<IStageAttributeRepository, StageAttributeRepository>();
             services.AddScoped<IStageRepository, StageRepository>();
             services.AddScoped<ITaskAttributeRepository, TaskAttributeRepository>();
             services.AddScoped<ITaskRepository, TaskRepository>();

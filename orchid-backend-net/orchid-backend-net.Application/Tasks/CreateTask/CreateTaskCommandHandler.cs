@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using orchid_backend_net.Application.Common.Interfaces;
 using orchid_backend_net.Domain.IRepositories;
+using orchid_backend_net.Domain.Entities;
 
 namespace orchid_backend_net.Application.Tasks.CreateTask
 {
@@ -22,9 +23,8 @@ namespace orchid_backend_net.Application.Tasks.CreateTask
         {
             try
             {
-                var task = new Domain.Entities.Task()
+                var task = new Domain.Entities.Tasks()
                 {
-                    ID = Guid.NewGuid().ToString(),
                     Name = request.Name,
                     Create_at = DateTime.UtcNow,
                     Start_date = request.Start_date,
@@ -36,28 +36,16 @@ namespace orchid_backend_net.Application.Tasks.CreateTask
                 _taskRepository.Add(task);
                 foreach (var technician in request.TechnicianID)
                 {
-                    var taskAssign = new Domain.Entities.TaskAssign()
+                    var taskAssign = new TasksAssign()
                     {
                         ID = Guid.NewGuid().ToString(),
-                        Status = 1,
+                        Status = true,
                         TaskID = task.ID,
                         TechnicianID = technician
                     };
                     _taskAssignRepository.Add(taskAssign);
                 }
                 await _taskAssignRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
-                foreach (var item in request.Attribute)
-                {
-                    var taskAttribute = new Domain.Entities.TaskAttribute()
-                    {
-                        ID = Guid.NewGuid().ToString(),
-                        Description = item.Description,
-                        Status = true,
-                        TaskID = task.ID,
-                        Value = item.Value
-                    };
-                    _taskAttributeRepository.Add(taskAttribute);
-                }
                 await this._taskAttributeRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
                 return await this._taskRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? "Create task successfully." : "Failed to create task.";
             }

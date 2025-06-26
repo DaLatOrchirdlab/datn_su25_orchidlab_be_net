@@ -11,7 +11,7 @@ namespace orchid_backend_net.Application.ExperimentLog.GetAllExperimentLog
         {
             try
             {
-                IQueryable<Domain.Entities.ExperimentLog> queryOptions(IQueryable<Domain.Entities.ExperimentLog> query)
+                IQueryable<Domain.Entities.ExperimentLogs> queryOptions(IQueryable<Domain.Entities.ExperimentLogs> query)
                 {
                     if (!string.IsNullOrWhiteSpace(request.SearchTerm))
                         query = query.Where(x => x.TissueCultureBatch.Name.Contains(request.SearchTerm));

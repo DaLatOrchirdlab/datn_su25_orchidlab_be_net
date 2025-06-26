@@ -1,21 +1,18 @@
 ﻿using AutoMapper;
 using orchid_backend_net.Application.Common.Mappings;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using orchid_backend_net.Domain.Entities;
 
 namespace orchid_backend_net.Application.Method
 {
-    public class MethodDTO : IMapFrom<Domain.Entities.Method>
+    public class MethodDTO : IMapFrom<Methods>
     {
         public string Name { get; set; }
         public string Description { get; set; }
         public string Type { get; set; }
         public bool Status { get; set; }
         public MethodDTO Create(string name, string description, string type, bool status)
-            => new MethodDTO { 
+            => new MethodDTO
+            {
                 Description = description,
                 Name = name,
                 Type = type,
@@ -23,7 +20,7 @@ namespace orchid_backend_net.Application.Method
             };
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<Domain.Entities.Method, MethodDTO>();
+            profile.CreateMap<Methods, MethodDTO>();
         }
     }
 }

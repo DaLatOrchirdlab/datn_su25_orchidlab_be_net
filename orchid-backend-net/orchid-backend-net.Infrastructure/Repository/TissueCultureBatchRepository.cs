@@ -2,15 +2,10 @@
 using orchid_backend_net.Domain.Entities;
 using orchid_backend_net.Domain.IRepositories;
 using orchid_backend_net.Infrastructure.Persistence;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace orchid_backend_net.Infrastructure.Repository
 {
-    public class TissueCultureBatchRepository(OrchidDbContext context, IMapper mapper) : RepositoryBase<TissueCultureBatch, TissueCultureBatch, OrchidDbContext>(context, mapper), ITissueCultureBatchRepository
+    public class TissueCultureBatchRepository(OrchidDbContext context, IMapper mapper) : RepositoryBase<TissueCultureBatches, TissueCultureBatches, OrchidDbContext>(context, mapper), ITissueCultureBatchRepository
     {
     }
 }

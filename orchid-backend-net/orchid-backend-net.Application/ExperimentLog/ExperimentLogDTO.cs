@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
 using orchid_backend_net.Application.Common.Mappings;
+using orchid_backend_net.Domain.Entities;
 
 namespace orchid_backend_net.Application.ExperimentLog
 {
-    public class ExperimentLogDTO : IMapFrom<orchid_backend_net.Domain.Entities.ExperimentLog>
+    public class ExperimentLogDTO : IMapFrom<ExperimentLogs>
     {
         public string Id { get; set; }
         public string MethodName { get; set; }
@@ -23,7 +24,7 @@ namespace orchid_backend_net.Application.ExperimentLog
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<orchid_backend_net.Domain.Entities.ExperimentLog, ExperimentLogDTO>()
+            profile.CreateMap<orchid_backend_net.Domain.Entities.ExperimentLogs, ExperimentLogDTO>()
                 .ForMember(dest => dest.TissueCultureBatchName, opt => opt.MapFrom(src => src.TissueCultureBatch.Name))
                 .ForMember(dest => dest.MethodName, opt => opt.MapFrom(src => src.Method.Name));
         }

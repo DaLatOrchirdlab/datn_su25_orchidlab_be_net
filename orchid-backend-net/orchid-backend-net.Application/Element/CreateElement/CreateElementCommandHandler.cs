@@ -1,12 +1,6 @@
 ﻿using MediatR;
 using orchid_backend_net.Domain.Common.Exceptions;
-using orchid_backend_net.Domain.Entities;
 using orchid_backend_net.Domain.IRepositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace orchid_backend_net.Application.Element.CreateElement
 {
@@ -20,7 +14,7 @@ namespace orchid_backend_net.Application.Element.CreateElement
                 var dupChecker = await this._elementRepositoty.FindAsync(x => x.Name.Equals(request.Name) && x.Status == true, cancellationToken);
                 if (dupChecker != null)
                     throw new DuplicateException($"Exit element with name : {request.Name}");
-                Domain.Entities.Element obj = new Domain.Entities.Element()
+                Domain.Entities.Elements obj = new Domain.Entities.Elements()
                 {
                     Name = request.Name,
                     Description = request.Description,
@@ -29,7 +23,7 @@ namespace orchid_backend_net.Application.Element.CreateElement
                 this._elementRepositoty.Add(obj);
                 return await this._elementRepositoty.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? $"Created element name : {request.Name}." : "Failed create element.";
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 throw new Exception($"{ex.Message}");
             }

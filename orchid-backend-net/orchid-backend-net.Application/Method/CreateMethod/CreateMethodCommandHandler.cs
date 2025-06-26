@@ -1,11 +1,6 @@
 ﻿using MediatR;
 using orchid_backend_net.Domain.Common.Exceptions;
 using orchid_backend_net.Domain.IRepositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace orchid_backend_net.Application.Method.CreateMethod
 {
@@ -23,7 +18,7 @@ namespace orchid_backend_net.Application.Method.CreateMethod
                 var checker = await this._methodRepository.FindAsync(x => x.Name.Equals(request.Name) && x.Status == true, cancellationToken);
                 if (checker == null)
                     throw new DuplicateException($"Duplicate method name :{request.Name}");
-                Domain.Entities.Method obj = new Domain.Entities.Method()
+                Domain.Entities.Methods obj = new Domain.Entities.Methods()
                 {
                     Name = request.Name,
                     Status = true,
@@ -33,7 +28,7 @@ namespace orchid_backend_net.Application.Method.CreateMethod
                 this._methodRepository.Add(obj);
                 return await this._methodRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? $"Created method : {obj.Name}" : "Failed to create method.";
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 throw new Exception($"{ex.Message}");
             }

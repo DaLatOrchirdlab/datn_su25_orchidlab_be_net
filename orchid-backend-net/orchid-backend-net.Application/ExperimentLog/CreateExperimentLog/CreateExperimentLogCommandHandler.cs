@@ -1,13 +1,6 @@
-﻿using FluentValidation;
-using MediatR;
+﻿using MediatR;
 using orchid_backend_net.Domain.Common.Exceptions;
-using orchid_backend_net.Domain.Entities;
 using orchid_backend_net.Domain.IRepositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace orchid_backend_net.Application.ExperimentLog.CreateExperimentLog
 {
@@ -31,13 +24,13 @@ namespace orchid_backend_net.Application.ExperimentLog.CreateExperimentLog
         {
             try
             {
-                var tissueculturebatch = await this._tissueCultureBatchRepository.FindAsync(x => x.ID.Equals(request.TissueCultureBatchID) && x.Status == true,cancellationToken);
+                var tissueculturebatch = await this._tissueCultureBatchRepository.FindAsync(x => x.ID.Equals(request.TissueCultureBatchID) && x.Status == true, cancellationToken);
                 if (tissueculturebatch == null)
                     throw new NotFoundException($"Not found TissueCultureBatch with ID: {request.TissueCultureBatchID}");
                 var method = await this._methodRepository.FindAsync(x => x.ID.Equals(request.MethodID), cancellationToken);
                 if (method == null)
                     throw new NotFoundException($"Not found Method with ID :{request.MethodID}");
-                Domain.Entities.ExperimentLog obj = new Domain.Entities.ExperimentLog()
+                Domain.Entities.ExperimentLogs obj = new Domain.Entities.ExperimentLogs()
                 {
                     ID = Guid.NewGuid().ToString(),
                     MethodID = request.MethodID,
@@ -48,8 +41,9 @@ namespace orchid_backend_net.Application.ExperimentLog.CreateExperimentLog
                 this._experimentLogRepository.Add(obj);
                 foreach (var seedling in request.Hybridization)
                 {
-                    if((await this._seedlingRepository.FindAsync(x => x.ID.Equals(seedling), cancellationToken)) != null){
-                        Domain.Entities.Hybridization parent = new Domain.Entities.Hybridization()
+                    if ((await this._seedlingRepository.FindAsync(x => x.ID.Equals(seedling), cancellationToken)) != null)
+                    {
+                        Domain.Entities.Hybridizations parent = new Domain.Entities.Hybridizations()
                         {
                             ID = Guid.NewGuid().ToString(),
                             ExperimentLogID = obj.ID,
@@ -60,9 +54,9 @@ namespace orchid_backend_net.Application.ExperimentLog.CreateExperimentLog
                     }
                 }
                 await this._hybridizationRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
-                return await this._experimentLogRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? $"Created ExperimentLog with ID: {obj.ID}": "Failed to create ExperimentLog.";
+                return await this._experimentLogRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? $"Created ExperimentLog with ID: {obj.ID}" : "Failed to create ExperimentLog.";
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 throw new Exception($"{ex.Message}");
             }

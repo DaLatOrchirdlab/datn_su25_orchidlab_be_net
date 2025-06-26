@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
 using orchid_backend_net.Application.Common.Mappings;
+using orchid_backend_net.Domain.Entities;
 
 namespace orchid_backend_net.Application.Tasks
 {
-    public class TaskDTO : IMapFrom<Domain.Entities.Task>
+    public class TaskDTO : IMapFrom<Domain.Entities.Tasks>
     {
         public string ID { get; set; }
         public string Researcher { get; set; }
@@ -86,7 +87,7 @@ namespace orchid_backend_net.Application.Tasks
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<TaskDTO, Domain.Entities.Task>();
+            profile.CreateMap<TaskDTO, Domain.Entities.Tasks>();
         }
     }
 }

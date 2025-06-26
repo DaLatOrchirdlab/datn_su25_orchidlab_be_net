@@ -2,15 +2,10 @@
 using orchid_backend_net.Domain.Entities;
 using orchid_backend_net.Domain.IRepositories;
 using orchid_backend_net.Infrastructure.Persistence;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace orchid_backend_net.Infrastructure.Repository
 {
-    public class LabRoomRepository(OrchidDbContext context, IMapper mapper) : RepositoryBase<LabRoom, LabRoom, OrchidDbContext>(context, mapper), ILabRoomRepository
+    public class LabRoomRepository(OrchidDbContext context, IMapper mapper) : RepositoryBase<LabRooms, LabRooms, OrchidDbContext>(context, mapper), ILabRoomRepository
     {
     }
 }
