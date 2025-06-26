@@ -2,7 +2,7 @@
 {
     public enum TaskStatus
     {
-        Assign,
+        Assigned,
         Taken,
         InProcess,
         DoneInTime,

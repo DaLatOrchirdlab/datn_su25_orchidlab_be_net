@@ -5,5 +5,6 @@
         Created,
         InProcess,
         Done,
+        Cancel
     }
 }

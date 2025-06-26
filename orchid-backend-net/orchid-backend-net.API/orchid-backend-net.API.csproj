@@ -28,4 +28,8 @@
     <ProjectReference Include="..\orchid-backend-net.Infrastructure\orchid-backend-net.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\ExperimentLog\" />
+  </ItemGroup>
+
 </Project>
