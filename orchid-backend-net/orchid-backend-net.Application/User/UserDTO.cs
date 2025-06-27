@@ -33,7 +33,7 @@ namespace orchid_backend_net.Application.User
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<orchid_backend_net.Domain.Entities.Users, UserDTO>();
+            profile.CreateMap<Users, UserDTO>();
         }
     }
 }
