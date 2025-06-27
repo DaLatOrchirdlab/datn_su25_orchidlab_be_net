@@ -12,6 +12,12 @@ namespace orchid_backend_net.Infrastructure.Persistence.Configuration
                 .WithMany()
                 .HasForeignKey(x => x.RoleID)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasIndex(u => u.Email)
+                .IsUnique();
+
+            builder.HasIndex(u => u.PhoneNumber)
+                .IsUnique();
         }
     }
 }

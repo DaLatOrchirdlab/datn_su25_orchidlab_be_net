@@ -25,8 +25,8 @@ namespace orchid_backend_net.API.Controllers.ExperimentLog
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<JsonResponse<PageResult<ExperimentLogDTO>>>> GetAllExperimentLog(
-            [FromQuery] int pageSize,
             [FromQuery] int pageNumber,
+            [FromQuery] int pageSize,
             [FromQuery] string? filter,
             [FromQuery] string? searchTerm,
             CancellationToken cancellationToken)

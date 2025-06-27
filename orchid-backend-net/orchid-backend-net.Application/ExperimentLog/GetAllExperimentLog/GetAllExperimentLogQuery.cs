@@ -10,10 +10,10 @@ namespace orchid_backend_net.Application.ExperimentLog.GetAllExperimentLog
         public int PageSize { get; set; }
         public string? Filter { get; set; }
         public string? SearchTerm { get; set; }
-        public GetAllExperimentLogQuery(int pagenumber, int pagesize, string filter, string searchTerm)
+        public GetAllExperimentLogQuery(int pageNumber, int pageSize, string filter, string searchTerm)
         {
-            this.PageNumber = pagenumber;
-            this.PageSize = pagesize;
+            this.PageNumber = pageNumber;
+            this.PageSize = pageSize;
             this.Filter = filter;
             this.SearchTerm = searchTerm;
         }
