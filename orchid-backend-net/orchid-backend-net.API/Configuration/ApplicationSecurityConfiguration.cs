@@ -18,18 +18,6 @@ namespace orchid_backend_net.API.Configuration
             services.AddTransient<JwtService>();
             JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
             services.AddHttpContextAccessor();
-
-            //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-
-            //    .AddJwtBearer(
-            //        JwtBearerDefaults.AuthenticationScheme,
-            //        options =>
-            //        {
-            //            options.Authority = "https://orchidlabsystem.azurewebsites.net/";
-            //            options.Audience = "api";
-            //            options.TokenValidationParameters.RoleClaimType = "role";
-            //            options.SaveToken = true;
-            //        });
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -43,9 +31,9 @@ namespace orchid_backend_net.API.Configuration
                         ValidateIssuer = true,
                         ValidateIssuerSigningKey = true,
                         ValidateLifetime = true,
-                        ValidIssuer = "https://orchidlabsystem.azurewebsites.net/",
+                        ValidIssuer = "https://net-api.orchid-lab.systems/",
                         ValidAudience = "api",
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("orchid lab @PI 123abc456 pass ddoof ans nha troiwf owiiii")),
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("OrchidLabManagementSystemsDotNetApi")),
                     };
                 });
 

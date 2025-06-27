@@ -23,11 +23,12 @@ namespace orchid_backend_net.Application.Authentication.Login
                 2 => "Researcher",
                 3 => "Technician",
             };
-            var refresh = sender.Send(new RefreshTokenCommand(), cancellationToken).Result.Token;
-            user.RefreshToken = refresh;
+            var refresh = sender.Send(new RefreshTokenCommand(), cancellationToken).Result;
+            user.RefreshToken = refresh.Token;
+            user.RefreshTokenExpiryTime = refresh.Expired;
             await _userRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
 
-            return LoginDTO.Create(user.Email, Role, refresh);
+            return LoginDTO.Create(user.ID, Role, refresh.Token);
         }
     }
 }

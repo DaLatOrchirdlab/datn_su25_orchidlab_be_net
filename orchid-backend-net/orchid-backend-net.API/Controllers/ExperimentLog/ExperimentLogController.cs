@@ -33,11 +33,14 @@ namespace orchid_backend_net.API.Controllers.ExperimentLog
         {
             try
             {
+
                 var result = await this._sender.Send(new GetAllExperimentLogQuery(pageNumber, pageSize, filter, searchTerm), cancellationToken);
+                _logger.LogInformation("Received GET request at {Time}", DateTime.UtcNow);
                 return Ok(new JsonResponse<PageResult<ExperimentLogDTO>>(result));
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Error occurred while processing GET request at {Time}", DateTime.UtcNow);
                 return BadRequest(ex.Message);
             }
         }
@@ -55,10 +58,12 @@ namespace orchid_backend_net.API.Controllers.ExperimentLog
             try
             {
                 var result = await this._sender.Send(new GetExperimentLogInforQuery { ID = id }, cancellationToken);
+                _logger.LogInformation("Received GET request at {Time}", DateTime.UtcNow);
                 return Ok(new JsonResponse<ExperimentLogDTO>(result));
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Error occurred while processing GET request at {Time}", DateTime.UtcNow);
                 return BadRequest(ex.Message);
             }
         }
@@ -76,10 +81,12 @@ namespace orchid_backend_net.API.Controllers.ExperimentLog
             try
             {
                 var result = await this._sender.Send(command, cancellationToken);
+                _logger.LogInformation("Received PUT request at {Time}", DateTime.UtcNow);
                 return Ok(new JsonResponse<string>(result));
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Error occurred while processing PUT request at {Time}", DateTime.UtcNow);
                 return BadRequest(ex.Message);
             }
         }
@@ -97,10 +104,12 @@ namespace orchid_backend_net.API.Controllers.ExperimentLog
             try
             {
                 var result = await this._sender.Send(command, cancellationToken);
+                _logger.LogInformation("Received POST request at {Time}", DateTime.UtcNow);
                 return Ok(new JsonResponse<string>(result));
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Error occurred while processing POST request at {Time}", DateTime.UtcNow);
                 return BadRequest(ex.Message);
             }
         }
@@ -117,10 +126,12 @@ namespace orchid_backend_net.API.Controllers.ExperimentLog
             try
             {
                 var result = await this._sender.Send(command, cancellationToken);
+                _logger.LogInformation("Received DELETE request at {Time}", DateTime.UtcNow);
                 return Ok(new JsonResponse<string>(result));
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Error occurred while processing DELETE request at {Time}", DateTime.UtcNow);
                 return BadRequest(ex.Message);
             }
         }

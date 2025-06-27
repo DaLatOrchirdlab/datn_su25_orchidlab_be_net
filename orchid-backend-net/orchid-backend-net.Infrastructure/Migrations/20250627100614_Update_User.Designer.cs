@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using orchid_backend_net.Infrastructure.Persistence;
@@ -11,9 +12,11 @@ using orchid_backend_net.Infrastructure.Persistence;
 namespace orchid_backend_net.Infrastructure.Migrations
 {
     [DbContext(typeof(OrchidDbContext))]
-    partial class OrchidDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250627100614_Update_User")]
+    partial class Update_User
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -583,15 +586,17 @@ namespace orchid_backend_net.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Create_by")
+                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime?>("Create_date")
+                    b.Property<DateTime>("Create_date")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Delete_by")
+                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime?>("Delete_date")
+                    b.Property<DateTime>("Delete_date")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
@@ -616,9 +621,10 @@ namespace orchid_backend_net.Infrastructure.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("Update_by")
+                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime?>("Update_date")
+                    b.Property<DateTime>("Update_date")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("ID");
@@ -687,15 +693,17 @@ namespace orchid_backend_net.Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Create_by")
+                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime?>("Create_date")
+                    b.Property<DateTime>("Create_date")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Delete_by")
+                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime?>("Delete_date")
+                    b.Property<DateTime>("Delete_date")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Email")
@@ -727,9 +735,10 @@ namespace orchid_backend_net.Infrastructure.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<string>("Update_by")
+                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime?>("Update_date")
+                    b.Property<DateTime>("Update_date")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("ID");

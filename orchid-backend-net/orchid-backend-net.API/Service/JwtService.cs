@@ -1,11 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using orchid_backend_net.Application.Common.Interfaces;
-using IdentityModel;
-using System.Security.Claims;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Text;
+﻿using Microsoft.IdentityModel.Tokens;
 using orchid_backend_net.Application.User;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace orchid_backend_net.API.Service
 {
@@ -17,7 +14,7 @@ namespace orchid_backend_net.API.Service
             public required string RefreshToken { get; set; }
             public UserDTO? UserDTO { get; set; } = null;
         }
-        public Token CreateToken(string ID, string roles, string refreshToken, string? RestaurantID)
+        public Token CreateToken(string ID, string roles, string refreshToken)
         {
             var claims = new List<Claim>
             {
@@ -28,13 +25,13 @@ namespace orchid_backend_net.API.Service
             };
 
 
-
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("Orchid Lab @PI 123abc456 pass ddoo ans nha troiwf oiwi"));
+            //tf do u means ?
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("OrchidLabManagementSystemsDotNetApi"));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
-                 issuer: "https://orchidlabsystem.azurewebsites.net/",
-                 audience: "api",
+                issuer: "https://net-api.orchid-lab.systems/",
+                audience: "api",
                 claims: claims,
                 expires: DateTime.Now.AddYears(1),
                 signingCredentials: creds);
