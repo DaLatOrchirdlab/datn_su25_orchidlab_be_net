@@ -25,10 +25,9 @@ namespace orchid_backend_net.Application.Authentication.Login
             };
             var refresh = sender.Send(new RefreshTokenCommand(), cancellationToken).Result.Token;
             user.RefreshToken = refresh;
-            //var restaurant = await _restaurantRepository.FindAsync(_ => _.ManagerID == user.ID, cancellationToken);
             await _userRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
 
-            return LoginDTO.Create(user.UserName, Role, refresh);
+            return LoginDTO.Create(user.Email, Role, refresh);
         }
     }
 }
