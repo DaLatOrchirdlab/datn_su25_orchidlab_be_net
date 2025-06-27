@@ -40,6 +40,7 @@ namespace orchid_backend_net.Infrastructure
             }
 
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<IElementRepositoty, ElementRepository>();
             services.AddScoped<IExperimentLogRepository, ExperimentLogRepository>();
             services.AddScoped<ILabRoomRepository, LabRoomRepository>();

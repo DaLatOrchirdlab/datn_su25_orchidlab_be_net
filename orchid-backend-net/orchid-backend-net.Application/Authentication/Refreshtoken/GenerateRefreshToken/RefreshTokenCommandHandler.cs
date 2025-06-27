@@ -17,9 +17,17 @@ namespace orchid_backend_net.Application.Authentication.Refreshtoken.GenerateRef
             var refreshToken = new RefreshToken
             {
                 Token = token,
-                Expired = DateTime.Now.AddDays(7)
+                Expired = DateTime.UtcNow.AddDays(7)
             };
             return Task.FromResult(refreshToken);
+
+            // lấy múi giờ vn
+            //var vnTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
+
+            // đổi từ utc sang việt nam để lấy ra rồi đưa lên
+            //DateTime utcNow = DateTime.UtcNow;
+            //DateTime vnTime = TimeZoneInfo.ConvertTimeFromUtc(utcNow, vnTimeZone);
+            // làm tương tự để đổi từ vn sang utc
         }
     }
 }

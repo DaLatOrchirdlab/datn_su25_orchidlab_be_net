@@ -32,7 +32,7 @@ namespace orchid_backend_net.API.Controllers.OrchidAnalyzer
 
             var command = new OrchidAnalyzerCommand { ImageBytes = imageBytes };
             var result = await _sender.Send(command);
-            _logger.LogInformation("Received GET request at {Time}", DateTime.UtcNow);
+            _logger.LogInformation("Received POST request at {Time}", DateTime.UtcNow);
             return Ok(result);
         }
     }

@@ -9,7 +9,7 @@ namespace orchid_backend_net.Application.Authentication.Login
     {
         public async Task<LoginDTO> Handle(LoginQuery request, CancellationToken cancellationToken)
         {
-            var user = await _userRepository.FindAsync(_ => _.UserName == request.UserID && _.Status == true, cancellationToken) ?? throw new NotFoundException("User not found");
+            var user = await _userRepository.FindAsync(_ => _.Email == request.Email && _.Status == true, cancellationToken) ?? throw new NotFoundException("User not found");
             var isTrue = _userRepository.VerifyPassword(request.Password, user.Password);
             if (!isTrue)
             {
@@ -23,12 +23,12 @@ namespace orchid_backend_net.Application.Authentication.Login
                 2 => "Researcher",
                 3 => "Technician",
             };
-            var refresh = sender.Send(new RefreshTokenCommand(), cancellationToken).Result.Token;
-            user.RefreshToken = refresh;
-            //var restaurant = await _restaurantRepository.FindAsync(_ => _.ManagerID == user.ID, cancellationToken);
+            var refresh = sender.Send(new RefreshTokenCommand(), cancellationToken).Result;
+            user.RefreshToken = refresh.Token;
+            user.RefreshTokenExpiryTime = refresh.Expired;
             await _userRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
 
-            return LoginDTO.Create(user.UserName, Role, refresh);
+            return LoginDTO.Create(user.ID, Role, refresh.Token);
         }
     }
 }
