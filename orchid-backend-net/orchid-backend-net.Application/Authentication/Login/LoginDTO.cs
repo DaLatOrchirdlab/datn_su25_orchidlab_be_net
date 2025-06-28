@@ -12,16 +12,18 @@ namespace orchid_backend_net.Application.Authentication.Login
 
         }
         public string Id { get; set; }
+        public string Name { get; set; }
         public string RoleID { get; set; }
         public required string RefreshToken { get; set; }
 
-        public static LoginDTO Create(string UserID, string Role, string RefreshToken)
+        public static LoginDTO Create(string userID, string role, string refreshToken, string name)
         {
             return new LoginDTO
             {
-                Id = UserID,
-                RoleID = Role,
-                RefreshToken = RefreshToken
+                Id = userID,
+                RoleID = role,
+                RefreshToken = refreshToken,
+                Name = name
             };
         }
 

@@ -47,12 +47,12 @@ namespace orchid_backend_net.Application.User.CreateUser
 
         private async Task<bool> IsEmailUnique(string email, CancellationToken cancellationToken)
         {
-            return await _userRepository.AnyAsync(x => x.Email.Equals(email, StringComparison.OrdinalIgnoreCase), cancellationToken);
+            return await _userRepository.AnyAsync(x => x.Email.ToLower().Equals(email.ToLower()), cancellationToken);
         }
 
         private async Task<bool> IsPhoneNumberUnique(string phoneNumber, CancellationToken cancellationToken)
         {
-            return await _userRepository.AnyAsync(x => x.PhoneNumber.Equals(phoneNumber, StringComparison.OrdinalIgnoreCase), cancellationToken);
+            return await _userRepository.AnyAsync(x => x.PhoneNumber.Equals(phoneNumber), cancellationToken);
         }
 
         private async Task<bool> IsRoleValid(int roleId, CancellationToken cancellationToken)

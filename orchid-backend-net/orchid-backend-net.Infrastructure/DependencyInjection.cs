@@ -49,6 +49,7 @@ namespace orchid_backend_net.Infrastructure
             services.AddScoped<ISampleRepository, SampleRepository>();
             services.AddScoped<ISeedlingAttributeRepository,SeedlingAttributeRepository>();
             services.AddScoped<ISeedlingRepository, SeedlingRepository>();
+            services.AddScoped<ICharactersicticRepository, CharacteristicRepository>();
             services.AddScoped<IStageRepository, StageRepository>();
             services.AddScoped<ITaskAttributeRepository, TaskAttributeRepository>();
             services.AddScoped<ITaskRepository, TaskRepository>();

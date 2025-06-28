@@ -1,4 +1,5 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using IdentityModel;
+using Microsoft.IdentityModel.Tokens;
 using orchid_backend_net.Application.User;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -14,13 +15,14 @@ namespace orchid_backend_net.API.Service
             public required string RefreshToken { get; set; }
             public UserDTO? UserDTO { get; set; } = null;
         }
-        public Token CreateToken(string ID, string roles, string refreshToken)
+        public Token CreateToken(string ID, string roles, string refreshToken, string name)
         {
             var claims = new List<Claim>
             {
 
                 new(JwtRegisteredClaimNames.Sub, ID.ToString()),
                 new(ClaimTypes.Role, roles.ToString()),
+                new(JwtClaimTypes.Name, name),
                 new("RoleName",roles.ToString())
             };
 

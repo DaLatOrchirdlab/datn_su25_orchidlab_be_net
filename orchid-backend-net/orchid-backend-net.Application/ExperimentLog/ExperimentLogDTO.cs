@@ -24,7 +24,7 @@ namespace orchid_backend_net.Application.ExperimentLog
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<orchid_backend_net.Domain.Entities.ExperimentLogs, ExperimentLogDTO>()
+            profile.CreateMap<ExperimentLogs, ExperimentLogDTO>()
                 .ForMember(dest => dest.TissueCultureBatchName, opt => opt.MapFrom(src => src.TissueCultureBatch.Name))
                 .ForMember(dest => dest.MethodName, opt => opt.MapFrom(src => src.Method.Name));
         }
