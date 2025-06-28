@@ -16,7 +16,7 @@ namespace orchid_backend_net.Application.Seedling.GetSeedlingInfor
         }
     }
 
-    public class GetSeedlingInforQueryHandler(ISeedlingRepository seedlingRepository) : IRequestHandler<GetSeedlingInforQuery, SeedlingDTO>
+    internal class GetSeedlingInforQueryHandler(ISeedlingRepository seedlingRepository) : IRequestHandler<GetSeedlingInforQuery, SeedlingDTO>
     {
         public async Task<SeedlingDTO> Handle(GetSeedlingInforQuery request, CancellationToken cancellationToken)
         {

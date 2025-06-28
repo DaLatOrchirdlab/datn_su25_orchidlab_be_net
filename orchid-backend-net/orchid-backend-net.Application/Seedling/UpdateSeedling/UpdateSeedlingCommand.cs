@@ -8,12 +8,12 @@ namespace orchid_backend_net.Application.Seedling.UpdateSeedling
     public class UpdateSeedlingCommand : IRequest<string>
     {
         public required string SeedlingId { get; set; }
-        public required string Name { get; set; }
-        public required string Description { get; set; }
+        public string? Name { get; set; }
+        public string? Description { get; set; }
         public string? MotherID { get; set; }
         public string? FatherID { get; set; }
-        public required DateOnly DoB { get; set; }
-        public required List<CharacteristicsDTO> Characteristics { get; set; } = [];
+        public DateOnly? DoB { get; set; }
+        public List<CharacteristicsDTO>? Characteristics { get; set; } = [];
     }
 
     internal class UpdateSeedlingCommandHandler(ISeedlingRepository seedlingRepository,
@@ -28,15 +28,18 @@ namespace orchid_backend_net.Application.Seedling.UpdateSeedling
                 var seedling = await seedlingRepository.FindAsync(x => x.ID.Equals(request.SeedlingId), cancellationToken);
 
                 // Update seedling properties
-                seedling.Name = request.Name;
-                seedling.Description = request.Description;
-                seedling.Mother = request.MotherID;
-                seedling.Father = request.FatherID;
-                seedling.Dob = request.DoB;
+                seedling.Name = request.Name ?? seedling.Name;
+                seedling.Description = request.Description ?? seedling.Description;
+                seedling.Mother = request.MotherID ?? seedling.Mother;
+                seedling.Father = request.FatherID ?? seedling.Father;
+                seedling.Dob = request.DoB ?? seedling.Dob;
                 seedling.Update_date = DateTime.UtcNow;
                 seedling.Update_by = currentUserService.UserName ?? "system";
                 seedlingRepository.Update(seedling);
-
+                if(request.Characteristics == null || request.Characteristics.Count() == 0)
+                    return await seedlingRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0
+                    ? $"Updated Seedling with ID: {seedling.ID}"
+                    : "Failed to update Seedling.";
                 foreach (var characteristic in request.Characteristics)
                 {
                     // Find the attribute by name (case-insensitive)

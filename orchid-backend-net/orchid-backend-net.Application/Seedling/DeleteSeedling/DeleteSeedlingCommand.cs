@@ -7,9 +7,15 @@ namespace orchid_backend_net.Application.Seedling.DeleteSeedling
     public class DeleteSeedlingCommand : IRequest<string>
     {
         public string ID { get; set; }
+        public DeleteSeedlingCommand(string id)
+        {
+            ID = id;
+        }
+
+        public DeleteSeedlingCommand() { }
     }
 
-    public class DeleteSeedlingCommandHandler(ISeedlingRepository seedlingRepository, ICurrentUserService currentUserService) : IRequestHandler<DeleteSeedlingCommand, string>
+    internal class DeleteSeedlingCommandHandler(ISeedlingRepository seedlingRepository, ICurrentUserService currentUserService) : IRequestHandler<DeleteSeedlingCommand, string>
     {
         public async Task<string> Handle(DeleteSeedlingCommand request, CancellationToken cancellationToken)
         {

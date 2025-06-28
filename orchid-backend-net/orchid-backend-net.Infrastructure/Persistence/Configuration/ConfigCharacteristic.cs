@@ -13,7 +13,7 @@ namespace orchid_backend_net.Infrastructure.Persistence.Configuration
                 .HasForeignKey(x => x.SeedlingAttributeID)
                 .OnDelete(DeleteBehavior.Restrict);
             builder.HasOne(x => x.Seedling)
-                .WithMany()
+                .WithMany(x => x.Characteristics)
                 .HasForeignKey(x => x.SeedlingID)
                 .OnDelete(DeleteBehavior.Restrict);
         }

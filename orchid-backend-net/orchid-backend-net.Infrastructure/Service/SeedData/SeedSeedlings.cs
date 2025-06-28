@@ -1,0 +1,35 @@
+﻿using Microsoft.EntityFrameworkCore;
+using orchid_backend_net.Domain.Entities;
+
+namespace orchid_backend_net.Infrastructure.Service.SeedData
+{
+    public static class SeedSeedlings
+    {
+        public static async Task SeedAsync(DbContext context)
+        {
+            if (!context.Set<Seedlings>().Any())
+            {
+                for (int i = 1; i <= 10; i++)
+                {
+                    var name = $"Seedling-{i}";
+
+                    var exists = await context.Set<Seedlings>().AnyAsync(x => x.Name == name);
+                    if (!exists)
+                    {
+                        context.Set<Seedlings>().Add(new Seedlings
+                        {
+                            Name = name,
+                            Description = $"Description for {name}",
+                            Mother = $"Mother-{i}",
+                            Father = $"Father-{i}",
+                            Dob = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-i * 30)),
+                            Create_date = DateTime.UtcNow,
+                            Create_by = "system",
+                        });
+                    }
+                }
+                await context.SaveChangesAsync();
+            }
+        }
+    }
+}

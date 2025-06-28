@@ -16,7 +16,9 @@ namespace orchid_backend_net.Application.Seedling.DeleteSeedling
         {
             RuleFor(x => x.ID)
                 .NotNull().NotEmpty().WithMessage("Seedling ID is required.")
-                .MustAsync(async (id, cancellation) => !await IsExist(id))
+                //Please fucking remember, when the function is false, it will throw out the message
+                //which means, when the function returns false, it will throw out the message
+                .MustAsync(async (id, cancellation) => await IsExist(id))
                 .WithMessage("Seedling with the specified ID does not exist.");
         }
 

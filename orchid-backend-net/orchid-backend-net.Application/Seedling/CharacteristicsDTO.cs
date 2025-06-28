@@ -20,6 +20,7 @@ namespace orchid_backend_net.Application.Seedling
         public void Mapping(AutoMapper.Profile profile)
         {
             profile.CreateMap<Characteristics, CharacteristicsDTO>()
+                .ForMember(dest => dest.SeedlingAttribute, opt => opt.MapFrom(src => src.SeedlingAttribute))
                 .ReverseMap();
         }
     }

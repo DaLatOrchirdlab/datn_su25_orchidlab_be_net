@@ -28,7 +28,7 @@ namespace orchid_backend_net.Application.Seedling.GetAllSeedling
         }
     }
 
-    public class  GetAllSeedlingQueryHandler(ISeedlingRepository seedlingRepository) : IRequestHandler<GetAllSeedlingQuery, PageResult<SeedlingDTO>>
+    internal class  GetAllSeedlingQueryHandler(ISeedlingRepository seedlingRepository) : IRequestHandler<GetAllSeedlingQuery, PageResult<SeedlingDTO>>
     {
         public async Task<PageResult<SeedlingDTO>> Handle(GetAllSeedlingQuery request, CancellationToken cancellationToken)
         {

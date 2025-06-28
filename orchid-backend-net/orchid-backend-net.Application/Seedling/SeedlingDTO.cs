@@ -9,30 +9,30 @@ namespace orchid_backend_net.Application.Seedling
         public string ID { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public string? MotherID { get; set; }
-        public string? FatherID { get; set; }
-        public DateTime DoB { get; set; }
+        public string? Mother { get; set; }
+        public string? Father { get; set; }
+        public DateOnly DoB { get; set; }
         public List<CharacteristicsDTO> Characteristics { get; set; } = [];
-        public DateTime Create_by { get; set; }
-        public DateTime Create_date { get; set; }
-        public DateTime? Update_by { get; set; }
+        public string? Create_by { get; set; }
+        public DateTime? Create_date { get; set; }
+        public string? Update_by { get; set; }
         public DateTime? Update_date { get; set; }
-        public DateTime? Delete_by { get; set; }
+        public string? Delete_by { get; set; }
         public DateTime? Delete_date { get; set; }
 
         public static SeedlingDTO Create(string id, string name, string description, 
-            string? motherId, string? fatherId, DateTime doB, 
-            List<CharacteristicsDTO> characteristics, DateTime createBy, DateTime createDate, 
-            DateTime? updateBy = null, DateTime? updateDate = null, 
-            DateTime? deleteBy = null, DateTime? deleteDate = null)
+            string? mother, string? father, DateOnly doB, 
+            List<CharacteristicsDTO> characteristics, string createBy, DateTime createDate, 
+            string? updateBy, DateTime? updateDate = null, 
+            string? deleteBy = null, DateTime? deleteDate = null)
         {
             return new SeedlingDTO
             {
                 ID = id,
                 Name = name,
                 Description = description,
-                MotherID = motherId,
-                FatherID = fatherId,
+                Mother = mother,
+                Father = father,
                 DoB = doB,
                 Characteristics = characteristics,
                 Create_by = createBy,
@@ -47,6 +47,7 @@ namespace orchid_backend_net.Application.Seedling
         public void Mapping(Profile profile)
         {
             profile.CreateMap<Seedlings, SeedlingDTO>()
+                .ForMember(dest => dest.Characteristics, opt => opt.MapFrom(src => src.Characteristics))
                 .ReverseMap();
         }
     }
