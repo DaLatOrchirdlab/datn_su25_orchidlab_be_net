@@ -55,7 +55,7 @@ namespace orchid_backend_net.API.Controllers.UserController
             {
                 _logger.LogInformation("Received POST request at {Time}", DateTime.UtcNow);
                 var loginDTO = await this._sender.Send(new LoginQuery(query.Email, query.Password), cancellationToken);
-                var token = jwtService.CreateToken(loginDTO.Id, loginDTO.RoleID, loginDTO.RefreshToken);
+                var token = jwtService.CreateToken(loginDTO.Id, loginDTO.RoleID, loginDTO.RefreshToken, loginDTO.Name);
                 token.UserDTO = await _sender.Send(new GetUserInforQuery(loginDTO.Id), cancellationToken);
                 var response = new
                 {
@@ -86,7 +86,7 @@ namespace orchid_backend_net.API.Controllers.UserController
             {
                 _logger.LogInformation("Received POST request for token refresh at {Time}", DateTime.UtcNow);
                 var loginDTO = await this._sender.Send(new RefreshTokenQuery(refreshToken), cancellationToken);
-                var token = jwtService.CreateToken(loginDTO.Id, loginDTO.RoleID, loginDTO.RefreshToken);
+                var token = jwtService.CreateToken(loginDTO.Id, loginDTO.RoleID, loginDTO.RefreshToken, loginDTO.Name);
                 token.UserDTO = await _sender.Send(new GetUserInforQuery(loginDTO.Id), cancellationToken);
                 var response = new
                 {

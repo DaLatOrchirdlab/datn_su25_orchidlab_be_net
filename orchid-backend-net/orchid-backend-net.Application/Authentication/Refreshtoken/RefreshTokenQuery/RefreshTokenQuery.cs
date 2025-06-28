@@ -25,7 +25,7 @@ namespace orchid_backend_net.Application.Authentication.Refreshtoken.RefreshToke
                 2 => "Researcher",
                 3 => "Technician",
             };
-            return LoginDTO.Create(user.ID, role, user.RefreshToken);
+            return LoginDTO.Create(user.ID, role, user.RefreshToken, user.Name);
         }
     }
 }

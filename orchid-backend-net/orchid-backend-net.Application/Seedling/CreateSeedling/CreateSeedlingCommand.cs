@@ -1,12 +1,81 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MediatR;
+using orchid_backend_net.Domain.IRepositories;
+using orchid_backend_net.Domain.Entities;
+using orchid_backend_net.Application.Common.Interfaces;
 
 namespace orchid_backend_net.Application.Seedling.CreateSeedling
 {
-    internal class CreateSeedlingCommand
+    public class CreateSeedlingCommand : IRequest<string>
     {
+        public required string Name { get; set; }
+        public required string Description { get; set; }
+        public string? MotherID { get; set; }
+        public string? FatherID { get; set; }
+        public required DateOnly DoB { get; set; }
+        public required List<CharacteristicsDTO> Characteristics { get; set; } = [];
+    }
+
+    internal class CreateSeedlingCommandHandler(ISeedlingRepository seedlingRepository, 
+        ISeedlingAttributeRepository seedlingAttributeRepository, 
+        ICharactersicticRepository charactersisticRepository,
+        ICurrentUserService currentUserService) : IRequestHandler<CreateSeedlingCommand, string>
+    {
+        public async Task<string> Handle(CreateSeedlingCommand request, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var seedling = new Seedlings
+                {
+                    Name = request.Name,
+                    Description = request.Description,
+                    Mother = request.MotherID,
+                    Father = request.FatherID,
+                    Dob = request.DoB,
+                    Create_date = DateTime.UtcNow,
+                    Create_by = currentUserService.UserName ?? "system"
+                };
+                seedlingRepository.Add(seedling);
+
+                var characteristicsEntities = new List<Characteristics>();
+
+                foreach (var characteristic in request.Characteristics)
+                {
+                    // Find or create the attribute
+                    var seedlingAttribute = await seedlingAttributeRepository.FindAsync(
+                        x => x.Name.ToLower().Equals(characteristic.SeedlingAttribute.Name.ToLower()),
+                        cancellationToken);
+
+                    if (seedlingAttribute == null)
+                    {
+                        seedlingAttribute = new SeedlingAttributes
+                        {
+                            Name = characteristic.SeedlingAttribute.Name,
+                            Description = characteristic.SeedlingAttribute.Description,
+                            Status = true
+                        };
+                        seedlingAttributeRepository.Add(seedlingAttribute);
+                    }
+                    var characteristicsEntity = new Characteristics
+                    {
+                        Value = characteristic.Value,
+                        Status = true,
+                        SeedlingAttributeID = seedlingAttribute.ID,
+                        SeedlingID = seedling.ID
+                    };
+                    characteristicsEntities.Add(characteristicsEntity);
+                }
+
+                // Batch insert characteristics
+                foreach (var entity in characteristicsEntities)
+                {
+                    charactersisticRepository.Add(entity);
+                }
+                return await seedlingRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? $"Created Seedling with ID: {seedling.ID}" : "Failed to create Seedling.";
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"{ex.Message}");
+            }
+        }
     }
 }

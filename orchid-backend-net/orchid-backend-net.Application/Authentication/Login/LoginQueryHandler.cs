@@ -28,7 +28,7 @@ namespace orchid_backend_net.Application.Authentication.Login
             user.RefreshTokenExpiryTime = refresh.Expired;
             await _userRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
 
-            return LoginDTO.Create(user.ID, Role, refresh.Token);
+            return LoginDTO.Create(user.ID, Role, refresh.Token, user.Name);
         }
     }
 }
