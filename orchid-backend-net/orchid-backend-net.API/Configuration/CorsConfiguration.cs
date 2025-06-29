@@ -15,5 +15,11 @@
 
             return services;
         }
+
+        public static IApplicationBuilder UseCorsPolicy(this IApplicationBuilder app)
+        {
+            
+            return app.UseCors("CorsPolicy");
+        }
     }
 }

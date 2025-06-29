@@ -1,10 +1,7 @@
 ﻿using MediatR;
 using orchid_backend_net.Application.Common.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using orchid_backend_net.Domain.Entities;
+using orchid_backend_net.Domain.IRepositories;
 
 namespace orchid_backend_net.Application.Element.CreateElement
 {
@@ -16,6 +13,29 @@ namespace orchid_backend_net.Application.Element.CreateElement
         {
             Name = name;
             Description = description;
+        }
+    }
+
+    internal class CreateElementCommandHandler(IElementRepositoty elementRepositoty) : IRequestHandler<CreateElementCommand, string>
+    {
+        private readonly IElementRepositoty _elementRepositoty;
+        public async Task<string> Handle(CreateElementCommand request, CancellationToken cancellationToken)
+        {
+            try
+            {
+                Elements obj = new Elements()
+                {
+                    Name = request.Name,
+                    Description = request.Description,
+                    Status = true,
+                };
+                this._elementRepositoty.Add(obj);
+                return await this._elementRepositoty.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? $"Created element name : {request.Name}." : "Failed create element.";
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"{ex.Message}");
+            }
         }
     }
 }

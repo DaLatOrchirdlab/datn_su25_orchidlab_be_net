@@ -18,7 +18,7 @@ namespace orchid_backend_net.Application.Seedling.GetSeedlingInfor
                 .NotEmpty().WithMessage("Seedling ID is required.")
                 .MaximumLength(50).WithMessage("Seedling ID must not exceed 50 characters.");
             RuleFor(x => x.SeedlingId)
-                .MustAsync(async (seedlingId, cancellation) => !await IsSeedlingExists(seedlingId))
+                .MustAsync(async (seedlingId, cancellation) => await IsSeedlingExists(seedlingId))
                 .WithMessage("Seedling with this ID does not exist.");
         }
         private async Task<bool> IsSeedlingExists(string seedlingId)

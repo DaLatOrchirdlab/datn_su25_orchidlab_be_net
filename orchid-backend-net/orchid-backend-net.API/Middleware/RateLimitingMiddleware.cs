@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
-using System.Collections.Generic;
 
 namespace orchid_backend_net.API.Middleware
 {
