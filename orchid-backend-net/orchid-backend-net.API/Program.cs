@@ -65,6 +65,8 @@ app.UseMiddleware<RateLimitingMiddleware>();
 
 app.UseHttpsRedirection();
 
+app.UseCorsPolicy();
+
 app.UseAuthorization();
 
 app.MapControllers();
