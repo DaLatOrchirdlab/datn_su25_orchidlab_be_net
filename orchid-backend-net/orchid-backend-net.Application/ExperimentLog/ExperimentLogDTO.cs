@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using orchid_backend_net.Application.Common.Mappings;
+using orchid_backend_net.Application.Stage;
 using orchid_backend_net.Domain.Entities;
 
 namespace orchid_backend_net.Application.ExperimentLog
@@ -10,15 +11,17 @@ namespace orchid_backend_net.Application.ExperimentLog
         public string MethodName { get; set; }
         public string Description { get; set; }
         public string TissueCultureBatchName { get; set; }
+        public List<StageDTO> StagesDTO {  get; set; }
 
-        public static ExperimentLogDTO Create(string methodName, string tissueCultureBatchName, string description, string Id)
+        public static ExperimentLogDTO Create(string methodName, string tissueCultureBatchName, string description, string Id, List<StageDTO> stageDTOs)
         {
             return new ExperimentLogDTO
             {
                 Id = Id,
                 MethodName = methodName,
                 TissueCultureBatchName = tissueCultureBatchName,
-                Description = description
+                Description = description,
+                StagesDTO = stageDTOs
             };
         }
 
@@ -26,7 +29,8 @@ namespace orchid_backend_net.Application.ExperimentLog
         {
             profile.CreateMap<ExperimentLogs, ExperimentLogDTO>()
                 .ForMember(dest => dest.TissueCultureBatchName, opt => opt.MapFrom(src => src.TissueCultureBatch.Name))
-                .ForMember(dest => dest.MethodName, opt => opt.MapFrom(src => src.Method.Name));
+                .ForMember(dest => dest.MethodName, opt => opt.MapFrom(src => src.Method.Name))
+                .ForMember(dest => dest.StagesDTO, otp => otp.MapFrom(src => src.Method.Stages));
         }
     }
 }
