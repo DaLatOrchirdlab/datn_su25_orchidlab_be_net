@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using orchid_backend_net.Application.Common.Mappings;
+using orchid_backend_net.Application.Stage;
 using orchid_backend_net.Domain.Entities;
 
 namespace orchid_backend_net.Application.Method
@@ -10,17 +11,21 @@ namespace orchid_backend_net.Application.Method
         public string Description { get; set; }
         public string Type { get; set; }
         public bool Status { get; set; }
-        public MethodDTO Create(string name, string description, string type, bool status)
+        public List<StageDTO> Stages { get; set; } = [];
+        public MethodDTO Create(string name, string description, string type, bool status, List<StageDTO> stages)
             => new MethodDTO
             {
                 Description = description,
                 Name = name,
                 Type = type,
-                Status = status
+                Status = status,
+                Stages = stages
             };
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<Methods, MethodDTO>();
+            profile.CreateMap<Methods, MethodDTO>()
+                .ForMember(dest => dest.Stages, otp => otp.MapFrom(src => src.Stages))
+                .ReverseMap();
         }
     }
 }

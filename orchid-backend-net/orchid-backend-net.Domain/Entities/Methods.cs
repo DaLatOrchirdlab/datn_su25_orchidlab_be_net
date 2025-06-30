@@ -8,5 +8,6 @@ namespace orchid_backend_net.Domain.Entities
         public string Description { get; set; }
         public string Type { get; set; }
         public bool Status {  get; set; }
+        public virtual ICollection<Stages> Stages { get; set; } = [];
     }
 }
