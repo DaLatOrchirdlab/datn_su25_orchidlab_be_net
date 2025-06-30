@@ -9,7 +9,7 @@ namespace orchid_backend_net.Infrastructure.Persistence.Configuration
         public void Configure(EntityTypeBuilder<Stages> builder)
         {
             builder.HasOne(x => x.Method)
-                .WithMany()
+                .WithMany(x => x.Stages)
                 .HasForeignKey(x => x.MethodID)
                 .OnDelete(DeleteBehavior.Restrict);
         }
