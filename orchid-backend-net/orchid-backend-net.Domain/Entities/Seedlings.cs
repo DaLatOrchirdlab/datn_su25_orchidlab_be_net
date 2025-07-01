@@ -10,5 +10,6 @@ namespace orchid_backend_net.Domain.Entities
         public string? Father { get; set; }
         public DateOnly Dob {  get; set; }
         public virtual ICollection<Characteristics> Characteristics { get; set; } = [];
+        public virtual ICollection<Hybridizations> Hybridizations { get; set; } = [];
     }
 }

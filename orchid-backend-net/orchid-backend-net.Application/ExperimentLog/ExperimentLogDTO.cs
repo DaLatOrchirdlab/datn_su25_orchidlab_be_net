@@ -15,6 +15,7 @@ namespace orchid_backend_net.Application.ExperimentLog
         public string TissueCultureBatchName { get; set; }
         public List<StageDTO> Stages {  get; set; }
         public List<SampleDTO> Samples { get; set; }
+        public List<HybridzationDTO> Hybridizations { get; set; }
         public ExperimentLogStatus Status { get; set; }
         public string? Create_by { get; set; }
         public DateTime? Create_date { get; set; }
@@ -26,7 +27,8 @@ namespace orchid_backend_net.Application.ExperimentLog
         public static ExperimentLogDTO Create(string methodName, string tissueCultureBatchName, string description, 
             string Id, List<StageDTO> stageDTOs, List<SampleDTO> sampleDTOs, ExperimentLogStatus status,
             string? createdBy, DateTime? createdDate, string? updatedBy, 
-            DateTime? updatedDate, string? deletedBy, DateTime? deletedDate)
+            DateTime? updatedDate, string? deletedBy, DateTime? deletedDate,
+            List<HybridzationDTO> hybridzationDTOs)
         {
             return new ExperimentLogDTO
             {
@@ -42,7 +44,8 @@ namespace orchid_backend_net.Application.ExperimentLog
                 Update_by = updatedBy,
                 Update_date = updatedDate,
                 Delete_by = deletedBy,
-                Delete_date = deletedDate
+                Delete_date = deletedDate,
+                Hybridizations = hybridzationDTOs
             };
         }
 
