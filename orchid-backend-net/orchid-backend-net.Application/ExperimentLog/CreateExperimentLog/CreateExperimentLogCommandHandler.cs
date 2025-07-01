@@ -53,7 +53,6 @@ namespace orchid_backend_net.Application.ExperimentLog.CreateExperimentLog
                         this._hybridizationRepository.Add(parent);
                     }
                 }
-                await this._hybridizationRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
                 return await this._experimentLogRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? $"Created ExperimentLog with ID: {obj.ID}" : "Failed to create ExperimentLog.";
             }
             catch (Exception ex)
