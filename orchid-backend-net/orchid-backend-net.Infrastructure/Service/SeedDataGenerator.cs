@@ -13,8 +13,12 @@ namespace orchid_backend_net.Infrastructure.Service
 
             await SeedLabRooms.SeedAsync(context);
             await SeedMethods.SeedAsync(context);
+            await SeedStages.SeedAsync(context);
+            await SeedSamples.SeedAsync(context);
             await SeedTissueCultureBatches.SeedAsync(context);
+            await SeedTasks.SeedAsync(context);
             await SeedExperimentLogs.SeedAsync(context);
+            await SeedLinkeds.SeedAsync(context);
 
             await SeedSeedlings.SeedAsync(context);
             await SeedSeedlingAttributes.SeedAsync(context);

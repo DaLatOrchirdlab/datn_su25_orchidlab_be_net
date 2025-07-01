@@ -11,5 +11,6 @@ namespace orchid_backend_net.Domain.Entities
         [ForeignKey(nameof(LabRoomID))]
         public virtual LabRooms LabRoom { get; set; }
         public bool Status {  get; set; }
+        public virtual ICollection<ExperimentLogs> ExperimentLogs { get; set; } = [];
     }
 }

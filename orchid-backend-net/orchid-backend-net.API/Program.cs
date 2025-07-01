@@ -4,6 +4,7 @@ using orchid_backend_net.API.Middleware;
 using orchid_backend_net.Application;
 using orchid_backend_net.Infrastructure;
 using Serilog;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +23,9 @@ builder.Host.UseSerilog();
 builder.Services.AddControllers(opt =>
 {
     opt.Filters.Add<ExceptionFilter>();
+}).AddJsonOptions(opt =>
+{
+    opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
 });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

@@ -19,7 +19,8 @@ namespace orchid_backend_net.Application.Sample
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<SampleDTO, Samples>();
+            profile.CreateMap<Samples, SampleDTO>()
+                .ReverseMap();
         }
     }
 }
