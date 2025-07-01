@@ -7,14 +7,16 @@ namespace orchid_backend_net.Application.Method
 {
     public class MethodDTO : IMapFrom<Methods>
     {
+        public string Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string Type { get; set; }
         public bool Status { get; set; }
         public List<StageDTO> Stages { get; set; } = [];
-        public MethodDTO Create(string name, string description, string type, bool status, List<StageDTO> stages)
+        public MethodDTO Create(string id, string name, string description, string type, bool status, List<StageDTO> stages)
             => new MethodDTO
             {
+                Id = id,
                 Description = description,
                 Name = name,
                 Type = type,
