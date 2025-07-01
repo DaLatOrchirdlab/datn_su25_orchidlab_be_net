@@ -9,11 +9,11 @@ namespace orchid_backend_net.Infrastructure.Persistence.Configuration
         public void Configure(EntityTypeBuilder<ExperimentLogs> builder)
         {
             builder.HasOne(x => x.TissueCultureBatch)
-                .WithMany()
+                .WithMany(x => x.ExperimentLogs)
                 .HasForeignKey(x => x.TissueCultureBatchID)
                 .OnDelete(DeleteBehavior.Restrict);
             builder.HasOne(x => x.Method)
-                .WithMany()
+                .WithMany(x => x.ExperimentLogs)
                 .HasForeignKey(x => x.MethodID)
                 .OnDelete(DeleteBehavior.Restrict);
         }

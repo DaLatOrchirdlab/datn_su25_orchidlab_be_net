@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace orchid_backend_net.Domain.Entities
 {
-    public class ExperimentLogs : BaseGuidEntity
+    public class ExperimentLogs : BaseSoftDelete
     {
         public string MethodID {  get; set; }
         [ForeignKey(nameof(MethodID))]
@@ -12,6 +12,7 @@ namespace orchid_backend_net.Domain.Entities
         public string TissueCultureBatchID {  get; set; }
         [ForeignKey(nameof(TissueCultureBatchID))]
         public virtual TissueCultureBatches TissueCultureBatch {  get; set; }
+        public virtual ICollection<Linkeds> Linkeds { get; set; } = [];
         //public enum Status
         public int Status {  get; set; }
     }

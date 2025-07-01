@@ -9,11 +9,11 @@ namespace orchid_backend_net.Infrastructure.Persistence.Configuration
         public void Configure(EntityTypeBuilder<Linkeds> builder)
         {
             builder.HasOne(x => x.Sample)
-                .WithMany()
+                .WithMany(x => x.Linkeds)
                 .HasForeignKey(x => x.SampleID)
                 .OnDelete(DeleteBehavior.Restrict);
             builder.HasOne(x => x.ExperimentLog)
-                .WithMany()
+                .WithMany(x => x.Linkeds)
                 .HasForeignKey(x => x.ExperimentLogID)
                 .OnDelete(DeleteBehavior.Restrict);
             builder.HasOne(x => x.Task)
