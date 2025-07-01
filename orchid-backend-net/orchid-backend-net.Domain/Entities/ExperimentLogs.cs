@@ -13,6 +13,7 @@ namespace orchid_backend_net.Domain.Entities
         [ForeignKey(nameof(TissueCultureBatchID))]
         public virtual TissueCultureBatches TissueCultureBatch {  get; set; }
         public virtual ICollection<Linkeds> Linkeds { get; set; } = [];
+        public virtual ICollection<Hybridizations> Hybridizations { get; set; } = [];
         //public enum Status
         public int Status {  get; set; }
     }

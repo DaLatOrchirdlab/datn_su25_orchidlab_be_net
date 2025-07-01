@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using orchid_backend_net.Infrastructure.Persistence;
@@ -11,9 +12,11 @@ using orchid_backend_net.Infrastructure.Persistence;
 namespace orchid_backend_net.Infrastructure.Migrations
 {
     [DbContext(typeof(OrchidDbContext))]
-    partial class OrchidDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250701105044_Update_Hybridzation_To_Known_Mother")]
+    partial class Update_Hybridzation_To_Known_Mother
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,7 +40,7 @@ namespace orchid_backend_net.Infrastructure.Migrations
 
                     b.HasIndex("ReportAttributesID");
 
-                    b.ToTable("ReferentsReportAttributes", (string)null);
+                    b.ToTable("ReferentsReportAttributes");
                 });
 
             modelBuilder.Entity("orchid_backend_net.Domain.Entities.Characteristics", b =>
@@ -65,7 +68,7 @@ namespace orchid_backend_net.Infrastructure.Migrations
 
                     b.HasIndex("SeedlingID");
 
-                    b.ToTable("Characteristic", (string)null);
+                    b.ToTable("Characteristic");
                 });
 
             modelBuilder.Entity("orchid_backend_net.Domain.Entities.Diseases", b =>
@@ -93,7 +96,7 @@ namespace orchid_backend_net.Infrastructure.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Diseases", (string)null);
+                    b.ToTable("Diseases");
                 });
 
             modelBuilder.Entity("orchid_backend_net.Domain.Entities.ElementInStage", b =>
@@ -118,7 +121,7 @@ namespace orchid_backend_net.Infrastructure.Migrations
 
                     b.HasIndex("StageID");
 
-                    b.ToTable("ElementInStage", (string)null);
+                    b.ToTable("ElementInStage");
                 });
 
             modelBuilder.Entity("orchid_backend_net.Domain.Entities.Elements", b =>
@@ -139,7 +142,7 @@ namespace orchid_backend_net.Infrastructure.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Elements", (string)null);
+                    b.ToTable("Elements");
                 });
 
             modelBuilder.Entity("orchid_backend_net.Domain.Entities.ExperimentLogs", b =>
@@ -186,7 +189,7 @@ namespace orchid_backend_net.Infrastructure.Migrations
 
                     b.HasIndex("TissueCultureBatchID");
 
-                    b.ToTable("ExperimentLogs", (string)null);
+                    b.ToTable("ExperimentLogs");
                 });
 
             modelBuilder.Entity("orchid_backend_net.Domain.Entities.Hybridizations", b =>
@@ -214,7 +217,7 @@ namespace orchid_backend_net.Infrastructure.Migrations
 
                     b.HasIndex("ParentID");
 
-                    b.ToTable("Hybridization", (string)null);
+                    b.ToTable("Hybridization");
                 });
 
             modelBuilder.Entity("orchid_backend_net.Domain.Entities.Imgs", b =>
@@ -237,7 +240,7 @@ namespace orchid_backend_net.Infrastructure.Migrations
 
                     b.HasIndex("ReportID");
 
-                    b.ToTable("Imgs", (string)null);
+                    b.ToTable("Imgs");
                 });
 
             modelBuilder.Entity("orchid_backend_net.Domain.Entities.InfectedSamples", b =>
@@ -263,7 +266,7 @@ namespace orchid_backend_net.Infrastructure.Migrations
 
                     b.HasIndex("SampleID");
 
-                    b.ToTable("InfectedSamples", (string)null);
+                    b.ToTable("InfectedSamples");
                 });
 
             modelBuilder.Entity("orchid_backend_net.Domain.Entities.LabRooms", b =>
@@ -284,7 +287,7 @@ namespace orchid_backend_net.Infrastructure.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("LabRooms", (string)null);
+                    b.ToTable("LabRooms");
                 });
 
             modelBuilder.Entity("orchid_backend_net.Domain.Entities.Linkeds", b =>
@@ -315,7 +318,7 @@ namespace orchid_backend_net.Infrastructure.Migrations
 
                     b.HasIndex("TaskID");
 
-                    b.ToTable("Linkeds", (string)null);
+                    b.ToTable("Linkeds");
                 });
 
             modelBuilder.Entity("orchid_backend_net.Domain.Entities.Methods", b =>
@@ -340,7 +343,7 @@ namespace orchid_backend_net.Infrastructure.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Methods", (string)null);
+                    b.ToTable("Methods");
                 });
 
             modelBuilder.Entity("orchid_backend_net.Domain.Entities.Referents", b =>
@@ -372,7 +375,7 @@ namespace orchid_backend_net.Infrastructure.Migrations
 
                     b.HasIndex("StageID");
 
-                    b.ToTable("Referents", (string)null);
+                    b.ToTable("Referents");
                 });
 
             modelBuilder.Entity("orchid_backend_net.Domain.Entities.ReportAttributes", b =>
@@ -391,7 +394,7 @@ namespace orchid_backend_net.Infrastructure.Migrations
 
                     b.HasIndex("ReportID");
 
-                    b.ToTable("ReportAttributes", (string)null);
+                    b.ToTable("ReportAttributes");
                 });
 
             modelBuilder.Entity("orchid_backend_net.Domain.Entities.Reports", b =>
@@ -422,7 +425,7 @@ namespace orchid_backend_net.Infrastructure.Migrations
 
                     b.HasIndex("SampleID");
 
-                    b.ToTable("Reports", (string)null);
+                    b.ToTable("Reports");
                 });
 
             modelBuilder.Entity("orchid_backend_net.Domain.Entities.Role", b =>
@@ -443,7 +446,7 @@ namespace orchid_backend_net.Infrastructure.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Role", (string)null);
+                    b.ToTable("Role");
                 });
 
             modelBuilder.Entity("orchid_backend_net.Domain.Entities.Samples", b =>
@@ -467,7 +470,7 @@ namespace orchid_backend_net.Infrastructure.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Samples", (string)null);
+                    b.ToTable("Samples");
                 });
 
             modelBuilder.Entity("orchid_backend_net.Domain.Entities.SeedlingAttributes", b =>
@@ -488,7 +491,7 @@ namespace orchid_backend_net.Infrastructure.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("SeedlingAttributes", (string)null);
+                    b.ToTable("SeedlingAttributes");
                 });
 
             modelBuilder.Entity("orchid_backend_net.Domain.Entities.Seedlings", b =>
@@ -533,7 +536,7 @@ namespace orchid_backend_net.Infrastructure.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Seedlings", (string)null);
+                    b.ToTable("Seedlings");
                 });
 
             modelBuilder.Entity("orchid_backend_net.Domain.Entities.Stages", b =>
@@ -563,7 +566,7 @@ namespace orchid_backend_net.Infrastructure.Migrations
 
                     b.HasIndex("MethodID");
 
-                    b.ToTable("Stage", (string)null);
+                    b.ToTable("Stage");
                 });
 
             modelBuilder.Entity("orchid_backend_net.Domain.Entities.TaskAttributes", b =>
@@ -589,7 +592,7 @@ namespace orchid_backend_net.Infrastructure.Migrations
 
                     b.HasIndex("TaskID");
 
-                    b.ToTable("TaskAttributes", (string)null);
+                    b.ToTable("TaskAttributes");
                 });
 
             modelBuilder.Entity("orchid_backend_net.Domain.Entities.Tasks", b =>
@@ -641,7 +644,7 @@ namespace orchid_backend_net.Infrastructure.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Tasks", (string)null);
+                    b.ToTable("Tasks");
                 });
 
             modelBuilder.Entity("orchid_backend_net.Domain.Entities.TasksAssign", b =>
@@ -666,7 +669,7 @@ namespace orchid_backend_net.Infrastructure.Migrations
 
                     b.HasIndex("TechnicianID");
 
-                    b.ToTable("TaskAssigns", (string)null);
+                    b.ToTable("TaskAssigns");
                 });
 
             modelBuilder.Entity("orchid_backend_net.Domain.Entities.TissueCultureBatches", b =>
@@ -693,7 +696,7 @@ namespace orchid_backend_net.Infrastructure.Migrations
 
                     b.HasIndex("LabRoomID");
 
-                    b.ToTable("TissueCultureBatches", (string)null);
+                    b.ToTable("TissueCultureBatches");
                 });
 
             modelBuilder.Entity("orchid_backend_net.Domain.Entities.Users", b =>
@@ -760,7 +763,7 @@ namespace orchid_backend_net.Infrastructure.Migrations
 
                     b.HasIndex("RoleID");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("ReferentsReportAttributes", b =>
