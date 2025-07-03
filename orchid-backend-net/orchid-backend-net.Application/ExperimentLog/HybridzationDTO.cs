@@ -21,7 +21,7 @@ namespace orchid_backend_net.Application.ExperimentLog
         public void Mapping(Profile profile)
         {
             profile.CreateMap<Hybridizations, HybridzationDTO>()
-                .ForMember(dest => dest.IsMother, opt => opt.MapFrom(src => src.IsMother))
+                //.ForMember(dest => dest.IsMother, opt => opt.MapFrom(src => src.IsMother))
                 .ForMember(dest => dest.Seedling, opt => opt.MapFrom(src => src.Parent))
                 .ReverseMap();
         }

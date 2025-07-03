@@ -11,16 +11,16 @@ namespace orchid_backend_net.Application.Seedling.GetAllSeedling
     {
         public int PageNumber { get; set; }
         public int PageSize { get; set; }
-        public string? ByMother { get; set; }
-        public string? ByFather { get; set; }
+        public string? Parent1 { get; set; }
+        public string? Parent2 { get; set; }
         public string? SearchTerm { get; set; }
         public bool IncludeDeleted { get; set; } = false;
-        public GetAllSeedlingQuery(int pageNumber, int pageSize, string byMother, string byFather,string searchTerm)
+        public GetAllSeedlingQuery(int pageNumber, int pageSize, string parent1, string parent2,string searchTerm)
         {
             this.PageNumber = pageNumber;
             this.PageSize = pageSize;
-            this.ByMother = byMother;
-            this.ByFather = byFather;
+            this.Parent1 = parent1;
+            this.Parent2 = parent2;
             this.SearchTerm = searchTerm;
         }
         public GetAllSeedlingQuery()
@@ -39,11 +39,11 @@ namespace orchid_backend_net.Application.Seedling.GetAllSeedling
                     if (!string.IsNullOrWhiteSpace(request.SearchTerm))
                         query = query.Where(x => x.Name.Equals(request.SearchTerm));
 
-                    if (!string.IsNullOrWhiteSpace(request.ByMother))
-                        query = query.Where(x => x.Mother.ToLower().Equals(request.ByMother.ToLower()));
+                    if (!string.IsNullOrWhiteSpace(request.Parent1))
+                        query = query.Where(x => x.Parent1.ToLower().Equals(request.Parent1.ToLower()));
 
-                    if (!string.IsNullOrWhiteSpace(request.ByFather))
-                        query = query.Where(x => x.Father.ToLower().Equals(request.ByFather.ToLower()));
+                    if (!string.IsNullOrWhiteSpace(request.Parent2))
+                        query = query.Where(x => x.Parent2.ToLower().Equals(request.Parent2.ToLower()));
                     return query;
                 }
                 var seedlings = await seedlingRepository.FindAllProjectToAsync<SeedlingDTO>(

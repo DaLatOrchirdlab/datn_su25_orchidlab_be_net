@@ -49,7 +49,7 @@ namespace orchid_backend_net.Application.ExperimentLog.CreateExperimentLog
                             ExperimentLogID = obj.ID,
                             ParentID = seedling,
                             Status = true,
-                            IsMother = request.MotherID.ToLower().Equals(seedling.ToLower())
+                            //IsMother = request.MotherID.ToLower().Equals(seedling.ToLower())
                         };
                         this._hybridizationRepository.Add(parent);
                     }

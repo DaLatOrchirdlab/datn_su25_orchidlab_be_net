@@ -28,8 +28,8 @@ namespace orchid_backend_net.Application.Seedling.CreateSeedling
                 {
                     Name = request.Name,
                     Description = request.Description,
-                    Mother = request.MotherID,
-                    Father = request.FatherID,
+                    Parent1 = request.MotherID,
+                    Parent2 = request.FatherID,
                     Dob = request.DoB,
                     Create_date = DateTime.UtcNow,
                     Create_by = currentUserService.UserName ?? "system"
