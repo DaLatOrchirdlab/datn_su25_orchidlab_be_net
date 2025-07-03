@@ -20,8 +20,8 @@ namespace orchid_backend_net.Infrastructure.Service.SeedData
                         {
                             Name = name,
                             Description = $"Description for {name}",
-                            Mother = $"Mother-{i}",
-                            Father = $"Father-{i}",
+                            Parent1 = $"Parent1-{i}",
+                            Parent2 = $"Parent2-{i}",
                             Dob = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-i * 30)),
                             Create_date = DateTime.UtcNow,
                             Create_by = "system",

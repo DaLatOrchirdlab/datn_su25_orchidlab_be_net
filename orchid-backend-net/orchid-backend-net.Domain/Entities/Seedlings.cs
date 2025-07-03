@@ -6,9 +6,10 @@ namespace orchid_backend_net.Domain.Entities
     {
         public string Name { get; set; }
         public string Description { get; set; }
-        public string? Mother {  get; set; }
-        public string? Father { get; set; }
+        public string? Parent1 {  get; set; }
+        public string? Parent2 { get; set; }
         public DateOnly Dob {  get; set; }
         public virtual ICollection<Characteristics> Characteristics { get; set; } = [];
+        public virtual ICollection<Hybridizations> Hybridizations { get; set; } = [];
     }
 }

@@ -29,13 +29,13 @@ namespace orchid_backend_net.Application.User.CreateUser
 
             RuleFor(x => x.Email)
                 .EmailAddress()
-                .MustAsync((email, cancellationToken) => IsEmailUnique(email, cancellationToken))
+                //.MustAsync((email, cancellationToken) => IsEmailUnique(email, cancellationToken))
                 .WithMessage("Email already exists.");
 
             RuleFor(x => x.PhoneNumber)
                 .NotEmpty()
                 .NotNull()
-                .MustAsync((phoneNumber, cancellationToken) => IsPhoneNumberUnique(phoneNumber, cancellationToken))
+                //.MustAsync((phoneNumber, cancellationToken) => IsPhoneNumberUnique(phoneNumber, cancellationToken))
                 .WithMessage("Phone number cannot be null or empty and must be unique.");
 
             RuleFor(x => x.RoleID)
