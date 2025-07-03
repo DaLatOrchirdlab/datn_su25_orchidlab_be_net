@@ -13,7 +13,7 @@ namespace orchid_backend_net.Application.Authentication.Refreshtoken.RefreshToke
     }
 
 
-    public class RefreshTokenQueryHandler(IUserRepository userRepository, ICacheService cacheService,
+    internal class RefreshTokenQueryHandler(IUserRepository userRepository, ICacheService cacheService,
         ICurrentUserService currentUserService, ISender sender) : IRequestHandler<RefreshTokenQuery, LoginDTO>
     {
         public async Task<LoginDTO> Handle(RefreshTokenQuery request, CancellationToken cancellationToken)

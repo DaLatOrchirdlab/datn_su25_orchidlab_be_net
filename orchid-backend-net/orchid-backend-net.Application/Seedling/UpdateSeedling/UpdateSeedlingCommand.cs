@@ -10,8 +10,8 @@ namespace orchid_backend_net.Application.Seedling.UpdateSeedling
         public required string SeedlingId { get; set; }
         public string? Name { get; set; }
         public string? Description { get; set; }
-        public string? MotherID { get; set; }
-        public string? FatherID { get; set; }
+        public string? Parent1 { get; set; }
+        public string? Parent2 { get; set; }
         public DateOnly? DoB { get; set; }
         public List<CharacteristicsDTO>? Characteristics { get; set; } = [];
     }
@@ -30,8 +30,8 @@ namespace orchid_backend_net.Application.Seedling.UpdateSeedling
                 // Update seedling properties
                 seedling.Name = request.Name ?? seedling.Name;
                 seedling.Description = request.Description ?? seedling.Description;
-                seedling.Mother = request.MotherID ?? seedling.Mother;
-                seedling.Father = request.FatherID ?? seedling.Father;
+                seedling.Parent1 = request.Parent1 ?? seedling.Parent1;
+                seedling.Parent2 = request.Parent2 ?? seedling.Parent2;
                 seedling.Dob = request.DoB ?? seedling.Dob;
                 seedling.Update_date = DateTime.UtcNow;
                 seedling.Update_by = currentUserService.UserName ?? "system";
