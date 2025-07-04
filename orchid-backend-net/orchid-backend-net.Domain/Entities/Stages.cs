@@ -12,5 +12,6 @@ namespace orchid_backend_net.Domain.Entities
         public virtual Methods Method { get; set; }
         public int DateOfProcessing { get; set; }
         public bool Status {  get; set; }
+        public virtual ICollection<ElementInStage> ElementInStage { get; set; } = [];
     }
 }

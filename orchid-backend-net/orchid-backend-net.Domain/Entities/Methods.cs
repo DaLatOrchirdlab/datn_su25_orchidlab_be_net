@@ -10,5 +10,6 @@ namespace orchid_backend_net.Domain.Entities
         public bool Status {  get; set; }
         public virtual ICollection<Stages> Stages { get; set; } = [];
         public virtual ICollection<ExperimentLogs> ExperimentLogs { get; set; } = [];
+        //public virtual ICollection<Elements> Elements { get; set; } = [];
     }
 }

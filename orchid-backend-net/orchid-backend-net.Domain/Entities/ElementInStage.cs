@@ -12,5 +12,7 @@ namespace orchid_backend_net.Domain.Entities
         [ForeignKey(nameof(ElementID))]
         public virtual Elements Element {  get; set; }
         public bool Status {  get; set; }
+        public virtual ICollection<Elements> Elements { get; set; }
+        public virtual ICollection<Stages> Stages { get; set; } 
     }
 }
