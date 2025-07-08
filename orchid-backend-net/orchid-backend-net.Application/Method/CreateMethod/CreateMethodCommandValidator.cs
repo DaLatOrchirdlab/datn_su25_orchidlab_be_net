@@ -1,16 +1,17 @@
 ﻿using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using MediatR;
+using orchid_backend_net.Domain.IRepositories;
 using System.Threading.Tasks;
 
 namespace orchid_backend_net.Application.Method.CreateMethod
 {
     public class CreateMethodCommandValidator : AbstractValidator<CreateMethodCommand>
     {
-        public CreateMethodCommandValidator() 
+        private readonly IMethodRepository _methodRepository;
+
+        public CreateMethodCommandValidator(IMethodRepository methodRepository)
         {
+            _methodRepository = methodRepository;
             Configuration();
         }
         void Configuration()
@@ -19,6 +20,11 @@ namespace orchid_backend_net.Application.Method.CreateMethod
                 .NotEmpty()
                 .NotNull()
                 .WithMessage("Name can not be null.");
+            //func return true => passed the validation
+            //func return false => failed the validation
+            RuleFor(x => x.Name)
+                .MustAsync(async (name, cancellationToken) => !await IsNameDuplicated(name))
+                .WithMessage("A method with this name already exists");
             RuleFor(x => x.Description)
                 .NotEmpty()
                 .NotNull()
@@ -29,6 +35,10 @@ namespace orchid_backend_net.Application.Method.CreateMethod
             RuleFor(x => x.Description.Count())
                 .LessThanOrEqualTo(500)
                 .WithMessage("Description is too long.");
+        }
+        async Task<bool> IsNameDuplicated(string name)
+        {
+            return await this._methodRepository.AnyAsync(x => x.Name.ToLower().Equals(name.ToLower()));
         }
     }
 }

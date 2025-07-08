@@ -1,26 +1,29 @@
 ﻿using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using orchid_backend_net.Domain.IRepositories;
 
 namespace orchid_backend_net.Application.Method.UpdateMethod
 {
     public class UpdateMethodCommandValidator : AbstractValidator<UpdateMethodCommand>
     {
-        public UpdateMethodCommandValidator() 
+        private readonly IMethodRepository _methodRepository;
+        public UpdateMethodCommandValidator(IMethodRepository methodRepository)
         {
             Configuration();
+            _methodRepository = methodRepository;
         }
         void Configuration()
         {
-            RuleFor(x => x.Name.Count())
-                .LessThanOrEqualTo(50)
-                .WithMessage("Name is too long");
-            RuleFor(x => x.Description.Count())
-                .LessThanOrEqualTo(500)
-                .WithMessage("Description is too long.");
+            RuleFor(x => x.ID)
+                .NotEmpty()
+                .NotNull()
+                .WithMessage("ID is required.");
+            RuleFor(x => x.ID)
+                .MustAsync(async (id, cancellationToken) => await IsExistMethod(id, cancellationToken))
+                .WithMessage("Method does not exist.");
+        }
+        private async Task<bool> IsExistMethod(string id, CancellationToken cancellationToken)
+        {
+           return await _methodRepository.AnyAsync(x => x.ID.Equals(id) && x.Status == true, cancellationToken);
         }
     }
 }

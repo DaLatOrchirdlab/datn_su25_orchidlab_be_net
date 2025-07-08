@@ -7,10 +7,12 @@ namespace orchid_backend_net.Domain.Entities
     {
         public string Name { get; set; }
         public string Description { get; set; }
+        public int Step { get; set; } // Assuming Step is an integer representing the order of the stage
         public string MethodID {  get; set; }
         [ForeignKey(nameof(MethodID))]
         public virtual Methods Method { get; set; }
         public int DateOfProcessing { get; set; }
         public bool Status {  get; set; }
+        public virtual ICollection<ElementInStage> ElementInStages { get; set; }
     }
 }

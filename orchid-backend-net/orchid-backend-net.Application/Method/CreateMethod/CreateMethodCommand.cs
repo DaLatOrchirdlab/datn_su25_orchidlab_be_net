@@ -1,24 +1,56 @@
 ﻿using MediatR;
 using orchid_backend_net.Application.Common.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using orchid_backend_net.Application.Stage.CreateStage;
+using orchid_backend_net.Domain.Entities;
+using orchid_backend_net.Domain.IRepositories;
 
 namespace orchid_backend_net.Application.Method.CreateMethod
 {
+    //create method command
     public class CreateMethodCommand : IRequest<string>, ICommand
     {
         public string Name { get; set; }
         public string Description { get; set; }
         public string Type { get; set; }
-
-        public CreateMethodCommand(string name, string description, string type)
+        public List<CreateStageCommand> Stages { get; set; }
+        public CreateMethodCommand(string name, string description,
+            string type, List<CreateStageCommand> stages)
         {
             Name = name;
             Description = description;
             Type = type;
+            Stages = stages;
+        }
+    }
+
+    internal class CreateMethodCommandHandler(IMethodRepository methodRepository, IMediator sender) : IRequestHandler<CreateMethodCommand, string>
+    {
+        public async Task<string> Handle(CreateMethodCommand request, CancellationToken cancellationToken)
+        {
+            try
+            {
+                Methods obj = new()
+                {
+                    Name = request.Name,
+                    Status = true,
+                    Description = request.Description,
+                    Type = request.Type,
+                };
+                methodRepository.Add(obj);
+
+                foreach(var stageCommand in request.Stages)
+                {
+                    //Only inject the command to obey DI principles, the handler will be executed by the MediatR pipeline
+                    stageCommand.MethodID = obj.ID;
+                    await sender.Send(stageCommand, cancellationToken);
+                }
+
+                return await methodRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? $"Created method : {obj.Name}" : "Failed to create method.";
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"{ex.Message}");
+            }
         }
     }
 }
