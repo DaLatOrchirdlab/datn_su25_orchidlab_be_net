@@ -18,26 +18,34 @@ namespace orchid_backend_net.Application.Authentication.Refreshtoken.RefreshToke
     {
         public async Task<LoginDTO> Handle(RefreshTokenQuery request, CancellationToken cancellationToken)
         {
-            var refreshTokenKey = $"auth:refresh_token_{currentUserService.UserId}";
-            // Check if the refresh token exists in the cache
-            var cachedToken = await cacheService.GetAsync(refreshTokenKey);
-            Users? user = null;
-            if (!cachedToken.ToLower().Equals(request.RefreshToken.ToLower()))
+
+            var refreshTokenKey = request.RefreshToken.Trim().ToLowerInvariant();
+            var redisKey = $"auth:refresh_token:{refreshTokenKey}";
+            var userId = await cacheService.GetAsync(redisKey);
+
+
+            //Check if the refresh token exists in Redis
+            if (string.IsNullOrEmpty(userId))
             {
                 throw new UnauthorizedAccessException("Invalid refresh token.");
             }
-            if (!string.IsNullOrEmpty(cachedToken))
-            {
-                user = await userRepository.FindAsync(u => u.ID.ToLower().Equals(currentUserService.UserId.ToLower())
-                    && u.Status == true
-                    && u.RefreshTokenExpiryTime >= DateTime.UtcNow, cancellationToken);
-            }
-            else if (string.IsNullOrEmpty(cachedToken))
-            {
-                user = await userRepository.FindAsync(u => u.RefreshToken.Equals(request.RefreshToken)
-                        && u.Status == true
-                        && u.RefreshTokenExpiryTime >= DateTime.UtcNow, cancellationToken);
-            }
+
+            //Check if the user exists in the database
+            var user = await userRepository.FindAsync(x => x.ID.Equals(userId)
+                        && x.Status == true
+                        && x.RefreshTokenExpiryTime >= DateTime.UtcNow, cancellationToken);
+
+            //Fallback if the user is not found
+            user ??= await userRepository.FindAsync(x => x.RefreshToken!.Equals(request.RefreshToken.Trim())
+                        && x.Status == true
+                        && x.RefreshTokenExpiryTime >= DateTime.UtcNow, cancellationToken);
+
+            if(user is null)
+                throw new UnauthorizedAccessException("User not found or token expired");
+
+            //Token rotation
+            await cacheService.RemoveAsync(redisKey);
+
             string role = "";
             role = user.RoleID switch
             {
@@ -47,10 +55,12 @@ namespace orchid_backend_net.Application.Authentication.Refreshtoken.RefreshToke
                 3 => "Technician",
             };
 
+            //Generate new token
             var refresh = await sender.Send(new RefreshTokenCommand(user.ID), cancellationToken);
             user.RefreshToken = refresh.Token;
             user.RefreshTokenExpiryTime = refresh.Expired;
             await userRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
+            
             return LoginDTO.Create(user.ID, role, user.RefreshToken, user.Name);
         }
     }

@@ -1,19 +1,36 @@
 ﻿using MediatR;
 using orchid_backend_net.Application.Common.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using orchid_backend_net.Application.Stage.DeleteStage;
+using orchid_backend_net.Domain.Common.Exceptions;
+using orchid_backend_net.Domain.IRepositories;
 
 namespace orchid_backend_net.Application.Method.DeleteMethod
 {
-    public class DeleteMethodCommand : IRequest<string>, ICommand
+    public class DeleteMethodCommand(string ID) : IRequest<string>, ICommand
     {
-        public string ID {  get; set; }
-        public DeleteMethodCommand(string ID)
+        public string ID { get; set; } = ID;
+    }
+
+    internal class DeleteMethodCommandHandler(IMethodRepository methodRepository, ISender sender) : IRequestHandler<DeleteMethodCommand, string>
+    {
+        public async Task<string> Handle(DeleteMethodCommand request, CancellationToken cancellationToken)
         {
-            this.ID = ID;
+            try
+            {
+                var method = await methodRepository.FindAsync(x => x.ID.Equals(request.ID) && x.Status == true, cancellationToken);
+                if (method == null)
+                    throw new NotFoundException($"Not found method with ID :{request.ID}");
+                method.Status = false;
+                methodRepository.Update(method);
+
+                //Send to stage to deactivate all stages of this method
+                await sender.Send(new DeleteStageCommand(method.ID), cancellationToken);
+                return await methodRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? $"Deleted method name :{method.Name}" : "Failed to delete method.";
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"{ex.Message}");
+            }
         }
     }
 }

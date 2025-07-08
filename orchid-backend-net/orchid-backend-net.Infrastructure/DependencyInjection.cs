@@ -17,7 +17,7 @@ namespace orchid_backend_net.Infrastructure
             //database context
             services.AddDbContext<OrchidDbContext>(options =>
             {
-                options.UseNpgsql(configuration.GetConnectionString("Server"), b =>
+                options.UseNpgsql(configuration.GetConnectionString("local"), b =>
                 {
                     b.MigrationsAssembly(typeof(OrchidDbContext).Assembly.FullName);
                     b.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
@@ -57,6 +57,8 @@ namespace orchid_backend_net.Infrastructure
             services.AddScoped<IHybridizationRepository, HybridizationRepository>();
             services.AddScoped<ILinkedRepository, LinkedRepository>();
             services.AddScoped<ITissueCultureBatchRepository,TissueCultureBatchRepository>();
+            services.AddScoped<IElementInStageRepository, ElementInStageRepository>();
+            services.AddScoped<IReferentRepository, ReferentRepository>();
             services.AddScoped<IOrchidAnalyzerService, OrchidAnalyzerService>();
             services.AddScoped<ICacheService, RedisCacheService>();
             return services;
