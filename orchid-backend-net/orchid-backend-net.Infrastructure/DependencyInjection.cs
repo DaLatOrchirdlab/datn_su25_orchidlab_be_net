@@ -1,12 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using CloudinaryDotNet;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using orchid_backend_net.Application.Common.Interfaces;
 using orchid_backend_net.Domain.Common.Interfaces;
 using orchid_backend_net.Domain.IRepositories;
 using orchid_backend_net.Infrastructure.Persistence;
 using orchid_backend_net.Infrastructure.Repository;
 using orchid_backend_net.Infrastructure.Service;
+using orchid_backend_net.Infrastructure.Service.CloudinarySettings;
 
 namespace orchid_backend_net.Infrastructure
 {
@@ -38,6 +41,19 @@ namespace orchid_backend_net.Infrastructure
                 var dbContext = scope.ServiceProvider.GetRequiredService<OrchidDbContext>();
                 SeedDataGenerator.SeedAsync(dbContext).GetAwaiter().GetResult();
             }
+
+            //cloudinary service to store images
+            services.Configure<CloudinaryOptions>(configuration.GetSection("Cloudinary"));
+            services.AddSingleton<Cloudinary>(serviceProvider =>
+            {
+                var options = serviceProvider.GetRequiredService<IOptions<CloudinaryOptions>>().Value;
+                var account = new Account(
+                    options.CloudName,
+                    options.ApiKey,
+                    options.ApiSecret
+                );
+                return new Cloudinary(account);
+            });
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
