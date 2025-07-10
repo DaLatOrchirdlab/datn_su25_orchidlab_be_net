@@ -10,6 +10,7 @@ using orchid_backend_net.Infrastructure.Persistence;
 using orchid_backend_net.Infrastructure.Repository;
 using orchid_backend_net.Infrastructure.Service;
 using orchid_backend_net.Infrastructure.Service.CloudinarySettings;
+using orchid_backend_net.Infrastructure.Service.RedisSettings;
 
 namespace orchid_backend_net.Infrastructure
 {
@@ -32,15 +33,10 @@ namespace orchid_backend_net.Infrastructure
             //redis cache
             services.AddStackExchangeRedisCache(options =>
             {
-                options.Configuration = configuration.GetSection("Redis")["Configuration"];
-                options.InstanceName = configuration.GetSection("Redis")["InstanceName"];
+                var redisOptions = configuration.GetSection("Redis").Get<RedisOptions>();
+                options.Configuration = redisOptions.Configuration;
+                options.InstanceName = redisOptions.InstanceName;
             });
-
-            using (var scope = services.BuildServiceProvider().CreateScope())
-            {
-                var dbContext = scope.ServiceProvider.GetRequiredService<OrchidDbContext>();
-                SeedDataGenerator.SeedAsync(dbContext).GetAwaiter().GetResult();
-            }
 
             //cloudinary service to store images
             services.Configure<CloudinaryOptions>(configuration.GetSection("Cloudinary"));
@@ -55,6 +51,14 @@ namespace orchid_backend_net.Infrastructure
                 return new Cloudinary(account);
             });
 
+            //Seed data generation
+            using (var scope = services.BuildServiceProvider().CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<OrchidDbContext>();
+                SeedDataGenerator.SeedAsync(dbContext).GetAwaiter().GetResult();
+            }
+
+            //Add repositories
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<IElementRepositoty, ElementRepository>();
