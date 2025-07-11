@@ -1,13 +1,14 @@
 ﻿using CloudinaryDotNet;
+using Microsoft.Extensions.Options;
 using orchid_backend_net.Application.Common.Interfaces;
 using orchid_backend_net.Infrastructure.Service.CloudinarySettings;
 using System.Net;
 
 namespace orchid_backend_net.Infrastructure.Repository
 {
-    public class CloudinaryImageUploaderService(Cloudinary cloudinary, CloudinaryOptions options) : IImageUploaderService
+    public class CloudinaryImageUploaderService(Cloudinary cloudinary, IOptions<CloudinaryOptions> options) : IImageUploaderService
     {
-        public async Task<string> UpdaloadImageAsync(Stream fileStream, string fileName, string? folder = null)
+        public async Task<string> UpdloadImageAsync(Stream fileStream, string fileName, string? folder = null)
         {
             if (fileStream == null || fileStream.Length == 0)
             {
@@ -21,10 +22,10 @@ namespace orchid_backend_net.Infrastructure.Repository
             var uploadParams = new CloudinaryDotNet.Actions.ImageUploadParams
             {
                 File = new FileDescription(fileName, memoryStream),
-                Folder = folder ?? options.DefaultFolder,
-                UseFilename = options.UseFilename,
-                UniqueFilename = options.UniqueFilename,
-                Overwrite = options.Overwrite
+                Folder = folder ?? options.Value.DefaultFolder,
+                UseFilename = options.Value.UseFilename,
+                UniqueFilename = options.Value.UniqueFilename,
+                Overwrite = options.Value.Overwrite
             };
 
             var uploadResult = await cloudinary.UploadAsync(uploadParams);
@@ -32,8 +33,8 @@ namespace orchid_backend_net.Infrastructure.Repository
             {
                 throw new Exception($"Image upload failed: {uploadResult.Error?.Message}");
             }
-
-            return uploadResult.SecureUri.ToString();
+                
+            return uploadResult.SecureUrl.ToString();
         }
     }
 }
