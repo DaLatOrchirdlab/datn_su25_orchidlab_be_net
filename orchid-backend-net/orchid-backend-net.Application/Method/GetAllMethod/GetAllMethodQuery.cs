@@ -1,9 +1,7 @@
-﻿using AutoMapper;
-using MediatR;
+﻿using MediatR;
 using orchid_backend_net.Application.Common.Extension;
 using orchid_backend_net.Application.Common.Interfaces;
 using orchid_backend_net.Application.Common.Pagination;
-using orchid_backend_net.Domain.Common.Exceptions;
 using orchid_backend_net.Domain.Entities;
 using orchid_backend_net.Domain.IRepositories;
 
@@ -37,24 +35,24 @@ namespace orchid_backend_net.Application.Method.GetAllMethod
 
                 IQueryable<Methods> queryOptions(IQueryable<Methods> query)
                 {
-                    query = query.Where(x => x.Status == true);
-                    if(!string.IsNullOrEmpty(request.Filter))
+                    query = query.Where(x => x.Status);
+                    if (!string.IsNullOrEmpty(request.Filter))
                     {
-                        query = query.Where(x => x.Type.ToLower().Contains(request.Filter.ToLower()));
+                        query = query.Where(x => x.Type.ToLower().Contains(request.Filter.ToLower()) && x.Status);
                     }
                     return query;
                 }
 
                 var methods = await this._methodRepository.FindAllProjectToAsync<MethodDTO>(
-                    request.PageNumber, 
-                    request.PageSize, 
+                    request.PageNumber,
+                    request.PageSize,
                     queryOptions: queryOptions,
                     cancellationToken);
 
 
                 var list = await this._methodRepository.FindAllAsync(x => x.Status == true, request.PageNumber, request.PageSize, cancellationToken);
                 //order by step in method's stages
-                foreach(var item in list)
+                foreach (var item in list)
                 {
                     item.Stages = [.. item.Stages.OrderBy(x => x.Step)];
                 }
