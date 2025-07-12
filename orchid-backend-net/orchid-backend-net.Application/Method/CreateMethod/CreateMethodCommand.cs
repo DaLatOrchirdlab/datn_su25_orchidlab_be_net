@@ -2,6 +2,7 @@
 using orchid_backend_net.Application.Common.Interfaces;
 using orchid_backend_net.Application.Stage.CreateStage;
 using orchid_backend_net.Domain.Entities;
+using orchid_backend_net.Domain.Enums;
 using orchid_backend_net.Domain.IRepositories;
 
 namespace orchid_backend_net.Application.Method.CreateMethod
@@ -11,10 +12,10 @@ namespace orchid_backend_net.Application.Method.CreateMethod
     {
         public string Name { get; set; }
         public string Description { get; set; }
-        public string Type { get; set; }
+        public int Type { get; set; }
         public List<CreateStageCommand> Stages { get; set; }
         public CreateMethodCommand(string name, string description,
-            string type, List<CreateStageCommand> stages)
+            int type, List<CreateStageCommand> stages)
         {
             Name = name;
             Description = description;
@@ -29,12 +30,14 @@ namespace orchid_backend_net.Application.Method.CreateMethod
         {
             try
             {
+                var methodTypeEnum = (MethodType)request.Type;
+                var methodTypeString = methodTypeEnum.ToString();
                 Methods obj = new()
                 {
                     Name = request.Name,
                     Status = true,
                     Description = request.Description,
-                    Type = request.Type,
+                    Type = methodTypeString,
                 };
                 methodRepository.Add(obj);
 
