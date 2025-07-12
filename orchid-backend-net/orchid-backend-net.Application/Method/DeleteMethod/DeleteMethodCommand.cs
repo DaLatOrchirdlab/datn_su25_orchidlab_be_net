@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using orchid_backend_net.Application.Common.Interfaces;
 using orchid_backend_net.Application.Stage.DeleteStage;
-using orchid_backend_net.Domain.Common.Exceptions;
 using orchid_backend_net.Domain.IRepositories;
 
 namespace orchid_backend_net.Application.Method.DeleteMethod
@@ -18,8 +17,6 @@ namespace orchid_backend_net.Application.Method.DeleteMethod
             try
             {
                 var method = await methodRepository.FindAsync(x => x.ID.Equals(request.ID) && x.Status == true, cancellationToken);
-                if (method == null)
-                    throw new NotFoundException($"Not found method with ID :{request.ID}");
                 method.Status = false;
                 methodRepository.Update(method);
 

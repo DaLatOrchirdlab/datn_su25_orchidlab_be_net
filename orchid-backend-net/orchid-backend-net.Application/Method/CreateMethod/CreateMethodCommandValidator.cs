@@ -1,8 +1,6 @@
 ﻿using FluentValidation;
-using MediatR;
 using orchid_backend_net.Domain.Enums;
 using orchid_backend_net.Domain.IRepositories;
-using System.Threading.Tasks;
 
 namespace orchid_backend_net.Application.Method.CreateMethod
 {

@@ -18,7 +18,7 @@ namespace orchid_backend_net.Application.Method.DeleteMethod
                 .NotNull()
                 .WithMessage("ID can not null.");
             RuleFor(x => x.ID)
-                .MustAsync(async(id, cancellationToken) => await IsMethodExists(id, cancellationToken))
+                .MustAsync(async (id, cancellationToken) => await IsMethodExists(id, cancellationToken))
                 .WithMessage(x => $"Not found any Method with ID:{x.ID} in the system");
         }
         private async Task<bool> IsMethodExists(string id, CancellationToken cancellationToken)
