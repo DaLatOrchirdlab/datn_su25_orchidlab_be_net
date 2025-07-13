@@ -18,5 +18,6 @@ namespace orchid_backend_net.Domain.Entities
         public string? AvatarUrl { get; set; }
         public string? RefreshToken { get; set; } = string.Empty;
         public DateTime? RefreshTokenExpiryTime { get; set; }
+        public virtual ICollection<TasksAssign> Assigns { get; set; }
     }
 }

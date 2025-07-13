@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace orchid_backend_net.Application.StageAttribute.UpdateStageAttribtue
+﻿namespace orchid_backend_net.Application.StageAttribute.UpdateStageAttribtue
 {
-    internal class UpdateStageAttribtueCommand
+    public class UpdateStageAttribtueCommand
+    {
+    }
+
+    internal class UpdateStageAttributeCommandHandler
     {
     }
 }

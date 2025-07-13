@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using orchid_backend_net.Application.Common.Mappings;
+using orchid_backend_net.Application.TaskAssign;
+using orchid_backend_net.Application.TaskAttribute;
 using orchid_backend_net.Domain.Entities;
 
 namespace orchid_backend_net.Application.Tasks
@@ -8,8 +10,10 @@ namespace orchid_backend_net.Application.Tasks
     {
         public string ID { get; set; }
         public string Researcher { get; set; }
+        public List<TaskAssignDTO> AssignDTOs { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public List<TaskAttributeDTO> AttributeDTOs { get; set; }
         public DateTime Start_date { get; set; }
         public DateTime End_date { get; set; }
         public DateTime Create_at { get; set; }
@@ -18,7 +22,10 @@ namespace orchid_backend_net.Application.Tasks
         //public List<Domain.Entities.TaskAttribute> Attribute { get; set; }
         //public List<string> TechnicianID {  get; set; }
 
-        public TaskDTO Create(string id, string researcher, string name, string description, DateTime create_at, DateTime start_date, DateTime end_date, int status)
+        public TaskDTO Create(string id, string researcher, string name, 
+            string description, DateTime create_at, DateTime start_date, 
+            DateTime end_date, int status, List<TaskAssignDTO> assign,
+            List<TaskAttributeDTO> attribute)
         {
             var result = new TaskDTO
             {
@@ -31,6 +38,8 @@ namespace orchid_backend_net.Application.Tasks
                 End_date = end_date,
                 Create_at = create_at,
                 Status = status,
+                AttributeDTOs = attribute,
+                AssignDTOs = assign
             };
             switch (status)
             {
@@ -87,7 +96,9 @@ namespace orchid_backend_net.Application.Tasks
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<TaskDTO, Domain.Entities.Tasks>();
+            profile.CreateMap<Domain.Entities.Tasks, TaskDTO>()
+                .ForMember(dest => dest.AssignDTOs, opt => opt.MapFrom(src => src.Assigns))
+                .ForMember(dest => dest.AttributeDTOs, opt => opt.MapFrom(src => src.Attributes));
         }
     }
 }

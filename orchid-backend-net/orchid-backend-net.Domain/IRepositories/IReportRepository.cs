@@ -2,7 +2,7 @@
 
 namespace orchid_backend_net.Domain.IRepositories
 {
-    public interface IRepostRepository : IEFRepository<Reports, Reports>
+    public interface IReportRepository : IEFRepository<Reports, Reports>
     {
     }
 }
