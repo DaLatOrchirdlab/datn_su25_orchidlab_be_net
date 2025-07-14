@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
-using MediatR;
+using orchid_backend_net.Domain.Enums;
 using orchid_backend_net.Domain.IRepositories;
-using System.Threading.Tasks;
 
 namespace orchid_backend_net.Application.Method.CreateMethod
 {
@@ -35,10 +34,18 @@ namespace orchid_backend_net.Application.Method.CreateMethod
             RuleFor(x => x.Description.Count())
                 .LessThanOrEqualTo(500)
                 .WithMessage("Description is too long.");
+            RuleFor(x => x.Type)
+                .Must((methodType) => IsDefinedInEnum(methodType))
+                .WithMessage("Type of Method must be Clonel or Sexual propagation");
+            RuleFor(x => x.Type)
+                .LessThanOrEqualTo(2)
+                .GreaterThanOrEqualTo(1);
         }
         async Task<bool> IsNameDuplicated(string name)
         {
             return await this._methodRepository.AnyAsync(x => x.Name.ToLower().Equals(name.ToLower()));
         }
+        bool IsDefinedInEnum(int methodType)
+            => Enum.IsDefined(typeof(MethodType), methodType);
     }
 }

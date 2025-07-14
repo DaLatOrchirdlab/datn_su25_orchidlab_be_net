@@ -1,16 +1,14 @@
 ﻿using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using orchid_backend_net.Domain.IRepositories;
 
 namespace orchid_backend_net.Application.LabRoom.DeleteLabRoom
 {
     public class DeleteLabRoomCommandValidator : AbstractValidator<DeleteLabRoomCommand>
     {
-        public DeleteLabRoomCommandValidator() 
+        private readonly ILabRoomRepository _labRoomRepository;
+        public DeleteLabRoomCommandValidator(ILabRoomRepository labRoomRepository)
         {
+            _labRoomRepository = labRoomRepository;
             Configuration();
         }
         void Configuration()
@@ -19,6 +17,11 @@ namespace orchid_backend_net.Application.LabRoom.DeleteLabRoom
                 .NotEmpty()
                 .NotNull()
                 .WithMessage("ID can not be null.");
+            RuleFor(x => x.ID)
+                .MustAsync(async (id, cancellationToken) => await IsLabRoomExist(id, cancellationToken))
+                .WithMessage(x => $"Not found LabRoom with ID : {x.ID}.");
         }
+        private async Task<bool> IsLabRoomExist(string id, CancellationToken cancellationToken)
+            => await _labRoomRepository.AnyAsync(x => x.ID.Equals(id), cancellationToken);
     }
 }

@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using orchid_backend_net.Domain.IRepositories;
-using System.Threading.Tasks;
 
 namespace orchid_backend_net.Application.User.CreateUser
 {
@@ -29,13 +28,13 @@ namespace orchid_backend_net.Application.User.CreateUser
 
             RuleFor(x => x.Email)
                 .EmailAddress()
-                //.MustAsync((email, cancellationToken) => IsEmailUnique(email, cancellationToken))
+                .MustAsync(async (email, cancellationToken) => !await IsEmailUnique(email, cancellationToken))
                 .WithMessage("Email already exists.");
 
             RuleFor(x => x.PhoneNumber)
                 .NotEmpty()
                 .NotNull()
-                //.MustAsync((phoneNumber, cancellationToken) => IsPhoneNumberUnique(phoneNumber, cancellationToken))
+                .MustAsync(async (phoneNumber, cancellationToken) => !await IsPhoneNumberUnique(phoneNumber, cancellationToken))
                 .WithMessage("Phone number cannot be null or empty and must be unique.");
 
             RuleFor(x => x.RoleID)

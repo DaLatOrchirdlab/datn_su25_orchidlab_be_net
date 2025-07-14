@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace orchid_backend_net.Application.Sample.DeleteSample
+﻿namespace orchid_backend_net.Application.Sample.DeleteSample
 {
-    internal class DeleteSampleCommand
+    public class DeleteSampleCommand
     {
     }
+
+    internal class DeleteSampleCommandHandler { }
 }

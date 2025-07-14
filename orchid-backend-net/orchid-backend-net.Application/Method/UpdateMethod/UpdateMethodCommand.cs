@@ -1,16 +1,17 @@
 ﻿using MediatR;
 using orchid_backend_net.Application.Common.Interfaces;
 using orchid_backend_net.Application.Stage.UpdateStage;
+using orchid_backend_net.Domain.Enums;
 using orchid_backend_net.Domain.IRepositories;
 
 namespace orchid_backend_net.Application.Method.UpdateMethod
 {
-    public class UpdateMethodCommand(string id, string name, string description, string type) : IRequest<string>, ICommand
+    public class UpdateMethodCommand(string id, string name, string description, int type) : IRequest<string>, ICommand
     {
         public string ID { get; set; } = id;
         public string? Name { get; set; } = name;
         public string? Description { get; set; } = description;
-        public string? Type { get; set; } = type;
+        public int? Type { get; set; } = type;
         public List<UpdateStageCommand> Stages { get; set; }
 
     }
@@ -21,10 +22,22 @@ namespace orchid_backend_net.Application.Method.UpdateMethod
         {
             try
             {
-                var method = await methodRepository.FindAsync(x => x.ID.Equals(request.ID) && x.Status == true, cancellationToken);
+
+
+                var method = await methodRepository.FindAsync(x => x.ID.Equals(request.ID) && x.Status, cancellationToken);
+
+                string methodTypeString = "";
+                if (request.Type == 0 || request.Type == null)
+                    methodTypeString = method.Type;
+                else
+                {
+                    var methodTypeEnum = (MethodType)request.Type;
+                    methodTypeString = methodTypeEnum.ToString();
+                }
+
                 method.Name = request.Name ?? method.Name;
                 method.Description = request.Description ?? method.Description;
-                method.Type = request.Type ?? method.Type;
+                method.Type = methodTypeString;
                 methodRepository.Update(method);
 
                 //Update Method means update the whole method and stages, element in stage, referents in the stage

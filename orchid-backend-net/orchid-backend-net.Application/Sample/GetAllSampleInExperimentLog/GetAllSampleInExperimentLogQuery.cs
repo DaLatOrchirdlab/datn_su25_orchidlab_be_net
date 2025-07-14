@@ -1,11 +1,9 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using orchid_backend_net.Application.Common.Interfaces;
 using orchid_backend_net.Application.Common.Pagination;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using orchid_backend_net.Domain.Entities;
+using orchid_backend_net.Domain.IRepositories;
 
 namespace orchid_backend_net.Application.Sample.GetAllSampleInExperimentLog
 {
@@ -21,5 +19,34 @@ namespace orchid_backend_net.Application.Sample.GetAllSampleInExperimentLog
             PageSize = pageSize;
         }
         public GetAllSampleInExperimentLogQuery() { }
+    }
+
+    internal class GetAllSampleInExperimentLogQueryHandler(ISampleRepository sampleRepository, ILinkedRepository linkedRepository, IMapper mapper) : IRequestHandler<GetAllSampleInExperimentLogQuery, PageResult<SampleDTO>>
+    {
+        public async Task<PageResult<SampleDTO>> Handle(GetAllSampleInExperimentLogQuery request, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var listSample = await linkedRepository.FindAllAsync(x => x.ExperimentLogID.Equals(request.ExperimentLogID) && x.Status == true && x.TaskID == null, request.PageNumber, request.PageSize, cancellationToken);
+                List<Samples> result = new();
+                foreach (var sample in listSample)
+                {
+                    var a = sampleRepository.FindAsync(x => x.ID.Equals(sample.SampleID), cancellationToken);
+                    if (a != null)
+                        result.Add(await a);
+                }
+                return PageResult<SampleDTO>.Create(
+                    totalCount: result.Count,
+                    pageCount: (result.Count / request.PageSize),
+                    pageNumber: request.PageNumber,
+                    pageSize: request.PageSize,
+                    data: result.MapToSampleDTOList(mapper)
+                    );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"{ex.Message}");
+            }
+        }
     }
 }

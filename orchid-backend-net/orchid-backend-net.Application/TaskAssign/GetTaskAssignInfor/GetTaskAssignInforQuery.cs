@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace orchid_backend_net.Application.TaskAssign.GetTaskAssignInfor
+﻿namespace orchid_backend_net.Application.TaskAssign.GetTaskAssignInfor
 {
-    internal class GetTaskAssignInforQuery
+    public class GetTaskAssignInforQuery
+    {
+    }
+
+    internal class GetTaskAsssignInforQueryHandler
     {
     }
 }

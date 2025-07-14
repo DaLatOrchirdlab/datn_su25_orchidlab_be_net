@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace orchid_backend_net.Application.TaskAssign.CreateTaskAssign
+﻿namespace orchid_backend_net.Application.TaskAssign.CreateTaskAssign
 {
-    internal class CreateTaskAssignCommand
+    public class CreateTaskAssignCommand
+    {
+    }
+
+    internal class CreateTaskAssignCommandHandler
     {
     }
 }

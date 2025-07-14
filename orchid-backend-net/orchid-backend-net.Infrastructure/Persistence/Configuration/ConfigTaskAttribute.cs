@@ -9,7 +9,7 @@ namespace orchid_backend_net.Infrastructure.Persistence.Configuration
         public void Configure(EntityTypeBuilder<TaskAttributes> builder)
         {
             builder.HasOne(x => x.Task)
-                .WithMany()
+                .WithMany(x => x.Attributes)
                 .HasForeignKey(x => x.TaskID);
         }
     }

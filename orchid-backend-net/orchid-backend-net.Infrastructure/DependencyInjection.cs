@@ -65,7 +65,7 @@ namespace orchid_backend_net.Infrastructure
             services.AddScoped<IExperimentLogRepository, ExperimentLogRepository>();
             services.AddScoped<ILabRoomRepository, LabRoomRepository>();
             services.AddScoped<IMethodRepository, MethodRepository>();
-            services.AddScoped<IRepostRepository, RepostRepository>();
+            services.AddScoped<IReportRepository, RepostRepository>();
             services.AddScoped<ISampleRepository, SampleRepository>();
             services.AddScoped<ISeedlingAttributeRepository,SeedlingAttributeRepository>();
             services.AddScoped<ISeedlingRepository, SeedlingRepository>();
