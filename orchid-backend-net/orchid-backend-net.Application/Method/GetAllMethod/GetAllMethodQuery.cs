@@ -35,10 +35,10 @@ namespace orchid_backend_net.Application.Method.GetAllMethod
 
                 IQueryable<Methods> queryOptions(IQueryable<Methods> query)
                 {
-                    query = query.Where(x => x.Status == true);
+                    query = query.Where(x => x.Status);
                     if (!string.IsNullOrEmpty(request.Filter))
                     {
-                        query = query.Where(x => x.Type.ToLower().Contains(request.Filter.ToLower()));
+                        query = query.Where(x => x.Type.ToLower().Contains(request.Filter.ToLower()) && x.Status);
                     }
                     return query;
                 }
