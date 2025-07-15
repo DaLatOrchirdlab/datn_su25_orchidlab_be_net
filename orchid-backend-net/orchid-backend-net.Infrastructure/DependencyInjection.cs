@@ -10,6 +10,7 @@ using orchid_backend_net.Infrastructure.Persistence;
 using orchid_backend_net.Infrastructure.Repository;
 using orchid_backend_net.Infrastructure.Service;
 using orchid_backend_net.Infrastructure.Service.CloudinarySettings;
+using orchid_backend_net.Infrastructure.Service.GmailSettings;
 using orchid_backend_net.Infrastructure.Service.RedisSettings;
 
 namespace orchid_backend_net.Infrastructure
@@ -21,7 +22,7 @@ namespace orchid_backend_net.Infrastructure
             //database context
             services.AddDbContext<OrchidDbContext>(options =>
             {
-                options.UseNpgsql(configuration.GetConnectionString("Server"), b =>
+                options.UseNpgsql(configuration.GetConnectionString("local"), b =>
                 {
                     b.MigrationsAssembly(typeof(OrchidDbContext).Assembly.FullName);
                     b.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
@@ -50,6 +51,9 @@ namespace orchid_backend_net.Infrastructure
                 );
                 return new Cloudinary(account);
             });
+
+            //gmail services to send password
+            services.Configure<GmailOptions>(configuration.GetSection("GmailOptions"));
 
             //Seed data generation
             using (var scope = services.BuildServiceProvider().CreateScope())
@@ -84,6 +88,7 @@ namespace orchid_backend_net.Infrastructure
             services.AddScoped<IImageUploaderService, CloudinaryImageUploaderService>();
             services.AddScoped<IOrchidAnalyzerService, OrchidAnalyzerService>();
             services.AddScoped<ICacheService, RedisCacheService>();
+            services.AddScoped<IEmailSender, EmailSender>();
             return services;
         }
     }

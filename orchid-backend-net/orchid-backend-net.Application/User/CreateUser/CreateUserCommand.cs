@@ -26,7 +26,7 @@ namespace orchid_backend_net.Application.User.CreateUser
     }
 
     internal class CreateUserCommandhandler(IUserRepository userRepository,
-        ICurrentUserService currentUserService) : IRequestHandler<CreateUserCommand, string>
+        ICurrentUserService currentUserService, IEmailSender emailSender) : IRequestHandler<CreateUserCommand, string>
     {
         public async Task<string> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
@@ -37,10 +37,17 @@ namespace orchid_backend_net.Application.User.CreateUser
                 PhoneNumber = request.PhoneNumber,
                 RoleID = request.RoleID,
                 Status = true,
-                Password = "12345678",
+                Password = BCrypt.Net.BCrypt.HashPassword("12345678"),
                 Create_by = currentUserService.UserId,
                 Create_date = DateTime.UtcNow,
             };
+
+            var templatePath = Path.Combine(AppContext.BaseDirectory, "User", "EmailTemplate.html");
+            var emailBody = await File.ReadAllTextAsync(templatePath);
+            emailBody = emailBody.Replace("{UserName}", user.Name)
+                .Replace("{UserEmail}", user.Email)
+                .Replace("{UserPassword}", "12345678");
+            await emailSender.SendEmailAsync(user.Email, "Thông báo tài khoản hệ thống Orchid Lab", emailBody);
 
             userRepository.Add(user);
             return await userRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0
