@@ -24,6 +24,9 @@ jobs:
         working-directory: orchid-backend-net
         run: docker compose build
 
+      - name: Checking env
+        run: echo "CLIENT_ID=$GMAIL_EMAIL"   
+
   run-compose:
     name: 🚀 Run Docker Compose
     runs-on: [self-hosted,dotnet]
