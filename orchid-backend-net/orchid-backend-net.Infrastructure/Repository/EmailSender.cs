@@ -20,8 +20,6 @@ namespace orchid_backend_net.Infrastructure.Repository
                 RefreshToken = options.Value.RefreshToken,
             };
 
-            Console.WriteLine(options.Value.Email);
-
             UserCredential creds = new(new GoogleAuthorizationCodeFlow(new GoogleAuthorizationCodeFlow.Initializer
             {
                 ClientSecrets = new ClientSecrets

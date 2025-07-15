@@ -39,14 +39,6 @@ builder.Services.ConfigureProblemDetails();
 builder.Services.ConfigureSwagger(builder.Configuration);
 builder.Services.ConfigurationCors();
 builder.Services.AddInfrastructure(builder.Configuration);
-builder.Services.Configure<GmailOptions>(options =>
-{
-    Console.WriteLine(Environment.GetEnvironmentVariable("GMAIL_EMAIL"));
-    options.ClientId = Environment.GetEnvironmentVariable("GMAIL_CLIENT_ID") ?? "";
-    options.ClientSecret = Environment.GetEnvironmentVariable("GMAIL_CLIENT_SECRET") ?? "";
-    options.RefreshToken = Environment.GetEnvironmentVariable("GMAIL_REFRESH_TOKEN") ?? "";
-    options.Email = Environment.GetEnvironmentVariable("GMAIL_EMAIL") ?? "";
-});
 
 //optimization
 builder.Services.AddMemoryCache();
