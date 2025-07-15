@@ -10,7 +10,8 @@ services:
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
     networks:
-      - backend-network
+      - sep-orchid-lab-network
 networks:
-  backend-network:
+  sep-orchid-lab-network:
+    external: true
     driver: bridge
