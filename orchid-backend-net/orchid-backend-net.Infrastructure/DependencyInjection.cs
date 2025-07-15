@@ -52,8 +52,23 @@ namespace orchid_backend_net.Infrastructure
                 return new Cloudinary(account);
             });
 
-            //gmail services to send password
-            services.Configure<GmailOptions>(configuration.GetSection("GmailOptions"));
+            //refactor: all configure must be in programcs to take the appsettings not in here
+
+            //gmail services 
+            //only use for production stage
+            //when use in local please comment these lines 
+            services.Configure<GmailOptions>(options =>
+            {
+                options.ClientId = Environment.GetEnvironmentVariable("GMAIL_CLIENT_ID") ?? "";
+                options.ClientSecret = Environment.GetEnvironmentVariable("GMAIL_CLIENT_SECRET") ?? "";
+                options.RefreshToken = Environment.GetEnvironmentVariable("GMAIL_REFRESH_TOKEN") ?? "";
+                options.Email = Environment.GetEnvironmentVariable("GMAIL_EMAIL") ?? "";
+            });
+
+            //gmail services
+            //for local
+            //services.Configure<GmailOptions>(configuration.GetSection("GmailOptions"));
+
 
             //Seed data generation
             using (var scope = services.BuildServiceProvider().CreateScope())
