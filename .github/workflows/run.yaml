@@ -24,9 +24,6 @@ jobs:
         working-directory: orchid-backend-net
         run: docker compose build
 
-      - name: Checking env
-        run: echo "CLIENT_ID=$GMAIL_EMAIL"   
-
   run-compose:
     name: 🚀 Run Docker Compose
     runs-on: [self-hosted,dotnet]
@@ -44,6 +41,11 @@ jobs:
 
       - name: 🚀 Docker Compose Up
         working-directory: orchid-backend-net
+        env: 
+          GMAIL_CLIENT_ID: ${{ secrets.GMAIL_CLIENT_ID }}
+          GMAIL_CLIENT_SECRET: ${{ secrets.GMAIL_CLIENT_SECRET }}
+          GMAIL_REFRESH_TOKEN: ${{ secrets.GMAIL_REFRESH_TOKEN }}
+          GMAIL_EMAIL: ${{ secrets.GMAIL_EMAIL }}
         run: docker compose up -d
 
       - name: 📜 Show Service Status
