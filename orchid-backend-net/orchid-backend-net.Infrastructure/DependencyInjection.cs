@@ -57,13 +57,13 @@ namespace orchid_backend_net.Infrastructure
             //gmail services 
             //only use for production stage
             //when use in local please comment these lines 
-            services.Configure<GmailOptions>(options =>
-            {
-                options.ClientId = Environment.GetEnvironmentVariable("GMAIL_CLIENT_ID") ?? "";
-                options.ClientSecret = Environment.GetEnvironmentVariable("GMAIL_CLIENT_SECRET") ?? "";
-                options.RefreshToken = Environment.GetEnvironmentVariable("GMAIL_REFRESH_TOKEN") ?? "";
-                options.Email = Environment.GetEnvironmentVariable("GMAIL_EMAIL") ?? "";
-            });
+            //services.Configure<GmailOptions>(options =>
+            //{
+            //    options.ClientId = Environment.GetEnvironmentVariable("GMAIL_CLIENT_ID") ?? "";
+            //    options.ClientSecret = Environment.GetEnvironmentVariable("GMAIL_CLIENT_SECRET") ?? "";
+            //    options.RefreshToken = Environment.GetEnvironmentVariable("GMAIL_REFRESH_TOKEN") ?? "";
+            //    options.Email = Environment.GetEnvironmentVariable("GMAIL_EMAIL") ?? "";
+            //});
 
             //gmail services
             //for local
