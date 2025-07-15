@@ -1,8 +1,13 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Google.Apis.Auth.OAuth2;
+using Google.Apis.Auth.OAuth2.Flows;
+using Google.Apis.Auth.OAuth2.Responses;
+using Google.Apis.Gmail.v1;
+using Google.Apis.Services;
+using Microsoft.Extensions.Options;
+using MimeKit;
+using MimeKit.Text;
 using orchid_backend_net.Application.Common.Interfaces;
 using orchid_backend_net.Infrastructure.Service.GmailSettings;
-using System.Net;
-using System.Net.Mail;
 
 namespace orchid_backend_net.Infrastructure.Repository
 {
@@ -10,23 +15,43 @@ namespace orchid_backend_net.Infrastructure.Repository
     {
         public async Task SendEmailAsync(string recipient, string subject, string body)
         {
-            MailMessage message = new()
+            TokenResponse tokenResponse = new()
             {
-                From = new MailAddress(options.Value.Email),
-                Subject = subject,
-                Body = body,
-                IsBodyHtml = true
+                RefreshToken = options.Value.RefreshToken,
             };
 
-            message.To.Add(recipient);
+            UserCredential creds = new(new GoogleAuthorizationCodeFlow(new GoogleAuthorizationCodeFlow.Initializer
+            {
+                ClientSecrets = new ClientSecrets
+                {
+                    ClientId = options.Value.ClientId,
+                    ClientSecret = options.Value.ClientSecret,
+                }
+            }),
+            "user",
+            tokenResponse
+            );
 
-            using var smptClient = new SmtpClient();
-            smptClient.Host = options.Value.Host;
-            smptClient.Port = options.Value.Port;
-            smptClient.Credentials = new NetworkCredential(options.Value.Email, options.Value.Password);
-            smptClient.EnableSsl = true;
+            await creds.RefreshTokenAsync(CancellationToken.None);
+            GmailService service = new(new BaseClientService.Initializer
+            {
+                HttpClientInitializer = creds,
+                ApplicationName = "Orchid Backend Gmail",
+            });
 
-            await smptClient.SendMailAsync(message);
+            MimeMessage message = new();
+            message.From.Add(new MailboxAddress("Orchid Lab", options.Value.Email));
+            message.To.Add(new MailboxAddress("", recipient));
+            message.Subject = subject;
+            message.Body = new TextPart(TextFormat.Html) { Text = body };
+
+            using var ms = new MemoryStream();
+            await message.WriteToAsync(ms);
+            var rawMessage = Convert.ToBase64String(ms.ToArray())
+                .Replace("+", "-").Replace("/", "_").Replace("=", "");
+
+            var gmailMessage = new Google.Apis.Gmail.v1.Data.Message { Raw = rawMessage };
+            await service.Users.Messages.Send(gmailMessage, options.Value.Email).ExecuteAsync();
         }
     }
 }
