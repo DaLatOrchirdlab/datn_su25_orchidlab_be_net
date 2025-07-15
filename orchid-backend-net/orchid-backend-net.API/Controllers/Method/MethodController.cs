@@ -6,6 +6,7 @@ using orchid_backend_net.Application.Method;
 using orchid_backend_net.Application.Method.CreateMethod;
 using orchid_backend_net.Application.Method.DeleteMethod;
 using orchid_backend_net.Application.Method.GetAllMethod;
+using orchid_backend_net.Application.Method.GetMethodInfor;
 using orchid_backend_net.Application.Method.UpdateMethod;
 using System.Net.Mime;
 
@@ -40,6 +41,30 @@ namespace orchid_backend_net.API.Controllers.Method
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("{id}")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(JsonResponse<MethodDTO>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<JsonResponse<MethodDTO>>> GetInfor(
+            [FromRoute] string id, 
+            CancellationToken cancellationToken)
+        {
+            try
+            {
+                var result = await this._sender.Send(new GetMethodInforQuery(id), cancellationToken);
+                logger.LogInformation("Received GET request at {Time}", DateTime.UtcNow);
+                return Ok(new JsonResponse<MethodDTO>(result));
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Error occurred while processing GET request at {Time}", DateTime.UtcNow);
+                return BadRequest(ex.Message);
+            }
+        } 
 
         [HttpPost]
         [Produces(MediaTypeNames.Application.Json)]
