@@ -22,7 +22,7 @@ namespace orchid_backend_net.Infrastructure
             //database context
             services.AddDbContext<OrchidDbContext>(options =>
             {
-                options.UseNpgsql(configuration.GetConnectionString("Server"), b =>
+                options.UseNpgsql(configuration.GetConnectionString("local"), b =>
                 {
                     b.MigrationsAssembly(typeof(OrchidDbContext).Assembly.FullName);
                     b.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
@@ -71,11 +71,11 @@ namespace orchid_backend_net.Infrastructure
 
 
             //Seed data generation
-            using (var scope = services.BuildServiceProvider().CreateScope())
-            {
-                var dbContext = scope.ServiceProvider.GetRequiredService<OrchidDbContext>();
-                SeedDataGenerator.SeedAsync(dbContext).GetAwaiter().GetResult();
-            }
+            //using (var scope = services.BuildServiceProvider().CreateScope())
+            //{
+            //    var dbContext = scope.ServiceProvider.GetRequiredService<OrchidDbContext>();
+            //    SeedDataGenerator.SeedAsync(dbContext).GetAwaiter().GetResult();
+            //}
 
             //Add repositories
             services.AddScoped<IUserRepository, UserRepository>();

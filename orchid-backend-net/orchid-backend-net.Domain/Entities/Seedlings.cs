@@ -4,7 +4,8 @@ namespace orchid_backend_net.Domain.Entities
 {
     public class Seedlings : BaseSoftDelete
     {
-        public string Name { get; set; }
+        public string LocalName { get; set; }
+        public string ScientificName { get; set; }
         public string Description { get; set; }
         public string? Parent1 {  get; set; }
         public string? Parent2 { get; set; }
