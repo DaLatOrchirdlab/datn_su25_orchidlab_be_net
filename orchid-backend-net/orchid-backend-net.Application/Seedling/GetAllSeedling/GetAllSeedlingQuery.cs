@@ -37,7 +37,7 @@ namespace orchid_backend_net.Application.Seedling.GetAllSeedling
                 IQueryable<Seedlings> queryOptions(IQueryable<Seedlings> query)
                 {
                     if (!string.IsNullOrWhiteSpace(request.SearchTerm))
-                        query = query.Where(x => x.Name.Equals(request.SearchTerm));
+                        query = query.Where(x => x.LocalName.Equals(request.SearchTerm));
 
                     if (!string.IsNullOrWhiteSpace(request.Parent1))
                         query = query.Where(x => x.Parent1.ToLower().Equals(request.Parent1.ToLower()));

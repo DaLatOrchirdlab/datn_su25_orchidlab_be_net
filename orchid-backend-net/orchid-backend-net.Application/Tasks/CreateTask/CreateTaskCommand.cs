@@ -7,6 +7,8 @@ namespace orchid_backend_net.Application.Tasks.CreateTask
 {
     public class CreateTaskCommand : IRequest<string>, ICommand
     {
+        public string ExperimentLogID { get; set; }
+        public string StageID { get; set; }
         public string Researcher { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
@@ -17,7 +19,10 @@ namespace orchid_backend_net.Application.Tasks.CreateTask
         public Domain.Enums.TaskStatus StatusEnum { get; set; }
         public List<TaskAttributes> Attribute { get; set; }
         public List<string> TechnicianID { get; set; }
-        public CreateTaskCommand(string researcher, string name, string description, DateTime start_date, DateTime end_date, DateTime create_at, int status, List<TaskAttributes> attribute, List<string> technicianID, Domain.Enums.TaskStatus StatusEnum)
+        public CreateTaskCommand(string researcher, string name, string description, 
+            DateTime start_date, DateTime end_date, DateTime create_at, 
+            int status, List<TaskAttributes> attribute, List<string> technicianID, 
+            Domain.Enums.TaskStatus statusEnum, string experimentLogID, string stageID)
         {
             Researcher = researcher;
             Name = name;
@@ -28,7 +33,9 @@ namespace orchid_backend_net.Application.Tasks.CreateTask
             Attribute = attribute;
             TechnicianID = technicianID;
             Status = status;
-            this.StatusEnum = StatusEnum;
+            StatusEnum = statusEnum;
+            ExperimentLogID = experimentLogID;
+            StageID = stageID;
         }
         public CreateTaskCommand() { }
     }

@@ -34,7 +34,7 @@ namespace orchid_backend_net.Application.Seedling.CreateSeedling
 
         private async Task<bool> IsDuplicateName(string name)
         {
-            return await seedlingRepository.AnyAsync(x => x.Name.ToLower().Equals(name.ToLower()));
+            return await seedlingRepository.AnyAsync(x => x.LocalName.ToLower().Equals(name.ToLower()));
         }
     }
 }

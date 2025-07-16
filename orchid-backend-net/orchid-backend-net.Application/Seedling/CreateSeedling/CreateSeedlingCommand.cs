@@ -26,7 +26,7 @@ namespace orchid_backend_net.Application.Seedling.CreateSeedling
             {
                 var seedling = new Seedlings
                 {
-                    Name = request.Name,
+                    LocalName = request.Name,
                     Description = request.Description,
                     Parent1 = request.MotherID,
                     Parent2 = request.FatherID,
