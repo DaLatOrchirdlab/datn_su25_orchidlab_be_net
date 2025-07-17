@@ -64,7 +64,10 @@ namespace orchid_backend_net.Application.Tasks.UpdateTask
                 if(request.TaskAttributeCreate != null && request.TaskAttributeCreate.Count > 0)
                 {
                     foreach(var createTaskAttributeCommand in request.TaskAttributeCreate)
-                        await sender.Send(createTaskAttributeCommand, cancellationToken);
+                    {
+                        createTaskAttributeCommand.TaskId = task.ID;
+                        await sender.Send(createTaskAttributeCommand,cancellationToken);
+                    }
                 }
 
                 return await taskRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? $"Updated task ID :{request.ID}" : $"Failed update task with ID :{request.ID}";
