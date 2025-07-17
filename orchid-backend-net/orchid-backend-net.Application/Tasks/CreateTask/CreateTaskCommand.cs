@@ -56,10 +56,17 @@ namespace orchid_backend_net.Application.Tasks.CreateTask
                 taskRepository.Add(task);
 
                 foreach(var command in request.Attribute)
+                {
+                    command.TaskId = task.ID;
                     await sender.Send(command, cancellationToken);
+                }
 
                 foreach (var technicianID in request.TechnicianID)
-                    await sender.Send(new CreateTaskAssignCommand(task.ID, technicianID), cancellationToken);
+                {
+                    CreateTaskAssignCommand assignCommand = new(technicianID);
+                    assignCommand.TaskId = task.ID;
+                    await sender.Send(assignCommand, cancellationToken);
+                }
 
                 var linked = await linkedRepository.FindAsync(x => x.SampleID.Equals(request.SampleID) && x.ExperimentLogID.Equals(request.ExperimentLogID), cancellationToken);
                 linked.TaskID = task.ID;

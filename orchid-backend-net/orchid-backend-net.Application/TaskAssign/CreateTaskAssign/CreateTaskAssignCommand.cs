@@ -1,11 +1,13 @@
 ﻿using MediatR;
 using orchid_backend_net.Application.Common.Interfaces;
 using orchid_backend_net.Domain.IRepositories;
+using System.Text.Json.Serialization;
 
 namespace orchid_backend_net.Application.TaskAssign.CreateTaskAssign
 {
-    public class CreateTaskAssignCommand(string taskId, string technicianId) : IRequest, ICommand
+    public class CreateTaskAssignCommand(string technicianId) : IRequest, ICommand
     {
+        [JsonIgnore]
         public string TaskId { get; set; }
         public string TechnicianId { get; set; }
     }

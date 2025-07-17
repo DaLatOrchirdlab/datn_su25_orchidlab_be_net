@@ -2,12 +2,14 @@
 using orchid_backend_net.Application.Common.Interfaces;
 using orchid_backend_net.Domain.Entities;
 using orchid_backend_net.Domain.IRepositories;
+using System.Text.Json.Serialization;
 
 namespace orchid_backend_net.Application.TaskAttribute.CreateTaskAttribute
 {
-    public class CreateTaskAttributeCommand(string name, string measurementUnit, double value, string taskId) : IRequest, ICommand
+    public class CreateTaskAttributeCommand(string name, string measurementUnit, double value) : IRequest, ICommand
     {
-        public string TaskId { get; set; } = taskId;
+        [JsonIgnore]
+        public string TaskId { get; set; }
         public string Name { get; set; } = name;
         public string MeasurementUnit { get; set; } = measurementUnit;
         public double Value { get; set; } = value;
