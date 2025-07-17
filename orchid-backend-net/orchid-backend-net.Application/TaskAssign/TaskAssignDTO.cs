@@ -7,11 +7,10 @@ namespace orchid_backend_net.Application.TaskAssign
     public class TaskAssignDTO : IMapFrom<TasksAssign>
     {
         public string TechnicianName { get; set; }
-        public string TaskID { get; set; }
         public int Status { get; set; }
 
         public TaskAssignDTO() { }
-        public TaskAssignDTO(string technicianName, string taskID, int status)
+        public TaskAssignDTO(string technicianName, int status)
         {
             TechnicianName = technicianName;
             Status = status;
