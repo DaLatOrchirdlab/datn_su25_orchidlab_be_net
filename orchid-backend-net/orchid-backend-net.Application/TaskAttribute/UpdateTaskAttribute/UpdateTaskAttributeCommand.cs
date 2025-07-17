@@ -4,9 +4,9 @@ using orchid_backend_net.Domain.IRepositories;
 
 namespace orchid_backend_net.Application.TaskAttribute.UpdateTaskAttribute
 {
-    public class UpdateTaskAttributeCommand(string id, string? name, string? measurementUnit, double? value) : IRequest, ICommand
+    public class UpdateTaskAttributeCommand(string? id, string? name, string? measurementUnit, double? value) : IRequest, ICommand
     {
-        public string Id { get; set; } = id;
+        public string? Id { get; set; } = id;
         public string? Name { get; set; } = name;
         public string? MeasurementUnit { get; set; } = measurementUnit;
         public double? Value { get; set; } = value;
