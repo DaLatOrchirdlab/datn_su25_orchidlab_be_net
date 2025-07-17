@@ -6,7 +6,8 @@ namespace orchid_backend_net.Application.Tasks.UpdateTask
     public class UpdateTaskCommandValidator : AbstractValidator<UpdateTaskCommand>
     {
         private readonly ITaskRepository _taskRepository;
-        public UpdateTaskCommandValidator(ITaskRepository taskRepository)
+        public UpdateTaskCommandValidator(ITaskRepository taskRepository, 
+            ITaskAttributeRepository taskAttributeRepository)
         {
             _taskRepository = taskRepository;
             Configuration();
@@ -30,5 +31,6 @@ namespace orchid_backend_net.Application.Tasks.UpdateTask
         }
         private async Task<bool> IsTaskExist(string id, CancellationToken cancellationToken)
             => await _taskRepository.AnyAsync(x => x.ID.Equals(id), cancellationToken);
+
     }
 }

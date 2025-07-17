@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using orchid_backend_net.Infrastructure.Persistence;
@@ -11,9 +12,11 @@ using orchid_backend_net.Infrastructure.Persistence;
 namespace orchid_backend_net.Infrastructure.Migrations
 {
     [DbContext(typeof(OrchidDbContext))]
-    partial class OrchidDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250716090647_Rename_The_Column")]
+    partial class Rename_The_Column
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -164,10 +167,6 @@ namespace orchid_backend_net.Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("MethodID")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -352,10 +351,6 @@ namespace orchid_backend_net.Infrastructure.Migrations
                     b.Property<string>("ID")
                         .HasColumnType("text");
 
-                    b.Property<string>("MeasurementUnit")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -366,6 +361,9 @@ namespace orchid_backend_net.Infrastructure.Migrations
 
                     b.Property<bool>("Status")
                         .HasColumnType("boolean");
+
+                    b.Property<int>("Unit")
+                        .HasColumnType("integer");
 
                     b.Property<decimal>("ValueFrom")
                         .HasColumnType("numeric");
@@ -520,7 +518,7 @@ namespace orchid_backend_net.Infrastructure.Migrations
                     b.Property<DateOnly>("Dob")
                         .HasColumnType("date");
 
-                    b.Property<string>("LocalName")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -528,10 +526,6 @@ namespace orchid_backend_net.Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Parent2")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ScientificName")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Update_by")
@@ -584,14 +578,6 @@ namespace orchid_backend_net.Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("MeasurementUnit")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 

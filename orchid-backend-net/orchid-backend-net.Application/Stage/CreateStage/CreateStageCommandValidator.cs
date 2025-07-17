@@ -42,7 +42,9 @@ namespace orchid_backend_net.Application.Stage.CreateStage
                .NotEmpty().WithMessage("Referent name is required.")
                .MaximumLength(100).WithMessage("Referent name must not exceed 100 characters.");
             RuleFor(x => x.Unit)
-                .GreaterThan(0).WithMessage("Unit must be a positive integer.");
+                .NotEmpty()
+                .NotNull()
+                .WithMessage("Measurement Unit cannot be null or empty.");
             RuleFor(x => x.ValueFrom)
                 .GreaterThanOrEqualTo(0).WithMessage("Value from must be non-negative.");
             RuleFor(x => x.ValueTo)

@@ -17,6 +17,7 @@ namespace orchid_backend_net.Infrastructure.Service.SeedData
                     new()
                     {
                         ID = Guid.NewGuid().ToString(),
+                        Name = "Initial Experiment Log",
                         MethodID = methods.FirstOrDefault()?.ID,
                         TissueCultureBatchID = tissueBatches.FirstOrDefault()?.ID,
                         Description = "Initial sterilization log",
@@ -25,6 +26,7 @@ namespace orchid_backend_net.Infrastructure.Service.SeedData
                     new()
                     {
                         ID = Guid.NewGuid().ToString(),
+                        Name = "Subculutring log",
                         MethodID = methods.Skip(1).FirstOrDefault()?.ID,
                         TissueCultureBatchID = tissueBatches.Skip(1).FirstOrDefault()?.ID,
                         Description = "Subculturing log",

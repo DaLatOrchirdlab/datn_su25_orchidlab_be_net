@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using orchid_backend_net.Infrastructure.Persistence;
@@ -11,9 +12,11 @@ using orchid_backend_net.Infrastructure.Persistence;
 namespace orchid_backend_net.Infrastructure.Migrations
 {
     [DbContext(typeof(OrchidDbContext))]
-    partial class OrchidDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250715190057_Add_Column_To_Know_Stage_Task")]
+    partial class Add_Column_To_Know_Stage_Task
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -167,10 +170,6 @@ namespace orchid_backend_net.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
@@ -297,11 +296,11 @@ namespace orchid_backend_net.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("SampleID")
-                        .IsRequired()
+                    b.Property<string>("ExperimentLogStageTaskId")
                         .HasColumnType("text");
 
-                    b.Property<string>("StageID")
+                    b.Property<string>("SampleID")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<bool>("Status")
@@ -352,10 +351,6 @@ namespace orchid_backend_net.Infrastructure.Migrations
                     b.Property<string>("ID")
                         .HasColumnType("text");
 
-                    b.Property<string>("MeasurementUnit")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -366,6 +361,9 @@ namespace orchid_backend_net.Infrastructure.Migrations
 
                     b.Property<bool>("Status")
                         .HasColumnType("boolean");
+
+                    b.Property<int>("Unit")
+                        .HasColumnType("integer");
 
                     b.Property<decimal>("ValueFrom")
                         .HasColumnType("numeric");
@@ -520,7 +518,7 @@ namespace orchid_backend_net.Infrastructure.Migrations
                     b.Property<DateOnly>("Dob")
                         .HasColumnType("date");
 
-                    b.Property<string>("LocalName")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -528,10 +526,6 @@ namespace orchid_backend_net.Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Parent2")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ScientificName")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Update_by")
@@ -587,14 +581,6 @@ namespace orchid_backend_net.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("MeasurementUnit")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<bool>("Status")
                         .HasColumnType("boolean");
 
@@ -610,74 +596,6 @@ namespace orchid_backend_net.Infrastructure.Migrations
                     b.HasIndex("TaskID");
 
                     b.ToTable("TaskAttributes");
-                });
-
-            modelBuilder.Entity("orchid_backend_net.Domain.Entities.TaskTemplateDetails", b =>
-                {
-                    b.Property<string>("ID")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("ElementInStageId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<decimal?>("ExpectedValue")
-                        .HasColumnType("numeric");
-
-                    b.Property<bool>("IsRequired")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<bool>("Status")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("TaskTemplateID")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Unit")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("TaskTemplateID");
-
-                    b.ToTable("TaskTemplateDetails");
-                });
-
-            modelBuilder.Entity("orchid_backend_net.Domain.Entities.TaskTemplates", b =>
-                {
-                    b.Property<string>("ID")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("StageID")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<bool>("Status")
-                        .HasColumnType("boolean");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("StageID");
-
-                    b.ToTable("TaskTemplates");
                 });
 
             modelBuilder.Entity("orchid_backend_net.Domain.Entities.Tasks", b =>
@@ -1054,28 +972,6 @@ namespace orchid_backend_net.Infrastructure.Migrations
                     b.Navigation("Task");
                 });
 
-            modelBuilder.Entity("orchid_backend_net.Domain.Entities.TaskTemplateDetails", b =>
-                {
-                    b.HasOne("orchid_backend_net.Domain.Entities.TaskTemplates", "TaskTemplate")
-                        .WithMany("TemplateDetails")
-                        .HasForeignKey("TaskTemplateID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("TaskTemplate");
-                });
-
-            modelBuilder.Entity("orchid_backend_net.Domain.Entities.TaskTemplates", b =>
-                {
-                    b.HasOne("orchid_backend_net.Domain.Entities.Stages", "Stage")
-                        .WithMany("TaskTemplates")
-                        .HasForeignKey("StageID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Stage");
-                });
-
             modelBuilder.Entity("orchid_backend_net.Domain.Entities.TasksAssign", b =>
                 {
                     b.HasOne("orchid_backend_net.Domain.Entities.Tasks", "Task")
@@ -1151,13 +1047,6 @@ namespace orchid_backend_net.Infrastructure.Migrations
             modelBuilder.Entity("orchid_backend_net.Domain.Entities.Stages", b =>
                 {
                     b.Navigation("ElementInStages");
-
-                    b.Navigation("TaskTemplates");
-                });
-
-            modelBuilder.Entity("orchid_backend_net.Domain.Entities.TaskTemplates", b =>
-                {
-                    b.Navigation("TemplateDetails");
                 });
 
             modelBuilder.Entity("orchid_backend_net.Domain.Entities.Tasks", b =>

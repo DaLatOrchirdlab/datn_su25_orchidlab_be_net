@@ -22,10 +22,10 @@ namespace orchid_backend_net.Application.Stage.UpdateStage
         public string? MethodID { get; set; }
     }
 
-    public class UpdateReferentInStage(string? name, int? unit, decimal? valueFrom, decimal? valueTo)
+    public class UpdateReferentInStage(string? name, string? unit, decimal? valueFrom, decimal? valueTo)
     {
         public string? Name { get; set; } = name;
-        public int? Unit { get; set; } = unit;
+        public string? Unit { get; set; } = unit;
         public decimal? ValueFrom { get; set; } = valueFrom;
         public decimal? ValueTo { get; set; } = valueTo;
     }
@@ -89,7 +89,7 @@ namespace orchid_backend_net.Application.Stage.UpdateStage
                         Referents newReferent = new()
                         {
                             Name = referent.Name,
-                            Unit = (int)referent.Unit,
+                            MeasurementUnit = (string)referent.Unit,
                             ValueFrom = (decimal)referent.ValueFrom,
                             ValueTo = (decimal)referent.ValueTo,
                             StageID = stage.ID
@@ -100,7 +100,7 @@ namespace orchid_backend_net.Application.Stage.UpdateStage
                     {
                         // If it exists, update its properties
                         existingReferent.Name = referent.Name ?? existingReferent.Name;
-                        existingReferent.Unit = referent.Unit ?? existingReferent.Unit;
+                        existingReferent.MeasurementUnit = referent.Unit ?? existingReferent.MeasurementUnit;
                         existingReferent.ValueFrom = referent.ValueFrom ?? existingReferent.ValueFrom;
                         existingReferent.ValueTo = referent.ValueTo ?? existingReferent.ValueTo;
                     }

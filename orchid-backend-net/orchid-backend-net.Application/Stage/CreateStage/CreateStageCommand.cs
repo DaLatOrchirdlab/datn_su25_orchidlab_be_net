@@ -19,10 +19,10 @@ namespace orchid_backend_net.Application.Stage.CreateStage
         public string? MethodID { get; set; }
     }
 
-    public class CreateReferentInStage(string name, int unit, decimal valueFrom, decimal valueTo)
+    public class CreateReferentInStage(string name, string unit, decimal valueFrom, decimal valueTo)
     {
         public string Name { get; set; } = name;
-        public int Unit { get; set; } = unit;
+        public string Unit { get; set; } = unit;
         public decimal ValueFrom { get; set; } = valueFrom;
         public decimal ValueTo { get; set; } = valueTo;
     }
@@ -71,7 +71,7 @@ namespace orchid_backend_net.Application.Stage.CreateStage
                     {
                         StageID = stage.ID,
                         Name = referent.Name,
-                        Unit = referent.Unit,
+                        MeasurementUnit = referent.Unit,
                         ValueFrom = referent.ValueFrom,
                         ValueTo = referent.ValueTo,
                         Status = true

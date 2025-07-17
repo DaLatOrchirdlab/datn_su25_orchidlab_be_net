@@ -13,12 +13,13 @@ namespace orchid_backend_net.Infrastructure.Service.SeedData
                 {
                     var name = $"Seedling-{i}";
 
-                    var exists = await context.Set<Seedlings>().AnyAsync(x => x.Name == name);
+                    var exists = await context.Set<Seedlings>().AnyAsync(x => x.LocalName == name);
                     if (!exists)
                     {
                         context.Set<Seedlings>().Add(new Seedlings
                         {
-                            Name = name,
+                            LocalName = name,
+                            ScientificName = name,
                             Description = $"Description for {name}",
                             Parent1 = $"Parent1-{i}",
                             Parent2 = $"Parent2-{i}",

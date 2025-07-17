@@ -14,5 +14,6 @@ namespace orchid_backend_net.Domain.Entities
         public int DateOfProcessing { get; set; }
         public bool Status {  get; set; }
         public virtual ICollection<ElementInStage> ElementInStages { get; set; }
+        public virtual ICollection<TaskTemplates> TaskTemplates { get; set; }
     }
 }
