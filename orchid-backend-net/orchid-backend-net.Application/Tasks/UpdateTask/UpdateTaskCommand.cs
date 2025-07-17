@@ -31,6 +31,7 @@ namespace orchid_backend_net.Application.Tasks.UpdateTask
         }
     }
 
+    //refactor again base on solid
     internal class UpdateTaskCommandHandler(ITaskRepository taskRepository, ITaskAssignRepository taskAssignRepository,
         ITaskAttributeRepository taskAttributeRepository, ICurrentUserService currentUserService,
         ISender sender) : IRequestHandler<UpdateTaskCommand, string>
@@ -45,6 +46,7 @@ namespace orchid_backend_net.Application.Tasks.UpdateTask
                 task.Status = request.Status ?? task.Status;
                 task.Update_date = DateTime.UtcNow;
                 task.Update_by = currentUserService.UserId;
+
                 //check task assign list to update
                 var taskAssignList = await taskAssignRepository.FindAllAsync(x => x.TaskID.Equals(request.ID), cancellationToken);
                 foreach (var updateTaskAssignCommand in request.TaskAssignUpdate)
@@ -61,6 +63,7 @@ namespace orchid_backend_net.Application.Tasks.UpdateTask
                         await sender.Send(updateTaskAttributeCommand, cancellationToken);
                 }
 
+                //if researcher created a new task attribute => this will handle the case
                 if(request.TaskAttributeCreate != null && request.TaskAttributeCreate.Count > 0)
                 {
                     foreach(var createTaskAttributeCommand in request.TaskAttributeCreate)
