@@ -27,7 +27,7 @@ namespace orchid_backend_net.Application.Tasks.CreateTask
                 .NotEmpty()
                 .WithMessage("End time can not be empty.");
             RuleFor(x => x.Start_date)
-                .LessThanOrEqualTo(x => x.Create_at)
+                .LessThanOrEqualTo(DateTime.UtcNow)
                 .WithMessage("Task can not start before create time.");
             RuleFor(x => x.Start_date)
                 .NotNull()
