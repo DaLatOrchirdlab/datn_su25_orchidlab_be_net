@@ -104,6 +104,7 @@ namespace orchid_backend_net.Infrastructure
             services.AddScoped<IOrchidAnalyzerService, OrchidAnalyzerService>();
             services.AddScoped<ICacheService, RedisCacheService>();
             services.AddScoped<IEmailSender, EmailSender>();
+            services.AddScoped<IDiseaseRepository, DiseaseRepository>();
             return services;
         }
     }
