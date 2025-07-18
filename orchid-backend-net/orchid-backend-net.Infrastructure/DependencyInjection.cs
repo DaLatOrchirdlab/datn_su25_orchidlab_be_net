@@ -71,11 +71,11 @@ namespace orchid_backend_net.Infrastructure
 
 
             //Seed data generation
-            //using (var scope = services.BuildServiceProvider().CreateScope())
-            //{
-            //    var dbContext = scope.ServiceProvider.GetRequiredService<OrchidDbContext>();
-            //    SeedDataGenerator.SeedAsync(dbContext).GetAwaiter().GetResult();
-            //}
+            using (var scope = services.BuildServiceProvider().CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<OrchidDbContext>();
+                SeedDataGenerator.SeedAsync(dbContext).GetAwaiter().GetResult();
+            }
 
             //Add repositories
             services.AddScoped<IUserRepository, UserRepository>();
@@ -105,6 +105,7 @@ namespace orchid_backend_net.Infrastructure
             services.AddScoped<ICacheService, RedisCacheService>();
             services.AddScoped<IEmailSender, EmailSender>();
             services.AddScoped<IDiseaseRepository, DiseaseRepository>();
+            services.AddScoped<IInfectedSampleRepository, InfectedSampleRepository>();
             return services;
         }
     }
