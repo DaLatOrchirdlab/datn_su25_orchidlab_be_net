@@ -11,6 +11,7 @@ namespace orchid_backend_net.Domain.Entities
         public string DiseaseID {  get; set; }
         [ForeignKey(nameof(DiseaseID))]
         public virtual Diseases Disease { get; set; }
-        public string Status {  get; set; }
+        public int InfectedLevel { get; set; }
+        public int TreatmentStatus {  get; set; }
     }
 }

@@ -5,19 +5,20 @@ using orchid_backend_net.Domain.IRepositories;
 
 namespace orchid_backend_net.Application.Sample.DeleteSample
 {
-    public class DeleteSampleCommand(string id, string reason, string diseaseName) : IRequest, ICommand
+    public class DeleteSampleCommand(string id, string reason, string diseaseName, int infectedLevel) : IRequest, ICommand
     {
         public string Id { get; set; } = id;
         /// <summary>
         /// In this string has 2 kind of message
-        /// 1. Chưa đạt yêu cầu XXXXX, with XXXXX is the referent value
-        /// 2. Nhiễm bệnh XXXXX, with XXXXX is the disease name
+        /// 1. Chưa đạt yêu cầu XXXXX, pause
+        /// 2. Nhiễm bệnh => infected sample
         /// </summary>
         public string Reason { get; set; } = reason;
         public string DiseaseName { get; set; } = diseaseName;
+        public int InfectedLevel { get; set; } = infectedLevel;
     }
 
-    internal class DeleteSampleCommandHandler(ISampleRepository sampleRepository, ILinkedRepository linkedRepository, IDiseaseRepository diseaseRepository) : IRequestHandler<DeleteSampleCommand>
+    internal class DeleteSampleCommandHandler(ISampleRepository sampleRepository, ILinkedRepository linkedRepository) : IRequestHandler<DeleteSampleCommand>
     {
         public async Task Handle(DeleteSampleCommand request, CancellationToken cancellationToken)
         {
@@ -28,9 +29,8 @@ namespace orchid_backend_net.Application.Sample.DeleteSample
                     sample.Status = 1;
                 if(request.Reason.Contains("Nhiễm bệnh"))
                 {
-                    var disease = await diseaseRepository.FindAsync(x => x.Name.Equals(request.DiseaseName), cancellationToken);
-                    if(disease.)
-                }
+
+                }    
             }
             catch (Exception ex)
             {
