@@ -63,10 +63,9 @@ namespace orchid_backend_net.Application.Tasks.CreateTask
 
                 foreach (var technicianID in request.TechnicianID)
                 {
-                    CreateTaskAssignCommand assignCommand = new(technicianID)
-                    {
-                        TaskId = task.ID
-                    };
+                    CreateTaskAssignCommand assignCommand = new(technicianId: technicianID);
+                    assignCommand.TechnicianId = technicianID;
+                    assignCommand.TaskId = task.ID;
                     await sender.Send(assignCommand, cancellationToken);
                 }
 
