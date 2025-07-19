@@ -7,6 +7,7 @@ namespace orchid_backend_net.Application.Stage
 {
     public class StageDTO : IMapFrom<Stages>
     {
+        public string Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public int DateOfProcessing { get; set; }
@@ -16,7 +17,7 @@ namespace orchid_backend_net.Application.Stage
         public StageDTO() { }
         public StageDTO(string name, string description, 
             int dateOfProcessing, int step,
-            bool status, List<ElementDTO> elementDTOs)
+            bool status, List<ElementDTO> elementDTOs, string id)
         {
             Name = name;
             Description = description;
@@ -24,6 +25,7 @@ namespace orchid_backend_net.Application.Stage
             Step = step;
             Status = status;
             ElementDTO = elementDTOs;
+            Id = id;
         }
 
         public void Mapping(Profile profile)
