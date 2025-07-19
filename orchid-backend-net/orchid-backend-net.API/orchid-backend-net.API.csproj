@@ -30,6 +30,7 @@
 
   <ItemGroup>
     <Folder Include="Controllers\ExperimentLog\" />
+    <Folder Include="Controllers\Sample\" />
   </ItemGroup>
 
 </Project>
