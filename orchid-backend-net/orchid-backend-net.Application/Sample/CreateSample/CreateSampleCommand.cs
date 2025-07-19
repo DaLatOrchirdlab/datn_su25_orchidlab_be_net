@@ -5,15 +5,15 @@ using orchid_backend_net.Domain.IRepositories;
 
 namespace orchid_backend_net.Application.Sample.CreateSample
 {
-    public class CreateSampleCommand(string name, string? description) : IRequest, ICommand
+    public class CreateSampleCommand(string name, string? description) : IRequest<string>, ICommand
     {
-        public string Name { get; set; }
-        public string? Description { get; set; }
+        public string Name { get; set; } = name;
+        public string? Description { get; set; } = description;
     }
 
-    internal class CreateSampleCommandHandler(ISampleRepository sampleRepository) : IRequestHandler<CreateSampleCommand>
+    internal class CreateSampleCommandHandler(ISampleRepository sampleRepository) : IRequestHandler<CreateSampleCommand, string>
     {
-        public async Task Handle(CreateSampleCommand request, CancellationToken cancellationToken)
+        public async Task<string> Handle(CreateSampleCommand request, CancellationToken cancellationToken)
         {
             try
             {
@@ -25,6 +25,7 @@ namespace orchid_backend_net.Application.Sample.CreateSample
                     Status = 0
                 };
                 sampleRepository.Add(createdSample);
+                return createdSample.ID;
             }
             catch (Exception ex) 
             {

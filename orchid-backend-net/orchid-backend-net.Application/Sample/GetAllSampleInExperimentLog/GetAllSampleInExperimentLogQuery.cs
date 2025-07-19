@@ -27,7 +27,7 @@ namespace orchid_backend_net.Application.Sample.GetAllSampleInExperimentLog
         {
             try
             {
-                var listSample = await linkedRepository.FindAllAsync(x => x.ExperimentLogID.Equals(request.ExperimentLogID) && x.Status == true && x.TaskID == null, request.PageNumber, request.PageSize, cancellationToken);
+                var listSample = await linkedRepository.FindAllAsync(x => x.ExperimentLogID.Equals(request.ExperimentLogID) && x.ProcessStatus == 0 && x.TaskID == null, request.PageNumber, request.PageSize, cancellationToken);
                 List<Samples> result = new();
                 foreach (var sample in listSample)
                 {

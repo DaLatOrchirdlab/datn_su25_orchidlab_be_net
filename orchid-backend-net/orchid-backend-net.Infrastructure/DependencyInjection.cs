@@ -106,6 +106,8 @@ namespace orchid_backend_net.Infrastructure
             services.AddScoped<IEmailSender, EmailSender>();
             services.AddScoped<IDiseaseRepository, DiseaseRepository>();
             services.AddScoped<IInfectedSampleRepository, InfectedSampleRepository>();
+            services.AddScoped<ITaskTemplatesRepository, TaskTemplateRepository>();
+            services.AddScoped<ITaskTemplateDetailsRepository, TaskTemplateDetailRepository>();
             return services;
         }
     }

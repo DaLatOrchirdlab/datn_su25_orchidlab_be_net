@@ -57,7 +57,7 @@ namespace orchid_backend_net.Application.Sample.DeleteSample
 
                     //update in linked to pause the process
                     var linked = await linkedRepository.FindAsync(x => x.SampleID.Equals(request.Id), cancellationToken);
-                    linked.Status = false;
+                    linked.ProcessStatus = 1;
                     linkedRepository.Update(linked);
 
                     //re-calculated infected rate in experiment log
@@ -66,11 +66,10 @@ namespace orchid_backend_net.Application.Sample.DeleteSample
                     experimentLog.InfectedRateInReality = 1 / allSamples.Count + experimentLog.InfectedRateInReality;
 
                     experimentLogRepository.Update(experimentLog);
-
                     infectedSampleRepository.Add(infectedSample);
-
-                    return await sampleRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? $"Remove sample with id: {request.Id} succeed" : "Failed to Remove";
                 }
+                sampleRepository.Update(sample);
+                return await sampleRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? $"Remove sample with id: {request.Id} succeed" : "Failed to Remove";
             }
             catch (Exception ex)
             {
