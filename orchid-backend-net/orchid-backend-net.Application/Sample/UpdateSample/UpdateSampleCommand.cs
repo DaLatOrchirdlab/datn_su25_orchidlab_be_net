@@ -22,7 +22,7 @@ namespace orchid_backend_net.Application.Sample.UpdateSample
             sample.Status = request.SampleStatus;
             sample.Reason = request.Reason;
             sampleRepository.Update(sample);
-            return await sampleRepository.UnitOfWork.SaveChangesAsync() > 0 ? $"Update sample with id: {request.Id} succeed" : "Failed to update";
+            return await sampleRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? $"Update sample with id: {request.Id} succeed" : "Failed to update";
         }
     }
 }
