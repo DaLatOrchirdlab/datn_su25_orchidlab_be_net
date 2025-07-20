@@ -13,6 +13,7 @@ namespace orchid_backend_net.Application.ExperimentLog
         public string MethodName { get; set; }
         public string Description { get; set; }
         public string TissueCultureBatchName { get; set; }
+        public string CurrentStageName { get; set; }
         public List<StageDTO> Stages {  get; set; }
         public List<HybridzationDTO> Hybridizations { get; set; }
         public ExperimentLogStatus Status { get; set; }
@@ -54,8 +55,11 @@ namespace orchid_backend_net.Application.ExperimentLog
                 .ForMember(dest => dest.MethodName, opt => opt.MapFrom(src => src.Method.Name))
                 .ForMember(dest => dest.Stages, otp => otp.MapFrom(src => src.Method.Stages))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => (ExperimentLogStatus)src.Status))
-                .ReverseMap()
-                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => (int)src.Status));
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => (int)src.Status))
+                .ForMember(dest => dest.CurrentStageName, opt => opt.MapFrom(src => src.CurrentStageID != null
+                    ? src.Method.Stages.Where(s => s.ID == src.CurrentStageID).Select(s => s.Name).FirstOrDefault()
+                    : null))
+                .ReverseMap();
         }
     }
 }

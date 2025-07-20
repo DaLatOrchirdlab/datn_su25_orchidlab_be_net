@@ -9,6 +9,7 @@ using orchid_backend_net.Application.Tasks.DeleteTask;
 using orchid_backend_net.Application.Tasks.GetAllTasks;
 using orchid_backend_net.Application.Tasks.GetTaskInfor;
 using orchid_backend_net.Application.Tasks.UpdateTask;
+using orchid_backend_net.Application.Tasks.UpdateTaskStatus;
 using System.Net.Mime;
 
 namespace orchid_backend_net.API.Controllers.Task
@@ -105,6 +106,38 @@ namespace orchid_backend_net.API.Controllers.Task
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<JsonResponse<string>>> Update(
             [FromBody] UpdateTaskCommand command,
+            CancellationToken cancellationToken)
+        {
+            try
+            {
+                var result = await sender.Send(command, cancellationToken);
+                logger.LogInformation("Received PUT request at {Time}", DateTime.UtcNow);
+                return Ok(new JsonResponse<string>(result));
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation(ex, "Error occurred while processing PUT request at {Time}", DateTime.UtcNow);
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+        /// <summary>
+        /// use when technician update task status
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpPut("update-status")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(JsonResponse<TaskDTO>), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(JsonResponse<TaskDTO>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<JsonResponse<string>>> Update(
+            [FromBody] UpdateTaskStatusCommand command,
             CancellationToken cancellationToken)
         {
             try
