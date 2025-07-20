@@ -14,7 +14,6 @@ namespace orchid_backend_net.Application.ExperimentLog
         public string Description { get; set; }
         public string TissueCultureBatchName { get; set; }
         public List<StageDTO> Stages {  get; set; }
-        public List<SampleDTO> Samples { get; set; }
         public List<HybridzationDTO> Hybridizations { get; set; }
         public ExperimentLogStatus Status { get; set; }
         public string? Create_by { get; set; }
@@ -37,7 +36,6 @@ namespace orchid_backend_net.Application.ExperimentLog
                 TissueCultureBatchName = tissueCultureBatchName,
                 Description = description,
                 Stages = stageDTOs,
-                Samples = sampleDTOs,
                 Status = status,
                 Create_by = createdBy,
                 Create_date = createdDate,
@@ -55,16 +53,6 @@ namespace orchid_backend_net.Application.ExperimentLog
                 .ForMember(dest => dest.TissueCultureBatchName, opt => opt.MapFrom(src => src.TissueCultureBatch.Name))
                 .ForMember(dest => dest.MethodName, opt => opt.MapFrom(src => src.Method.Name))
                 .ForMember(dest => dest.Stages, otp => otp.MapFrom(src => src.Method.Stages))
-                .ForMember(dest => dest.Samples, opt => opt.MapFrom(src => src.Linkeds
-                .Select(
-                    Linkeds => new SampleDTO
-                    {
-                        ID = Linkeds.Sample.ID,
-                        Name = Linkeds.Sample.Name,
-                        Description = Linkeds.Sample.Description,
-                        Dob = Linkeds.Sample.Dob
-                    }
-                    )))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => (ExperimentLogStatus)src.Status))
                 .ReverseMap()
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => (int)src.Status));

@@ -6,13 +6,14 @@ using System.Text.Json.Serialization;
 
 namespace orchid_backend_net.Application.TaskAttribute.CreateTaskAttribute
 {
-    public class CreateTaskAttributeCommand(string name, string measurementUnit, double value) : IRequest, ICommand
+    public class CreateTaskAttributeCommand(string name, string measurementUnit, double value, string description) : IRequest, ICommand
     {
         [JsonIgnore]
         public string? TaskId { get; set; }
         public string Name { get; set; } = name;
         public string MeasurementUnit { get; set; } = measurementUnit;
         public double Value { get; set; } = value;
+        public string Description { get; set; } = description;
     }
 
     internal class CreateTaskAttributeCommandHandler(ITaskAttributeRepository taskAttributeRepository) : IRequestHandler<CreateTaskAttributeCommand>
@@ -25,6 +26,7 @@ namespace orchid_backend_net.Application.TaskAttribute.CreateTaskAttribute
                 {
                     TaskID = request.TaskId,
                     Name = request.Name,
+                    Description = request.Description,
                     MeasurementUnit = request.MeasurementUnit,
                     Value = request.Value,
                     Status = true,

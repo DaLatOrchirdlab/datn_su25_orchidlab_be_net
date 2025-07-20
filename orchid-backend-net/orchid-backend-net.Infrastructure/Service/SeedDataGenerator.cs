@@ -26,6 +26,9 @@ namespace orchid_backend_net.Infrastructure.Service
             await SeedCharacteristics.SeedAsync(context);
 
             await SeedReports.SeedAsync(context);
+
+            await SeedTaskTemplate.SeedAsync(context);
+            await SeedTaskTemplateDetail.SeedAsync(context);
         }
     }
 }

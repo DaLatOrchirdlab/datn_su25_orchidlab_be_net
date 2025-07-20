@@ -24,7 +24,8 @@ namespace orchid_backend_net.Application.Report
             };
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<Reports, ReportDTO>();
+            profile.CreateMap<Reports, ReportDTO>()
+                .ForMember(dest => dest.Sample, opt => opt.MapFrom(src => src.SampleID));
         }
     }
 }

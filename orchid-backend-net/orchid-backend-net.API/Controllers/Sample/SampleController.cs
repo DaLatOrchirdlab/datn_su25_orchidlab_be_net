@@ -1,42 +1,40 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using orchid_backend_net.API.Controllers.ResponseTypes;
 using orchid_backend_net.Application.Common.Pagination;
-using orchid_backend_net.Application.Tasks;
-using orchid_backend_net.Application.Tasks.CreateTask;
-using orchid_backend_net.Application.Tasks.DeleteTask;
-using orchid_backend_net.Application.Tasks.GetAllTasks;
-using orchid_backend_net.Application.Tasks.GetTaskInfor;
-using orchid_backend_net.Application.Tasks.UpdateTask;
+using orchid_backend_net.Application.Sample;
+using orchid_backend_net.Application.Sample.CreateSample;
+using orchid_backend_net.Application.Sample.DeleteSample;
+using orchid_backend_net.Application.Sample.GetAllSample;
+using orchid_backend_net.Application.Sample.GetSampleInfor;
+using orchid_backend_net.Application.Sample.UpdateSample;
 using System.Net.Mime;
 
-namespace orchid_backend_net.API.Controllers.Task
+namespace orchid_backend_net.API.Controllers.Sample
 {
-    [Route("api/tasks")]
+    [Route("api/sample")]
     [ApiController]
-    public class TaskController(ISender sender, ILogger<TaskController> logger) : BaseController(sender)
+    public class SampleController(ISender sender, ILogger<SampleController> logger) : ControllerBase
     {
         [HttpGet]
         [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(typeof(JsonResponse<GetAllTaskQueryDto>), StatusCodes.Status201Created)]
-        [ProducesResponseType(typeof(JsonResponse<GetAllTaskQueryDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(JsonResponse<SampleDTO>), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(JsonResponse<SampleDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<JsonResponse<PageResult<GetAllTaskQueryDto>>>> GetAll(
+        public async Task<ActionResult<JsonResponse<PageResult<SampleDTO>>>> GetAll(
             [FromQuery] int pageNo,
             [FromQuery] int pageSize,
-            [FromQuery] string? technicianId,
-            [FromQuery] string? researcherId,
+            [FromQuery] string? experimentLogId,
             CancellationToken cancellationToken)
         {
             try
             {
-                var result = await sender.Send(new GetAllTaskQuery(pageNo, pageSize, technicianId, researcherId), cancellationToken);
+                var result = await sender.Send(new GetAllSampleQuery(pageNo, pageSize, experimentLogId), cancellationToken);
                 logger.LogInformation("Received GET request at {Time}", DateTime.UtcNow);
-                return Ok(new JsonResponse<PageResult<GetAllTaskQueryDto>>(result));
+                return Ok(new JsonResponse<PageResult<SampleDTO>>(result));
             }
             catch (Exception ex)
             {
@@ -47,21 +45,21 @@ namespace orchid_backend_net.API.Controllers.Task
 
         [HttpGet("{id}")]
         [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(typeof(JsonResponse<TaskDTO>), StatusCodes.Status201Created)]
-        [ProducesResponseType(typeof(JsonResponse<TaskDTO>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(JsonResponse<SampleDTO>), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(JsonResponse<SampleDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<JsonResponse<PageResult<TaskDTO>>>> GetAll(
-            [FromRoute] string id,
+        public async Task<ActionResult<JsonResponse<SampleDTO>>> GetInfor(
+            [FromQuery] string id,
             CancellationToken cancellationToken)
         {
             try
             {
-                var result = await sender.Send(new GetTaskInforQuery(id), cancellationToken);
+                var result = await sender.Send(new GetSampleInforQuery(id), cancellationToken);
                 logger.LogInformation("Received GET request at {Time}", DateTime.UtcNow);
-                return Ok(new JsonResponse<TaskDTO>(result));
+                return Ok(new JsonResponse<SampleDTO>(result));
             }
             catch (Exception ex)
             {
@@ -72,23 +70,23 @@ namespace orchid_backend_net.API.Controllers.Task
 
         [HttpPost]
         [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(typeof(JsonResponse<TaskDTO>), StatusCodes.Status201Created)]
-        [ProducesResponseType(typeof(JsonResponse<TaskDTO>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<JsonResponse<string>>> Create (
-            [FromBody] CreateTaskCommand command,
+        public async Task<ActionResult<JsonResponse<string>>> Create(
+            [FromBody] CreateSampleCommand command,
             CancellationToken cancellationToken)
         {
             try
             {
                 var result = await sender.Send(command, cancellationToken);
                 logger.LogInformation("Received POST request at {Time}", DateTime.UtcNow);
-                return Ok(new JsonResponse<string>(result));    
+                return Ok(new JsonResponse<string>(result));
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 logger.LogInformation(ex, "Error occurred while processing POST request at {Time}", DateTime.UtcNow);
                 return BadRequest(ex.Message);
@@ -97,14 +95,14 @@ namespace orchid_backend_net.API.Controllers.Task
 
         [HttpPut]
         [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(typeof(JsonResponse<TaskDTO>), StatusCodes.Status201Created)]
-        [ProducesResponseType(typeof(JsonResponse<TaskDTO>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<JsonResponse<string>>> Update(
-            [FromBody] UpdateTaskCommand command,
+            [FromBody] UpdateSampleCommand command,
             CancellationToken cancellationToken)
         {
             try
@@ -122,14 +120,14 @@ namespace orchid_backend_net.API.Controllers.Task
 
         [HttpDelete]
         [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(typeof(JsonResponse<TaskDTO>), StatusCodes.Status201Created)]
-        [ProducesResponseType(typeof(JsonResponse<TaskDTO>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<JsonResponse<string>>> Update(
-            [FromBody] DeleteTaskCommand command,
+        public async Task<ActionResult<JsonResponse<string>>> Delete(
+            [FromBody] DeleteSampleCommand command,
             CancellationToken cancellationToken)
         {
             try

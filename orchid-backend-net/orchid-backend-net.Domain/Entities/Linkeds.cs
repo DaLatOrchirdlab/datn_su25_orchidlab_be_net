@@ -15,6 +15,6 @@ namespace orchid_backend_net.Domain.Entities
         [ForeignKey(nameof(ExperimentLogID))]
         public virtual ExperimentLogs ExperimentLog { get; set; }
         public string? StageID { get; set; }
-        public bool Status {  get; set; }
+        public int ProcessStatus { get; set; }
     }
 }

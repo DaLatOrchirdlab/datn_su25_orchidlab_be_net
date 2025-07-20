@@ -10,12 +10,7 @@ namespace orchid_backend_net.Application.Sample
         public string Name { get; set; }
         public string Description { get; set; }
         public DateOnly Dob { get; set; }
-        public bool Status { get; set; }
-
-        public SampleDTO Create(string id, string name, string description, DateOnly dob)
-        {
-            return new SampleDTO { ID = id, Name = name, Description = description, Dob = dob };
-        }
+        public Domain.Enums.SamplesStatus StatusEnum { get; set; }
 
         public void Mapping(Profile profile)
         {

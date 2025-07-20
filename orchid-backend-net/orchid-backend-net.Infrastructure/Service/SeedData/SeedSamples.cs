@@ -17,7 +17,7 @@ namespace orchid_backend_net.Infrastructure.Service.SeedData
                         Name = "Sample A",
                         Description = "First orchid sample",
                         Dob = new DateOnly(2024, 5, 1),
-                        Status = true
+                        Status = 0
                     },
                     new()
                     {
@@ -25,7 +25,7 @@ namespace orchid_backend_net.Infrastructure.Service.SeedData
                         Name = "Sample B",
                         Description = "Second orchid sample",
                         Dob = new DateOnly(2024, 5, 10),
-                        Status = true
+                        Status = 0
                     }
                 };
 

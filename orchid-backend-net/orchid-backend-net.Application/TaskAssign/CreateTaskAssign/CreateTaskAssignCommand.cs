@@ -8,8 +8,8 @@ namespace orchid_backend_net.Application.TaskAssign.CreateTaskAssign
     public class CreateTaskAssignCommand(string technicianId) : IRequest, ICommand
     {
         [JsonIgnore]
-        public string? TaskId { get; set; }
-        public string TechnicianId { get; set; }
+        public string TaskId { get; set; }
+        public string TechnicianId { get; set; } = technicianId;
     }
 
     internal class CreateTaskAssignCommandHandler(ITaskAssignRepository taskAssignRepository) : IRequestHandler<CreateTaskAssignCommand>

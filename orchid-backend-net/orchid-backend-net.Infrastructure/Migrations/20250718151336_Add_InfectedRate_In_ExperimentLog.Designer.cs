@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using orchid_backend_net.Infrastructure.Persistence;
@@ -11,9 +12,11 @@ using orchid_backend_net.Infrastructure.Persistence;
 namespace orchid_backend_net.Infrastructure.Migrations
 {
     [DbContext(typeof(OrchidDbContext))]
-    partial class OrchidDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250718151336_Add_InfectedRate_In_ExperimentLog")]
+    partial class Add_InfectedRate_In_ExperimentLog
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -302,15 +305,15 @@ namespace orchid_backend_net.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("ProcessStatus")
-                        .HasColumnType("integer");
-
                     b.Property<string>("SampleID")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("StageID")
                         .HasColumnType("text");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("TaskID")
                         .IsRequired()
@@ -629,11 +632,11 @@ namespace orchid_backend_net.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Element")
+                    b.Property<string>("ElementInStageId")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<decimal>("ExpectedValue")
+                    b.Property<decimal?>("ExpectedValue")
                         .HasColumnType("numeric");
 
                     b.Property<bool>("IsRequired")

@@ -8,10 +8,10 @@ namespace orchid_backend_net.Domain.Entities
         public string TaskTemplateID { get; set; }
         [ForeignKey(nameof(TaskTemplateID))]
         public virtual TaskTemplates TaskTemplate { get; set; }
-        public string ElementInStageId { get; set; }
+        public string Element { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public decimal? ExpectedValue { get; set; }
+        public decimal ExpectedValue { get; set; }
         public string Unit {  get; set; }
         public bool IsRequired { get; set; }
         public bool Status { get; set; }

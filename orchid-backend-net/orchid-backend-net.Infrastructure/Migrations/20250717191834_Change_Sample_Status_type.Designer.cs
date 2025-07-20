@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using orchid_backend_net.Infrastructure.Persistence;
@@ -11,9 +12,11 @@ using orchid_backend_net.Infrastructure.Persistence;
 namespace orchid_backend_net.Infrastructure.Migrations
 {
     [DbContext(typeof(OrchidDbContext))]
-    partial class OrchidDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250717191834_Change_Sample_Status_type")]
+    partial class Change_Sample_Status_type
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -163,9 +166,6 @@ namespace orchid_backend_net.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<decimal>("InfectedRateInReality")
-                        .HasColumnType("numeric");
-
                     b.Property<string>("MethodID")
                         .IsRequired()
                         .HasColumnType("text");
@@ -253,15 +253,13 @@ namespace orchid_backend_net.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("InfectedLevel")
-                        .HasColumnType("integer");
-
                     b.Property<string>("SampleID")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("TreatmentStatus")
-                        .HasColumnType("integer");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("ID");
 
@@ -302,15 +300,15 @@ namespace orchid_backend_net.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("ProcessStatus")
-                        .HasColumnType("integer");
-
                     b.Property<string>("SampleID")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("StageID")
                         .HasColumnType("text");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("TaskID")
                         .IsRequired()
@@ -472,9 +470,6 @@ namespace orchid_backend_net.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Reason")
-                        .HasColumnType("text");
-
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
@@ -629,11 +624,11 @@ namespace orchid_backend_net.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Element")
+                    b.Property<string>("ElementInStageId")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<decimal>("ExpectedValue")
+                    b.Property<decimal?>("ExpectedValue")
                         .HasColumnType("numeric");
 
                     b.Property<bool>("IsRequired")
