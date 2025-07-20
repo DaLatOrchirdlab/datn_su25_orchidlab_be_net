@@ -117,7 +117,7 @@ namespace orchid_backend_net.Application.ExperimentLog.CreateExperimentLog
                             obj.ID, pipeline.StageID, sampleId);
                         var taskId = await sender.Send(taskCommand, cancellationToken);
 
-                        linkedRepository.Add(new Linkeds
+                        linkedRepository.Add(new Domain.Entities.Linkeds
                         {
                             ExperimentLogID = obj.ID,
                             SampleID = sampleId,
