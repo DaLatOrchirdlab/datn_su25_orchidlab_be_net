@@ -9,7 +9,7 @@ namespace orchid_backend_net.Application.TaskAttribute.CreateTaskAttribute
     public class CreateTaskAttributeCommand(string name, string measurementUnit, double value, string description) : IRequest, ICommand
     {
         [JsonIgnore]
-        public string TaskId { get; set; }
+        public string? TaskId { get; set; }
         public string Name { get; set; } = name;
         public string MeasurementUnit { get; set; } = measurementUnit;
         public double Value { get; set; } = value;

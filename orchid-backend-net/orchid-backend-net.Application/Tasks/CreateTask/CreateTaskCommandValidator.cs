@@ -20,7 +20,7 @@ namespace orchid_backend_net.Application.Tasks.CreateTask
         void Configuration()
         {
             RuleFor(x => x.End_date)
-                .LessThan(x => x.Start_date)
+                .GreaterThan(x => x.Start_date)
                 .WithMessage("Task can not end before start time.");
             RuleFor(x => x.End_date)
                 .NotNull()

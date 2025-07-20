@@ -36,7 +36,7 @@ namespace orchid_backend_net.Application.Tasks.CreateTask
     }
 
     internal class CreateTaskCommandHandler(ITaskRepository taskRepository, ILinkedRepository linkedRepository, 
-        ICurrentUserService currentUserService, ISender sender) : IRequestHandler<CreateTaskCommand, string>
+        ICurrentUserService currentUserService, ISender sender, IMethodRepository methodRepository, IStageRepository stageRepository) : IRequestHandler<CreateTaskCommand, string>
     {
 
         public async Task<string> Handle(CreateTaskCommand request, CancellationToken cancellationToken)
@@ -63,10 +63,9 @@ namespace orchid_backend_net.Application.Tasks.CreateTask
 
                 foreach (var technicianID in request.TechnicianID)
                 {
-                    CreateTaskAssignCommand assignCommand = new(technicianID)
-                    {
-                        TaskId = task.ID
-                    };
+                    CreateTaskAssignCommand assignCommand = new(technicianId: technicianID);
+                    assignCommand.TechnicianId = technicianID;
+                    assignCommand.TaskId = task.ID;
                     await sender.Send(assignCommand, cancellationToken);
                 }
 
