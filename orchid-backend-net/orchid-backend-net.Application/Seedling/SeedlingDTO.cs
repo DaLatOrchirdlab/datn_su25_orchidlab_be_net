@@ -7,7 +7,8 @@ namespace orchid_backend_net.Application.Seedling
     public class SeedlingDTO : IMapFrom<Seedlings>
     {
         public string ID { get; set; }
-        public string Name { get; set; }
+        public string LocalName { get; set; }
+        public string ScientificName { get; set; }
         public string Description { get; set; }
         public string? Mother { get; set; }
         public string? Father { get; set; }
@@ -24,12 +25,13 @@ namespace orchid_backend_net.Application.Seedling
             string? mother, string? father, DateOnly doB, 
             List<CharacteristicsDTO> characteristics, string createBy, DateTime createDate, 
             string? updateBy, DateTime? updateDate = null, 
-            string? deleteBy = null, DateTime? deleteDate = null)
+            string? deleteBy = null, DateTime? deleteDate = null, string localName)
         {
             return new SeedlingDTO
             {
                 ID = id,
-                Name = name,
+                ScientificName = name,
+                LocalName = localName,
                 Description = description,
                 Mother = mother,
                 Father = father,
