@@ -23,9 +23,9 @@ namespace orchid_backend_net.Application.Seedling
 
         public static SeedlingDTO Create(string id, string name, string description, 
             string? mother, string? father, DateOnly doB, 
-            List<CharacteristicsDTO> characteristics, string createBy, DateTime createDate, 
+            string localName,List<CharacteristicsDTO> characteristics, string createBy, DateTime createDate, 
             string? updateBy, DateTime? updateDate = null, 
-            string? deleteBy = null, DateTime? deleteDate = null, string localName)
+            string? deleteBy = null, DateTime? deleteDate = null)
         {
             return new SeedlingDTO
             {
