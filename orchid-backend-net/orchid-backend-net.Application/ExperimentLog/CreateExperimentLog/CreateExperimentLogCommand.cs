@@ -75,6 +75,7 @@ namespace orchid_backend_net.Application.ExperimentLog.CreateExperimentLog
                 {
                     ID = Guid.NewGuid().ToString(),
                     Name = request.Name,
+                    CurrentStageID = stageIds.FirstOrDefault(), // Assuming the first stage is the current stage
                     MethodID = request.MethodID,
                     Description = request.Description,
                     TissueCultureBatchID = request.TissueCultureBatchID,

@@ -8,6 +8,7 @@ namespace orchid_backend_net.Application.Seedling.UpdateSeedling
     public class UpdateSeedlingCommand : IRequest<string>
     {
         public required string SeedlingId { get; set; }
+        public string? ScientificName { get; set; }
         public string? Name { get; set; }
         public string? Description { get; set; }
         public string? Parent1 { get; set; }
@@ -29,6 +30,7 @@ namespace orchid_backend_net.Application.Seedling.UpdateSeedling
 
                 // Update seedling properties
                 seedling.LocalName = request.Name ?? seedling.LocalName;
+                seedling.ScientificName = request.ScientificName ?? seedling.ScientificName;
                 seedling.Description = request.Description ?? seedling.Description;
                 seedling.Parent1 = request.Parent1 ?? seedling.Parent1;
                 seedling.Parent2 = request.Parent2 ?? seedling.Parent2;
