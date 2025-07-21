@@ -7,7 +7,8 @@ namespace orchid_backend_net.Application.Seedling.CreateSeedling
 {
     public class CreateSeedlingCommand : IRequest<string>
     {
-        public required string Name { get; set; }
+        public required string ScientificName { get; set; }
+        public required string LocalName { get; set; }
         public required string Description { get; set; }
         public string? MotherID { get; set; }
         public string? FatherID { get; set; }
@@ -26,7 +27,8 @@ namespace orchid_backend_net.Application.Seedling.CreateSeedling
             {
                 var seedling = new Seedlings
                 {
-                    LocalName = request.Name,
+                    LocalName = request.LocalName,
+                    ScientificName = request.ScientificName,
                     Description = request.Description,
                     Parent1 = request.MotherID,
                     Parent2 = request.FatherID,
