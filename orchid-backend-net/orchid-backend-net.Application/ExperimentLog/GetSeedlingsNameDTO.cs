@@ -6,12 +6,16 @@ namespace orchid_backend_net.Application.ExperimentLog
 {
     public class GetSeedlingsNameDTO : IMapFrom<Seedlings>
     {
-        public string Name { get; set; }
-        public static GetSeedlingsNameDTO Create(string name)
+        public string Id { get; set; }
+        public string LocalName { get; set; }
+        public string ScientificName { get; set; }
+        public static GetSeedlingsNameDTO Create(string localName, string scientificName, string id)
         {
             return new GetSeedlingsNameDTO
             {
-                Name = name
+                Id = id,
+                LocalName = localName,
+                ScientificName = scientificName
             };
         }
 

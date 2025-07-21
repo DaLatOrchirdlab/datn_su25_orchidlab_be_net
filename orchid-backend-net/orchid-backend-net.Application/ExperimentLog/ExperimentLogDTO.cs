@@ -61,6 +61,12 @@ namespace orchid_backend_net.Application.ExperimentLog
                 .ForMember(dest => dest.CurrentStageName, opt => opt.MapFrom(src => src.CurrentStageID != null
                     ? src.Method.Stages.Where(s => s.ID == src.CurrentStageID).Select(s => s.Name).FirstOrDefault()
                     : null))
+                .ForMember(dest => dest.Hybridizations, opt => opt.MapFrom(src => src.Hybridizations.Select(h => HybridzationDTO.Create(new GetSeedlingsNameDTO
+                {
+                    Id = h.Parent.ID,
+                    LocalName = h.Parent.LocalName,
+                    ScientificName = h.Parent.ScientificName
+                }))))
                 .ReverseMap();
         }
     }
