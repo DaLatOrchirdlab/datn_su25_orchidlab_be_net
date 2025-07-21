@@ -10,6 +10,7 @@ namespace orchid_backend_net.Application.ExperimentLog
     public class ExperimentLogDTO : IMapFrom<ExperimentLogs>
     {
         public string Id { get; set; }
+        public string Name { get; set; }
         public string MethodName { get; set; }
         public string Description { get; set; }
         public string TissueCultureBatchName { get; set; }
@@ -28,12 +29,13 @@ namespace orchid_backend_net.Application.ExperimentLog
             string Id, List<StageDTO> stageDTOs, List<SampleDTO> sampleDTOs, ExperimentLogStatus status,
             string? createdBy, DateTime? createdDate, string? updatedBy, 
             DateTime? updatedDate, string? deletedBy, DateTime? deletedDate,
-            List<HybridzationDTO> hybridzationDTOs)
+            List<HybridzationDTO> hybridzationDTOs, string name)
         {
             return new ExperimentLogDTO
             {
                 Id = Id,
                 MethodName = methodName,
+                Name = name,
                 TissueCultureBatchName = tissueCultureBatchName,
                 Description = description,
                 Stages = stageDTOs,
