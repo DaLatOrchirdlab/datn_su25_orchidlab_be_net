@@ -32,6 +32,7 @@ namespace orchid_backend_net.Application.TaskAssign.CreateTaskAssign
         private async Task<bool> IsTechnicianRole(string technicianId, CancellationToken cancellationToken)
         {
             var user = await _userRepository.FindAsync(x => x.ID.Equals(technicianId), cancellationToken);
+            if(user == null) return false;
             return user.RoleID.Equals(3);
         }
     }

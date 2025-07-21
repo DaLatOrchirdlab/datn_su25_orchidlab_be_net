@@ -8,8 +8,8 @@ namespace orchid_backend_net.Application.Tasks.CreateTask
         private readonly IExperimentLogRepository _experimentLogRepository;
         private readonly IStageRepository _stageRepository;
         private readonly ISampleRepository _sampleRepository;
-        public CreateTaskCommandValidator(IStageRepository stageRepository, IUserRepository userRepository,
-            IExperimentLogRepository experimentLogRepository, ISampleRepository sampleRepository)
+        public CreateTaskCommandValidator(IStageRepository stageRepository, IExperimentLogRepository experimentLogRepository,
+            ISampleRepository sampleRepository)
         {
             _stageRepository = stageRepository;
             _experimentLogRepository = experimentLogRepository;
@@ -71,7 +71,5 @@ namespace orchid_backend_net.Application.Tasks.CreateTask
 
         private async Task<bool> IsSampleExist(string sampleId, CancellationToken cancellationToken)
             => await _sampleRepository.AnyAsync(x => x.ID.Equals(sampleId), cancellationToken);
-
-
     }
 }
