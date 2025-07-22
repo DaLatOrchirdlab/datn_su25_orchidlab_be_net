@@ -17,7 +17,7 @@ namespace orchid_backend_net.Infrastructure.Persistence.Configuration
                 .HasForeignKey(x => x.ExperimentLogID)
                 .OnDelete(DeleteBehavior.Restrict);
             builder.HasOne(x => x.Task)
-                .WithMany()
+                .WithMany(x => x.Linkeds)
                 .HasForeignKey(x => x.TaskID)
                 .OnDelete(DeleteBehavior.Restrict);
         }

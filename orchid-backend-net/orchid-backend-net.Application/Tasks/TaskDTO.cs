@@ -9,6 +9,8 @@ namespace orchid_backend_net.Application.Tasks
     public class TaskDTO : IMapFrom<Domain.Entities.Tasks>
     {
         public string ID { get; set; }
+        public string ExperimentLogName { get; set; }
+        public string SampleName { get; set; }
         public string Researcher { get; set; }
         public List<TaskAssignDTO> AssignDTOs { get; set; }
         public string Name { get; set; }
@@ -23,7 +25,11 @@ namespace orchid_backend_net.Application.Tasks
         {
             profile.CreateMap<Domain.Entities.Tasks, TaskDTO>()
                 .ForMember(dest => dest.AssignDTOs, opt => opt.MapFrom(src => src.Assigns))
-                .ForMember(dest => dest.AttributeDTOs, opt => opt.MapFrom(src => src.Attributes));
+                .ForMember(dest => dest.AttributeDTOs, opt => opt.MapFrom(src => src.Attributes))
+                .ForMember(dest => dest.ExperimentLogName, opt => opt.MapFrom(src => 
+                    src.Linkeds.FirstOrDefault(linked => linked.TaskID.Equals(src.ID)).ExperimentLog.Name))
+                .ForMember(dest => dest.SampleName, opt => opt.MapFrom(src => 
+                    src.Linkeds.FirstOrDefault(linked => linked.TaskID.Equals(src.ID)).Sample.Name));
         }
     }
 }
