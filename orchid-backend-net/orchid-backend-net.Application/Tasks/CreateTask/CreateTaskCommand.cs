@@ -69,10 +69,15 @@ namespace orchid_backend_net.Application.Tasks.CreateTask
                     await sender.Send(assignCommand, cancellationToken);
                 }
 
-                var linked = await linkedRepository.FindAsync(x => x.SampleID.Equals(request.SampleID) && x.ExperimentLogID.Equals(request.ExperimentLogID), cancellationToken);
-                linked.TaskID = task.ID;
-                linked.StageID = request.StageID;
-                linkedRepository.Update(linked);
+                var linkeds = new Domain.Entities.Linkeds
+                {
+                    ExperimentLogID = request.ExperimentLogID,
+                    SampleID = request.SampleID,
+                    TaskID = task.ID,
+                    StageID = request.StageID,
+                    ProcessStatus = 0
+                };
+                linkedRepository.Add(linkeds);
 
                 return await taskRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? "Create task successfully." : "Failed to create task.";
             }
