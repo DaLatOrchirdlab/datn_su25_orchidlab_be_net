@@ -22,7 +22,7 @@ namespace orchid_backend_net.Application.Tasks.GetAllTasks
         public GetAllTaskQuery() { }
     }
 
-    internal class GetAllTaskQueryHandler(ITaskRepository taskRepository) : IRequestHandler<GetAllTaskQuery, PageResult<GetAllTaskQueryDto>>
+    internal class GetAllTaskQueryHandler(ITaskRepository taskRepository, IUserRepository userRepository) : IRequestHandler<GetAllTaskQuery, PageResult<GetAllTaskQueryDto>>
     {
         public async Task<PageResult<GetAllTaskQueryDto>> Handle(GetAllTaskQuery request, CancellationToken cancellationToken)
         {
@@ -37,12 +37,25 @@ namespace orchid_backend_net.Application.Tasks.GetAllTasks
                         query = query.Where(x => x.Researcher.Equals(request.ResearcherId));
                     return query;
                 }
+
+                var usersDict = await userRepository.FindAllToDictionaryAsync(x => x.Status, key => key.ID, value => value.Name, cancellationToken);
+
                 var task = await taskRepository.FindAllProjectToAsync<GetAllTaskQueryDto>(
                     pageNo: request.PageNumber,
                     pageSize: request.PageSize,
                     queryOptions: queryOptions,
                     cancellationToken: cancellationToken);
-                return task.ToAppPageResult();
+
+                var result = task.ToAppPageResult();
+                foreach(var item in result.Data)
+                {
+                    if(usersDict.TryGetValue(item.Researcher, out var userName))
+                    {
+                        item.Researcher = userName;
+                    }
+                }
+
+                return result;
             }
             catch (Exception ex)
             {
