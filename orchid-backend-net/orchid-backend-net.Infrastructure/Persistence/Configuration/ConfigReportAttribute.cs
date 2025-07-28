@@ -14,7 +14,7 @@ namespace orchid_backend_net.Infrastructure.Persistence.Configuration
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(x => x.Report)
-                .WithMany()
+                .WithMany(x => x.ReportAttributes)
                 .HasForeignKey(x => x.ReportID)
                 .OnDelete(DeleteBehavior.Cascade);
         }
