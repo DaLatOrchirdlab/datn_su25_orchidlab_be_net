@@ -11,6 +11,7 @@ namespace orchid_backend_net.Domain.Entities
         public string SampleID { get; set; }
         [ForeignKey(nameof(SampleID))]
         public virtual Samples Sample { get; set; }
+        public bool IsLatest { get; set; } = false; // Indicates if this report is the latest for the sample
         public bool Status {  get; set; }
     }
 }

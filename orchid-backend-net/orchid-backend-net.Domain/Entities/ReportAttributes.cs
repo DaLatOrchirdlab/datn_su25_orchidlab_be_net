@@ -5,7 +5,9 @@ namespace orchid_backend_net.Domain.Entities
 {
     public class ReportAttributes : BaseGuidEntity
     {
-        public virtual ICollection<Referents> Referents { get; set; } = [];
+        public string ReferentID { get; set; }
+        [ForeignKey(nameof(ReferentID))]
+        public virtual Referents Referent { get; set; }
         public string ReportID { get; set; }
         [ForeignKey(nameof(ReportID))]
         public virtual Reports Report { get; set; }

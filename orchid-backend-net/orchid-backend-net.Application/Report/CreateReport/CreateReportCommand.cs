@@ -28,6 +28,7 @@ namespace orchid_backend_net.Application.Report.CreateReport
                     Name = request.Name,
                     SampleID = request.Sample,
                     TechnicianID = request.Technician,
+                    IsLatest = true, // Assuming this is the latest report for the sample
                     Status = true
                 };
                 repostRepository.Add(obj);

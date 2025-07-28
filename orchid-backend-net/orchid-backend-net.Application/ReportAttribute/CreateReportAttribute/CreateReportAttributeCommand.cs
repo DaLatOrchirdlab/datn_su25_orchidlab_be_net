@@ -9,6 +9,7 @@ namespace orchid_backend_net.Application.ReportAttribute.CreateReportAttribute
     {
         [JsonIgnore]
         public string ReportID { get; set; } // ID of the report to which this attribute belongs
+        public string ReferentID { get; set; } // ID of the referent (if applicable)
         public string Name { get; set; } // Name of the attribute
         public decimal Value { get; set; } // Value of the attribute
     }
@@ -23,6 +24,7 @@ namespace orchid_backend_net.Application.ReportAttribute.CreateReportAttribute
                 {
                     ID = Guid.NewGuid().ToString(),
                     ReportID = request.ReportID,
+                    ReferentID = request.ReferentID,
                     Name = request.Name,
                     Value = request.Value,
                     Status = 1

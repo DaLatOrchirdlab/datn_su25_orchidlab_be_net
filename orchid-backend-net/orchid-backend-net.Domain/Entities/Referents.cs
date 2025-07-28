@@ -13,6 +13,6 @@ namespace orchid_backend_net.Domain.Entities
         public decimal ValueTo { get; set; }
         public string MeasurementUnit { get; set; }
         public bool Status {  get; set; }
-        public virtual ICollection<ReportAttributes> ReportAttributes { get; set; } = new List<ReportAttributes>();
+        public virtual ICollection<ReportAttributes> ReportAttributes { get; set; }
     }
 }
