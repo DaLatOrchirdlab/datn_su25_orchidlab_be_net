@@ -28,4 +28,9 @@
 	</None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="TaskTemplate\GetTaskTemplateInfor\" />
+    <Folder Include="TaskTemplate\UpdateTaskTemplate\" />
+  </ItemGroup>
+
 </Project>
