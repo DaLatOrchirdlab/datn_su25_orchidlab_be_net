@@ -10,24 +10,29 @@ namespace orchid_backend_net.Infrastructure.Service.SeedData
             if (!await context.Set<Reports>().AnyAsync())
             {
                 var samples = await context.Set<Samples>().ToListAsync();
+                var users = await context.Set<Users>().ToListAsync();
+                var technicians = users.Where(u => u.RoleID == 3);
+
                 var reports = new List<Reports>
                 {
                     new()
                     {
                         ID = Guid.NewGuid().ToString(),
-                        Name = "Report A",
-                        Description = "Tissue culture report for Sample A",
-                        TechnicianID = "tech-001",
-                        SampleID = samples[0].ID,
+                        SampleID = samples.First().ID,
+                        TechnicianID = technicians.First().ID,
+                        Name = "Báo cáo lần 1 - Sample A",
+                        Description = "Theo dõi mầm sau cấy",
+                        IsLatest = true,
                         Status = true
                     },
                     new()
                     {
                         ID = Guid.NewGuid().ToString(),
-                        Name = "Report B",
-                        Description = "Growth stage observation for Sample B",
-                        TechnicianID = "tech-002",
-                        SampleID = samples[1].ID,
+                        SampleID = samples.Last().ID,
+                        TechnicianID = technicians.First().ID,
+                        Name = "Báo cáo lần 1 - Sample B",
+                        Description = "Theo dõi rễ phát triển",
+                        IsLatest = true,
                         Status = true
                     }
                 };
@@ -35,6 +40,7 @@ namespace orchid_backend_net.Infrastructure.Service.SeedData
                 await context.Set<Reports>().AddRangeAsync(reports);
                 await context.SaveChangesAsync();
             }
+
         }
     }
 }

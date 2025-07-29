@@ -3,9 +3,7 @@ using MediatR;
 using orchid_backend_net.Application.Common.Extension;
 using orchid_backend_net.Application.Common.Interfaces;
 using orchid_backend_net.Application.Common.Pagination;
-using orchid_backend_net.Domain.Common.Exceptions;
 using orchid_backend_net.Domain.IRepositories;
-using System.Threading.Tasks;
 
 namespace orchid_backend_net.Application.Sample.GetAllSample
 {
@@ -34,7 +32,7 @@ namespace orchid_backend_net.Application.Sample.GetAllSample
                 {
                     query = query.Where(x => x.Status != 2);
                     if (!string.IsNullOrWhiteSpace(request.ExperimentLogId))
-                        query = query.Where(x => x.Linkeds.Any(linkeds => linkeds.ExperimentLogID.Equals(request.ExperimentLogId)));
+                        query = query.Where(x => x.Linkeds.Any(linkeds => linkeds.ExperimentLogID.Equals(request.ExperimentLogId)) && x.Status != 2);
                     return query;
                 }
 

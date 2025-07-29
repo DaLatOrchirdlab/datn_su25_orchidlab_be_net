@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace orchid_backend_net.Domain.Entities
 {
-    public class Reports : BaseGuidEntity
+    public class Reports : BaseSoftDelete
     {
         public string Name { get; set; }
         public string Description { get; set; }
@@ -11,6 +11,8 @@ namespace orchid_backend_net.Domain.Entities
         public string SampleID { get; set; }
         [ForeignKey(nameof(SampleID))]
         public virtual Samples Sample { get; set; }
+        public bool IsLatest { get; set; } = false; // Indicates if this report is the latest for the sample
         public bool Status {  get; set; }
+        public virtual ICollection<ReportAttributes> ReportAttributes { get; set; } = [];
     }
 }

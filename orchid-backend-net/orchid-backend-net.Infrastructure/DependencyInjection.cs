@@ -108,6 +108,7 @@ namespace orchid_backend_net.Infrastructure
             services.AddScoped<IInfectedSampleRepository, InfectedSampleRepository>();
             services.AddScoped<ITaskTemplatesRepository, TaskTemplateRepository>();
             services.AddScoped<ITaskTemplateDetailsRepository, TaskTemplateDetailRepository>();
+            services.AddScoped<IReportAttributeRepository, ReportAttributeRepository>();
             return services;
         }
     }
