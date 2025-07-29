@@ -52,7 +52,7 @@ namespace orchid_backend_net.API.Controllers.Sample
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<JsonResponse<SampleDTO>>> GetInfor(
-            [FromQuery] string id,
+            [FromRoute] string id,
             CancellationToken cancellationToken)
         {
             try
