@@ -4,7 +4,7 @@ using orchid_backend_net.Domain.Entities;
 
 namespace orchid_backend_net.Application.ReportAttribute
 {
-    public class ReportAttributesDTO : IMapFrom<Domain.Entities.ReportAttributes>
+    public class ReportAttributesDTO : IMapFrom<ReportAttributes>
     {
         public string Name { get; set; }
         public decimal Value { get; set; }

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace orchid_backend_net.Domain.Entities
 {
-    public class Reports : BaseGuidEntity
+    public class Reports : BaseSoftDelete
     {
         public string Name { get; set; }
         public string Description { get; set; }

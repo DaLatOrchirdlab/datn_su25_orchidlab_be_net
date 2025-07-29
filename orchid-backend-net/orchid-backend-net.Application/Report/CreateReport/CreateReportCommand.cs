@@ -6,16 +6,15 @@ using orchid_backend_net.Application.ReportAttribute.CreateReportAttribute;
 
 namespace orchid_backend_net.Application.Report.CreateReport
 {
-    public class CreateReportCommand(string name, string description, string technician, string sample, List<CreateReportAttributeCommand> attributeCommands) : IRequest<string>, ICommand
+    public class CreateReportCommand(string name, string description, string sample, List<CreateReportAttributeCommand> attributeCommands) : IRequest<string>, ICommand
     {
         public string Name { get; set; } = name;
         public string Description { get; set; } = description;
-        public string Technician { get; set; } = technician;
         public string Sample { get; set; } = sample;
         public List<CreateReportAttributeCommand> AttributeCommands { get; set; } = attributeCommands;
     }
 
-    internal class CreateReportCommandHandler(IReportRepository repostRepository, ISampleRepository sampleRepository, ISender sender) : IRequestHandler<CreateReportCommand, string>
+    internal class CreateReportCommandHandler(IReportRepository repostRepository, ISender sender, ICurrentUserService currentUserService) : IRequestHandler<CreateReportCommand, string>
     {
         public async Task<string> Handle(CreateReportCommand request, CancellationToken cancellationToken)
         {
@@ -27,9 +26,11 @@ namespace orchid_backend_net.Application.Report.CreateReport
                     Description = request.Description,
                     Name = request.Name,
                     SampleID = request.Sample,
-                    TechnicianID = request.Technician,
-                    IsLatest = true, // Assuming this is the latest report for the sample
-                    Status = true
+                    TechnicianID = currentUserService.UserId,
+                    IsLatest = true, 
+                    Status = true,
+                    Create_by = currentUserService.UserId, 
+                    Create_date = DateTime.UtcNow
                 };
                 repostRepository.Add(obj);
                 foreach (var attributeCommand in request.AttributeCommands)
