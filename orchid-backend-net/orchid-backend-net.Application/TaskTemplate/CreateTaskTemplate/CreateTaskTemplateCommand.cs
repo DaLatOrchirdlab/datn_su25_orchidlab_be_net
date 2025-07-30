@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace orchid_backend_net.Application.TaskTemplate.CreateTaskTemplate
 {
-    public class CreateTaskTemplateCommand : IRequest, ICommand
+    public class CreateTaskTemplateCommand : IRequest<string>, ICommand
     {
         public string Name { get; set; }
         public string StageID { get; set; }
@@ -27,7 +27,7 @@ namespace orchid_backend_net.Application.TaskTemplate.CreateTaskTemplate
             Details = details;
         }
     }
-    internal class CreateTaskTemplateCommandHandler : IRequestHandler<CreateTaskTemplateCommand>
+    internal class CreateTaskTemplateCommandHandler : IRequestHandler<CreateTaskTemplateCommand, string>
     {
         private readonly ITaskTemplatesRepository _tasksRepository;
         private readonly ITaskTemplateDetailsRepository _templateDetailsRepository;
@@ -36,7 +36,7 @@ namespace orchid_backend_net.Application.TaskTemplate.CreateTaskTemplate
             _tasksRepository = taskTemplates;
             _templateDetailsRepository = taskTemplateDetails;
         }
-        public async Task Handle(CreateTaskTemplateCommand request, CancellationToken cancellationToken)
+        public async Task<string> Handle(CreateTaskTemplateCommand request, CancellationToken cancellationToken)
         {
             try
             {
@@ -65,8 +65,7 @@ namespace orchid_backend_net.Application.TaskTemplate.CreateTaskTemplate
                     };
                     _templateDetailsRepository.Add(detail);
                 }
-                await _tasksRepository.UnitOfWork.SaveChangesAsync();
-                await _templateDetailsRepository.UnitOfWork.SaveChangesAsync();
+                return (await _tasksRepository.UnitOfWork.SaveChangesAsync(cancellationToken)) > 0 ? $"Created task template ID {obj.ID}" : "Failed to create task template";
             }
             catch (Exception ex) 
             {

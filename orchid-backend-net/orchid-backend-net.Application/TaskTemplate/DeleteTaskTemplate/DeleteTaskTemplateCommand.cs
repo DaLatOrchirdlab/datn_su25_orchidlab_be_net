@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace orchid_backend_net.Application.TaskTemplate.DeleteTaskTemplate
 {
-    public class DeleteTaskTemplateCommand : IRequest, ICommand
+    public class DeleteTaskTemplateCommand : IRequest<string>, ICommand
     {
         public string ID {  get; set; }
         public DeleteTaskTemplateCommand(string ID)
@@ -18,10 +18,10 @@ namespace orchid_backend_net.Application.TaskTemplate.DeleteTaskTemplate
             this.ID = ID;
         }
     }
-    internal class DeleteTaskTemplateCommandHandler : IRequestHandler<DeleteTaskTemplateCommand>
+    internal class DeleteTaskTemplateCommandHandler : IRequestHandler<DeleteTaskTemplateCommand, string>
     {
         private readonly ITaskTemplatesRepository _tasksRepository;
-        public async Task Handle(DeleteTaskTemplateCommand request, CancellationToken cancellationToken)
+        public async Task<string> Handle(DeleteTaskTemplateCommand request, CancellationToken cancellationToken)
         {
             try
             {
@@ -30,7 +30,7 @@ namespace orchid_backend_net.Application.TaskTemplate.DeleteTaskTemplate
                     throw new NotFoundException($"Not found ask template with ID {request.ID}");
                 taskTemplate.Status = false;
                 _tasksRepository.Update(taskTemplate);
-                await _tasksRepository.UnitOfWork.SaveChangesAsync();
+                return (await _tasksRepository.UnitOfWork.SaveChangesAsync()) > 0 ? $"Deleted task template ID : {request.ID} /n Name: {taskTemplate.Name}" : "Failed to detele task template.";
             }
             catch (Exception ex) 
             {
