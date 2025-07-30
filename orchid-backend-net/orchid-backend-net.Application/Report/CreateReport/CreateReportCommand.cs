@@ -35,10 +35,10 @@ namespace orchid_backend_net.Application.Report.CreateReport
                 repostRepository.Add(obj);
                 foreach (var attributeCommand in request.AttributeCommands)
                 {
-                    attributeCommand.ReportID = obj.ID; // Set the ReportID for each attribute
+                    attributeCommand.ReportID = obj.ID;
                     sender.Send(attributeCommand, cancellationToken); // Send the command to create report attributes
                 }
-                return await repostRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? "Created report." : "Failed to create report.";
+                return await repostRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? $"Created report with id: {obj.ID}" : "Failed to create report.";
             }
             catch (Exception ex)
             {
