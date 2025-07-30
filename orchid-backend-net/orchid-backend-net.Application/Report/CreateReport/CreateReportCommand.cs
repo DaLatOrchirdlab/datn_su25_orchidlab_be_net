@@ -20,6 +20,12 @@ namespace orchid_backend_net.Application.Report.CreateReport
         {
             try
             {
+                var oldReports = await reportRepository.FindAsync(x => x.IsLatest && x.SampleID.Equals(request.Sample), cancellationToken);
+                if(oldReports != null)
+                {
+                    oldReports.IsLatest = false; // Mark the old report as not the latest
+                    reportRepository.Update(oldReports); // Update the old report
+                }
                 Reports obj = new()
                 {
                     ID = Guid.NewGuid().ToString(),
@@ -33,9 +39,6 @@ namespace orchid_backend_net.Application.Report.CreateReport
                     Create_date = DateTime.UtcNow
                 };
                 reportRepository.Add(obj);
-                var oldReport = await reportRepository.FindAsync(x => x.IsLatest, cancellationToken);
-                oldReport.IsLatest = false; // Set the old report to not be the latest
-                reportRepository.Update(oldReport); // Update the old report in the repository
                 foreach (var attributeCommand in request.AttributeCommands)
                 {
                     attributeCommand.ReportID = obj.ID;
