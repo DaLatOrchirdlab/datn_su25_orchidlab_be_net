@@ -6,7 +6,6 @@ namespace orchid_backend_net.Application.ReportAttribute.CreateReportAttribute
     {
         public CreateReportAttributeCommandValidator()
         {
-            RuleFor(x => x.ReportID).NotEmpty().WithMessage("Report ID is required.");
             RuleFor(x => x.Name).NotEmpty().WithMessage("Attribute name is required.");
             RuleFor(x => x.Value).GreaterThanOrEqualTo(0).WithMessage("Attribute value must be a non-negative number.");
         }

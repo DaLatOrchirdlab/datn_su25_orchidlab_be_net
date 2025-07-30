@@ -5,13 +5,13 @@ using System.Text.Json.Serialization;
 
 namespace orchid_backend_net.Application.ReportAttribute.CreateReportAttribute
 {
-    public class CreateReportAttributeCommand : IRequest, ICommand
+    public class CreateReportAttributeCommand(string referentId, string name, decimal value) : IRequest, ICommand
     {
         [JsonIgnore]
-        public string ReportID { get; set; } // ID of the report to which this attribute belongs
-        public string ReferentID { get; set; } // ID of the referent (if applicable)
-        public string Name { get; set; } // Name of the attribute
-        public decimal Value { get; set; } // Value of the attribute
+        public string? ReportID { get; set; } // ID of the report to which this attribute belongs
+        public string ReferentID { get; set; } = referentId; // ID of the referent (if applicable)
+        public string Name { get; set; } = name; // Name of the attribute
+        public decimal Value { get; set; } = value; // Value of the attribute
     }
 
     internal class CreateReportAttributCommandeHandler(IReportAttributeRepository reportAttributeRepository) : IRequestHandler<CreateReportAttributeCommand>

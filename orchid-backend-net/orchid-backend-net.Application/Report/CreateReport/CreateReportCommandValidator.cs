@@ -17,7 +17,6 @@ namespace orchid_backend_net.Application.Report.CreateReport
         {
             RuleFor(x => x.Description)
                 .MaximumLength(300)
-                .MinimumLength(50)
                 .NotEmpty()
                 .NotNull()
                 .WithMessage("Invalid Description.");
