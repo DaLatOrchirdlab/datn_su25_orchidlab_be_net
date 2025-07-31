@@ -8,12 +8,15 @@ namespace orchid_backend_net.Infrastructure.Persistence.Configuration
     {
         public void Configure(EntityTypeBuilder<ReportAttributes> builder)
         {
-            builder.HasMany(x => x.Referents)
-                .WithMany(x => x.ReportAttributes);
+            builder.HasOne(x => x.Referent)
+                .WithMany(x => x.ReportAttributes)
+                .HasForeignKey(x => x.ReferentID)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(x => x.Report)
-                .WithMany()
-                .HasForeignKey(x => x.ReportID);
+                .WithMany(x => x.ReportAttributes)
+                .HasForeignKey(x => x.ReportID)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

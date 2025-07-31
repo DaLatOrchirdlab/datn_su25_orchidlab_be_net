@@ -10,5 +10,6 @@ namespace orchid_backend_net.Domain.Entities
         public int Status {  get; set; }
         public string? Reason { get; set; }
         public virtual ICollection<Linkeds> Linkeds { get; set; } = [];
+        public virtual ICollection<Reports> Reports { get; set; } = [];
     }
 }

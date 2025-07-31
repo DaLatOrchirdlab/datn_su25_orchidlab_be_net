@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using orchid_backend_net.Infrastructure.Persistence;
@@ -11,9 +12,11 @@ using orchid_backend_net.Infrastructure.Persistence;
 namespace orchid_backend_net.Infrastructure.Migrations
 {
     [DbContext(typeof(OrchidDbContext))]
-    partial class OrchidDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250727135848_Add_Value_To_Report_Attribute")]
+    partial class Add_Value_To_Report_Attribute
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,6 +27,21 @@ namespace orchid_backend_net.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("ReferentsReportAttributes", b =>
+                {
+                    b.Property<string>("ReferentsID")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ReportAttributesID")
+                        .HasColumnType("text");
+
+                    b.HasKey("ReferentsID", "ReportAttributesID");
+
+                    b.HasIndex("ReportAttributesID");
+
+                    b.ToTable("ReferentsReportAttributes");
+                });
 
             modelBuilder.Entity("orchid_backend_net.Domain.Entities.Characteristics", b =>
                 {
@@ -379,14 +397,6 @@ namespace orchid_backend_net.Infrastructure.Migrations
                     b.Property<string>("ID")
                         .HasColumnType("text");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("ReferentID")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("ReportID")
                         .IsRequired()
                         .HasColumnType("text");
@@ -399,8 +409,6 @@ namespace orchid_backend_net.Infrastructure.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("ReferentID");
-
                     b.HasIndex("ReportID");
 
                     b.ToTable("ReportAttributes");
@@ -411,24 +419,9 @@ namespace orchid_backend_net.Infrastructure.Migrations
                     b.Property<string>("ID")
                         .HasColumnType("text");
 
-                    b.Property<string>("Create_by")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("Create_date")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Delete_by")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("Delete_date")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<bool>("IsLatest")
-                        .HasColumnType("boolean");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -444,12 +437,6 @@ namespace orchid_backend_net.Infrastructure.Migrations
                     b.Property<string>("TechnicianID")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<string>("Update_by")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("Update_date")
-                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("ID");
 
@@ -882,6 +869,21 @@ namespace orchid_backend_net.Infrastructure.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("ReferentsReportAttributes", b =>
+                {
+                    b.HasOne("orchid_backend_net.Domain.Entities.Referents", null)
+                        .WithMany()
+                        .HasForeignKey("ReferentsID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("orchid_backend_net.Domain.Entities.ReportAttributes", null)
+                        .WithMany()
+                        .HasForeignKey("ReportAttributesID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("orchid_backend_net.Domain.Entities.Characteristics", b =>
                 {
                     b.HasOne("orchid_backend_net.Domain.Entities.SeedlingAttributes", "SeedlingAttribute")
@@ -1028,19 +1030,11 @@ namespace orchid_backend_net.Infrastructure.Migrations
 
             modelBuilder.Entity("orchid_backend_net.Domain.Entities.ReportAttributes", b =>
                 {
-                    b.HasOne("orchid_backend_net.Domain.Entities.Referents", "Referent")
-                        .WithMany("ReportAttributes")
-                        .HasForeignKey("ReferentID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("orchid_backend_net.Domain.Entities.Reports", "Report")
-                        .WithMany("ReportAttributes")
+                        .WithMany()
                         .HasForeignKey("ReportID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Referent");
 
                     b.Navigation("Report");
                 });
@@ -1048,7 +1042,7 @@ namespace orchid_backend_net.Infrastructure.Migrations
             modelBuilder.Entity("orchid_backend_net.Domain.Entities.Reports", b =>
                 {
                     b.HasOne("orchid_backend_net.Domain.Entities.Samples", "Sample")
-                        .WithMany("Reports")
+                        .WithMany()
                         .HasForeignKey("SampleID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1160,21 +1154,9 @@ namespace orchid_backend_net.Infrastructure.Migrations
                     b.Navigation("Stages");
                 });
 
-            modelBuilder.Entity("orchid_backend_net.Domain.Entities.Referents", b =>
-                {
-                    b.Navigation("ReportAttributes");
-                });
-
-            modelBuilder.Entity("orchid_backend_net.Domain.Entities.Reports", b =>
-                {
-                    b.Navigation("ReportAttributes");
-                });
-
             modelBuilder.Entity("orchid_backend_net.Domain.Entities.Samples", b =>
                 {
                     b.Navigation("Linkeds");
-
-                    b.Navigation("Reports");
                 });
 
             modelBuilder.Entity("orchid_backend_net.Domain.Entities.Seedlings", b =>

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using orchid_backend_net.Infrastructure.Persistence;
@@ -11,9 +12,11 @@ using orchid_backend_net.Infrastructure.Persistence;
 namespace orchid_backend_net.Infrastructure.Migrations
 {
     [DbContext(typeof(OrchidDbContext))]
-    partial class OrchidDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250729091904_For_Report_To_Check_Sample_Attribute")]
+    partial class For_Report_To_Check_Sample_Attribute
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -417,12 +420,6 @@ namespace orchid_backend_net.Infrastructure.Migrations
                     b.Property<DateTime?>("Create_date")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Delete_by")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("Delete_date")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
@@ -444,12 +441,6 @@ namespace orchid_backend_net.Infrastructure.Migrations
                     b.Property<string>("TechnicianID")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<string>("Update_by")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("Update_date")
-                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("ID");
 
