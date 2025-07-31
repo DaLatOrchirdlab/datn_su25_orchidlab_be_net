@@ -32,7 +32,6 @@ namespace orchid_backend_net.Application.Method.GetAllMethod
         {
             try
             {
-
                 IQueryable<Methods> queryOptions(IQueryable<Methods> query)
                 {
                     query = query.Where(x => x.Status);
