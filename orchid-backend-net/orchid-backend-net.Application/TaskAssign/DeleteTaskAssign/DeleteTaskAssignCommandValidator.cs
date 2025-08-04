@@ -1,12 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FluentValidation;
 
 namespace orchid_backend_net.Application.TaskAssign.DeleteTaskAssign
 {
-    internal class DeleteTaskAssignCommandValidator
+    public class DeleteTaskAssignCommandValidator : AbstractValidator<DeleteTaskAssignCommand>
     {
+        public DeleteTaskAssignCommandValidator()
+        {
+            Configure();
+        }
+
+        private void Configure()
+        {
+            RuleFor(x => x.TaskId)
+                .NotNull()
+                .NotEmpty()
+                .WithMessage("Task cannot be null or empty.");
+        }
     }
 }

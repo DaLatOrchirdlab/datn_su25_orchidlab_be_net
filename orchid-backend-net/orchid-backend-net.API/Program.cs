@@ -3,6 +3,7 @@ using orchid_backend_net.API.Filters;
 using orchid_backend_net.API.Middleware;
 using orchid_backend_net.Application;
 using orchid_backend_net.Infrastructure;
+using orchid_backend_net.Infrastructure.Service.GmailSettings;
 using Serilog;
 using System.Text.Json.Serialization;
 

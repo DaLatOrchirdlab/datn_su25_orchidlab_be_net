@@ -28,6 +28,12 @@ jobs:
     name: 🚀 Run Docker Compose
     runs-on: [self-hosted,dotnet]
     needs: build-image
+    environment: PRODUCTION
+    env: 
+      GMAIL_CLIENT_ID: ${{ secrets.GMAIL_CLIENT_ID }}
+      GMAIL_CLIENT_SECRET: ${{ secrets.GMAIL_CLIENT_SECRET }}
+      GMAIL_REFRESH_TOKEN: ${{ secrets.GMAIL_REFRESH_TOKEN }}
+      GMAIL_EMAIL: ${{ secrets.GMAIL_EMAIL }}
 
     steps:
       - name: 🧾 Checkout code
@@ -35,6 +41,11 @@ jobs:
 
       - name: 🚀 Docker Compose Up
         working-directory: orchid-backend-net
+        env: 
+          GMAIL_CLIENT_ID: ${{ secrets.GMAIL_CLIENT_ID }}
+          GMAIL_CLIENT_SECRET: ${{ secrets.GMAIL_CLIENT_SECRET }}
+          GMAIL_REFRESH_TOKEN: ${{ secrets.GMAIL_REFRESH_TOKEN }}
+          GMAIL_EMAIL: ${{ secrets.GMAIL_EMAIL }}
         run: docker compose up -d
 
       - name: 📜 Show Service Status

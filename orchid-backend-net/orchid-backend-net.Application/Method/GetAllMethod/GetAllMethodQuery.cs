@@ -1,8 +1,8 @@
-﻿using AutoMapper;
-using MediatR;
+﻿using MediatR;
+using orchid_backend_net.Application.Common.Extension;
 using orchid_backend_net.Application.Common.Interfaces;
 using orchid_backend_net.Application.Common.Pagination;
-using orchid_backend_net.Domain.Common.Exceptions;
+using orchid_backend_net.Domain.Entities;
 using orchid_backend_net.Domain.IRepositories;
 
 namespace orchid_backend_net.Application.Method.GetAllMethod
@@ -11,37 +11,51 @@ namespace orchid_backend_net.Application.Method.GetAllMethod
     {
         public int PageNumber { get; set; }
         public int PageSize { get; set; }
+        public string? Filter { get; set; }
         public GetAllMethodQuery() { }
-        public GetAllMethodQuery(int pageNumber, int pageSize)
+        public GetAllMethodQuery(int pageNumber, int pageSize, string? filter)
         {
             PageSize = pageSize;
             PageNumber = pageNumber;
+            Filter = filter;
         }
     }
 
     internal class GetAllMethodQueryHandler : IRequestHandler<GetAllMethodQuery, PageResult<MethodDTO>>
     {
         private readonly IMethodRepository _methodRepository;
-        private readonly IMapper _mapper;
-        public GetAllMethodQueryHandler(IMethodRepository methodRepository, IMapper mapper)
+        public GetAllMethodQueryHandler(IMethodRepository methodRepository)
         {
             _methodRepository = methodRepository;
-            _mapper = mapper;
         }
         public async Task<PageResult<MethodDTO>> Handle(GetAllMethodQuery request, CancellationToken cancellationToken)
         {
             try
             {
+                IQueryable<Methods> queryOptions(IQueryable<Methods> query)
+                {
+                    query = query.Where(x => x.Status);
+                    if (!string.IsNullOrEmpty(request.Filter))
+                    {
+                        query = query.Where(x => x.Type.ToLower().Contains(request.Filter.ToLower()) && x.Status);
+                    }
+                    return query;
+                }
+
+                var methods = await this._methodRepository.FindAllProjectToAsync<MethodDTO>(
+                    request.PageNumber,
+                    request.PageSize,
+                    queryOptions: queryOptions,
+                    cancellationToken);
+
+
                 var list = await this._methodRepository.FindAllAsync(x => x.Status == true, request.PageNumber, request.PageSize, cancellationToken);
-                if (list.Count() == 0)
-                    throw new NotFoundException("Not found any method in the system.");
-                return PageResult<MethodDTO>.Create(
-                    totalCount: list.TotalCount,
-                    pageCount: list.PageSize,
-                    pageNumber: request.PageNumber,
-                    pageSize: request.PageSize,
-                    data: list.MapToMethodDTOList(_mapper)
-                    );
+                //order by step in method's stages
+                foreach (var item in list)
+                {
+                    item.Stages = [.. item.Stages.OrderBy(x => x.Step)];
+                }
+                return methods.ToAppPageResult();
             }
             catch (Exception ex)
             {

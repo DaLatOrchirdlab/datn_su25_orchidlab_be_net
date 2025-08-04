@@ -10,11 +10,12 @@ namespace orchid_backend_net.Application.ExperimentLog
     public class ExperimentLogDTO : IMapFrom<ExperimentLogs>
     {
         public string Id { get; set; }
+        public string Name { get; set; }
         public string MethodName { get; set; }
         public string Description { get; set; }
         public string TissueCultureBatchName { get; set; }
+        public string CurrentStageName { get; set; }
         public List<StageDTO> Stages {  get; set; }
-        public List<SampleDTO> Samples { get; set; }
         public List<HybridzationDTO> Hybridizations { get; set; }
         public ExperimentLogStatus Status { get; set; }
         public string? Create_by { get; set; }
@@ -28,16 +29,16 @@ namespace orchid_backend_net.Application.ExperimentLog
             string Id, List<StageDTO> stageDTOs, List<SampleDTO> sampleDTOs, ExperimentLogStatus status,
             string? createdBy, DateTime? createdDate, string? updatedBy, 
             DateTime? updatedDate, string? deletedBy, DateTime? deletedDate,
-            List<HybridzationDTO> hybridzationDTOs)
+            List<HybridzationDTO> hybridzationDTOs, string name)
         {
             return new ExperimentLogDTO
             {
                 Id = Id,
                 MethodName = methodName,
+                Name = name,
                 TissueCultureBatchName = tissueCultureBatchName,
                 Description = description,
                 Stages = stageDTOs,
-                Samples = sampleDTOs,
                 Status = status,
                 Create_by = createdBy,
                 Create_date = createdDate,
@@ -55,19 +56,18 @@ namespace orchid_backend_net.Application.ExperimentLog
                 .ForMember(dest => dest.TissueCultureBatchName, opt => opt.MapFrom(src => src.TissueCultureBatch.Name))
                 .ForMember(dest => dest.MethodName, opt => opt.MapFrom(src => src.Method.Name))
                 .ForMember(dest => dest.Stages, otp => otp.MapFrom(src => src.Method.Stages))
-                .ForMember(dest => dest.Samples, opt => opt.MapFrom(src => src.Linkeds
-                .Select(
-                    Linkeds => new SampleDTO
-                    {
-                        ID = Linkeds.Sample.ID,
-                        Name = Linkeds.Sample.Name,
-                        Description = Linkeds.Sample.Description,
-                        Dob = Linkeds.Sample.Dob
-                    }
-                    )))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => (ExperimentLogStatus)src.Status))
-                .ReverseMap()
-                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => (int)src.Status));
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => (int)src.Status))
+                .ForMember(dest => dest.CurrentStageName, opt => opt.MapFrom(src => src.CurrentStageID != null
+                    ? src.Method.Stages.Where(s => s.ID == src.CurrentStageID).Select(s => s.Name).FirstOrDefault()
+                    : null))
+                .ForMember(dest => dest.Hybridizations, opt => opt.MapFrom(src => src.Hybridizations.Select(h => HybridzationDTO.Create(new GetSeedlingsNameDTO
+                {
+                    Id = h.Parent.ID,
+                    LocalName = h.Parent.LocalName,
+                    ScientificName = h.Parent.ScientificName
+                }))))
+                .ReverseMap();
         }
     }
 }

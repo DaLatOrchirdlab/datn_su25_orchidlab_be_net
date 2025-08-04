@@ -6,21 +6,15 @@ namespace orchid_backend_net.Application.TaskAssign
 {
     public class TaskAssignDTO : IMapFrom<TasksAssign>
     {
-        public string TechnicianID { get; set; }
-        public string TaskID { get; set; }
-        public int Status { get; set; }
-
-        public TaskAssignDTO() { }
-        public TaskAssignDTO(string technicianID, string taskID, int status)
-        {
-            TechnicianID = technicianID;
-            TaskID = taskID;
-            Status = status;
-        }
+        public string Id { get; set; }
+        public string TechnicianName { get; set; }
+        public bool Status { get; set; }
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<TaskAssignDTO, TasksAssign>();
+            profile.CreateMap<TasksAssign, TaskAssignDTO>()
+                .ForMember(dest => dest.TechnicianName, opt => opt.MapFrom(src => src.Technician.Name))
+                .ReverseMap();
         }
     }
 }

@@ -1,17 +1,12 @@
 ﻿using FluentValidation;
 using orchid_backend_net.Domain.IRepositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace orchid_backend_net.Application.Element.CreateElement
 {
     public class CreateElementCommandValidator : AbstractValidator<CreateElementCommand>
     {
         private readonly IElementRepositoty elementRepositoty;
-        public CreateElementCommandValidator(IElementRepositoty elementRepositoty) 
+        public CreateElementCommandValidator(IElementRepositoty elementRepositoty)
         {
             this.elementRepositoty = elementRepositoty;
             Configuration();
@@ -31,7 +26,7 @@ namespace orchid_backend_net.Application.Element.CreateElement
                 .WithMessage("Element name can not be null.");
             RuleFor(x => x.Name)
                 .MustAsync(async (name, cancellation) => !await IsDuplicatedName(name))
-                .WithMessage("A element with this name already exists.");
+                .WithMessage("An element with this name already exists.");
         }
         private async Task<bool> IsDuplicatedName(string name)
         {

@@ -17,6 +17,8 @@ namespace orchid_backend_net.Domain.Entities
         //3: DoneInTime,
         //4: DoneInLate,
         //5: Cancel,
-
+        public virtual ICollection<TasksAssign> Assigns { get; set; }
+        public virtual ICollection<TaskAttributes> Attributes { get; set; }
+        public virtual ICollection<Linkeds> Linkeds { get; set; }
     }
 }

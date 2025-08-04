@@ -14,10 +14,10 @@ namespace orchid_backend_net.Application.Seedling.CreateSeedling
 
         private void Configure()
         {
-            RuleFor(x => x.Name)
+            RuleFor(x => x.LocalName)
                 .NotEmpty().WithMessage("Name is required.")
                 .MaximumLength(100).WithMessage("Name must not exceed 100 characters.");
-            RuleFor(x => x.Name)
+            RuleFor(x => x.LocalName)
                 //Please fucking remember when the must async has false in it, it will run the fucking message
                 //which means, when the function returns true, it will throw out the message
                 .MustAsync(async (name, cancellation) => !await IsDuplicateName(name))
@@ -34,7 +34,7 @@ namespace orchid_backend_net.Application.Seedling.CreateSeedling
 
         private async Task<bool> IsDuplicateName(string name)
         {
-            return await seedlingRepository.AnyAsync(x => x.Name.ToLower().Equals(name.ToLower()));
+            return await seedlingRepository.AnyAsync(x => x.LocalName.ToLower().Equals(name.ToLower()));
         }
     }
 }

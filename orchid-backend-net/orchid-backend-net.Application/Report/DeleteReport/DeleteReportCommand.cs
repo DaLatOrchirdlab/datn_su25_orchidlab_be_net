@@ -1,12 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MediatR;
+using orchid_backend_net.Application.Common.Interfaces;
+using orchid_backend_net.Domain.IRepositories;
 
 namespace orchid_backend_net.Application.Report.DeleteReport
 {
-    internal class DeleteReportCommand
+    public class DeleteReportCommand(string reportId) : IRequest<string>
     {
+        public string ReportId { get; set; } = reportId;
+    }
+
+    internal class DeleteReportCommandHandler(IReportRepository reportRepository, ICurrentUserService currentUserService) : IRequestHandler<DeleteReportCommand, string>
+    {
+        public async Task<string> Handle(DeleteReportCommand request, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var report = await reportRepository.FindAsync(r => r.ID.Equals(request.ReportId) && r.Delete_date == null, cancellationToken);
+                report.Delete_by = currentUserService.UserId;
+                report.Delete_date = DateTime.UtcNow;
+                report.Status = false; // Assuming Status is used to indicate if the report is active or not
+                reportRepository.Update(report);
+                return await reportRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? "Deleted report." : "Failed to delete report.";
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"{ex.Message}");
+            }
+        }
     }
 }

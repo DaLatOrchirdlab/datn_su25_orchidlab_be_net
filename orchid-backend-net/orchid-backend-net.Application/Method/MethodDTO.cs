@@ -12,9 +12,9 @@ namespace orchid_backend_net.Application.Method
         public string Description { get; set; }
         public string Type { get; set; }
         public bool Status { get; set; }
-        public List<StageDTO> Stages { get; set; } = [];
+        public List<StageDTO> Stages { get; set; }
         public MethodDTO Create(string id, string name, string description, string type, bool status, List<StageDTO> stages)
-            => new MethodDTO
+            => new()
             {
                 Id = id,
                 Description = description,

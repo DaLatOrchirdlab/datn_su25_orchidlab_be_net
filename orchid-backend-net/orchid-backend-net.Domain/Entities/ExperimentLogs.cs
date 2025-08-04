@@ -5,6 +5,9 @@ namespace orchid_backend_net.Domain.Entities
 {
     public class ExperimentLogs : BaseSoftDelete
     {
+        public string Name { get; set; }
+        public string CurrentStageID { get; set; }  
+        public decimal InfectedRateInReality { get; set; }
         public string MethodID {  get; set; }
         [ForeignKey(nameof(MethodID))]
         public virtual Methods Method {  get; set; }

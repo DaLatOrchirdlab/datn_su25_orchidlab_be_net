@@ -21,6 +21,8 @@ namespace orchid_backend_net.Infrastructure.Persistence
         public virtual DbSet<TaskAttributes> TaskAttributes { get; set; }
         public virtual DbSet<TissueCultureBatches> TissueCultureBatches { get; set; }
         public virtual DbSet<Users> Users { get; set; }
+        public virtual DbSet<TaskTemplates> TaskTemplates { get; set; }
+        public virtual DbSet<TaskTemplateDetails> TaskTemplateDetails { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -39,6 +41,8 @@ namespace orchid_backend_net.Infrastructure.Persistence
             modelBuilder.ApplyConfiguration(new ConfigInfectedSample());
             modelBuilder.ApplyConfiguration(new ConfigImg());
             modelBuilder.ApplyConfiguration(new ConfigHybridization());
+            modelBuilder.ApplyConfiguration(new ConfigTaskTemplates());
+            modelBuilder.ApplyConfiguration(new ConfigTaskTemplateDetails());
         }
         private static void ConfigureModel(ModelBuilder modelBuilder)
         {

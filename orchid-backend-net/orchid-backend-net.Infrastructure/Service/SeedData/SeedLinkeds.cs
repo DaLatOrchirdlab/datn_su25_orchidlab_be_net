@@ -21,7 +21,7 @@ namespace orchid_backend_net.Infrastructure.Service.SeedData
                         TaskID = tasks[0].ID,
                         SampleID = samples[0].ID,
                         ExperimentLogID = experimentLogs[0].ID,
-                        Status = true
+                        ProcessStatus = 0
                     },
                     new()
                     {
@@ -29,7 +29,7 @@ namespace orchid_backend_net.Infrastructure.Service.SeedData
                         TaskID = tasks[1].ID,
                         SampleID = samples[1].ID,
                         ExperimentLogID = experimentLogs[1].ID,
-                        Status = true
+                        ProcessStatus = 0
                     }
                 };
 

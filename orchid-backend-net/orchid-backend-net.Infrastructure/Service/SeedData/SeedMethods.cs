@@ -11,8 +11,8 @@ namespace orchid_backend_net.Infrastructure.Service.SeedData
             {
                 var methods = new List<Methods>
                 {
-                    new() { ID = Guid.NewGuid().ToString(), Name = "Sterilization", Description = "Disinfect material", Type = "Preparation", Status = true },
-                    new() { ID = Guid.NewGuid().ToString(), Name = "Subculturing", Description = "Transfer to new media", Type = "Maintenance", Status = true }
+                    new() { ID = Guid.NewGuid().ToString(), Name = "Phương pháp lai vô tính", Description = "Nuôi cấy mô để nhân giống vô tính.", Type = "Clonal", Status = true, },
+                    new() {  ID = Guid.NewGuid().ToString(), Name = "Phương pháp lai hữu tính", Description = "Kết hợp giữa các giống bố mẹ.", Type = "Sexual", Status = true, }
                 };
 
                 await context.Set<Methods>().AddRangeAsync(methods);

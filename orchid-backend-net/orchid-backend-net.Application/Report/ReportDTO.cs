@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using orchid_backend_net.Application.Common.Mappings;
+using orchid_backend_net.Application.ReportAttribute;
 using orchid_backend_net.Domain.Entities;
 
 namespace orchid_backend_net.Application.Report
@@ -12,19 +13,14 @@ namespace orchid_backend_net.Application.Report
         public string Sample { get; set; }
         public string Technician { get; set; }
         public bool Status { get; set; }
-        public ReportDTO Create(string id, string name, string sample, string description, string teachnician, bool status)
-            => new ReportDTO
-            {
-                ID = id,
-                Name = name,
-                Sample = sample,
-                Description = description,
-                Technician = teachnician,
-                Status = status
-            };
+        public List<ReportAttributesDTO> ReportAttributes { get; set; }
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<Reports, ReportDTO>();
+            profile.CreateMap<Reports, ReportDTO>()
+                .ForMember(dest => dest.Sample, opt => opt.MapFrom(src => src.SampleID))
+                .ForMember(dest => dest.Technician, opt => opt.MapFrom(src => src.TechnicianID))
+                .ForMember(dest => dest.ReportAttributes, opt => opt.MapFrom(src => src.ReportAttributes))
+                .ReverseMap();
         }
     }
 }

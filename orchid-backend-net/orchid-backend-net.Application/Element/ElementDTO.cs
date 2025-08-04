@@ -23,7 +23,8 @@ namespace orchid_backend_net.Application.Element
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<Elements, ElementDTO>();
+            profile.CreateMap<Elements, ElementDTO>()
+                .ReverseMap();
         }
     }
 }
