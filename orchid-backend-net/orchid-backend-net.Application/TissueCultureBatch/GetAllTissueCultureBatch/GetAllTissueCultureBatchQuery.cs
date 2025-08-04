@@ -9,17 +9,25 @@ namespace orchid_backend_net.Application.TissueCultureBatch.GetAllTissueCultureB
     {
         public int PageNumber { get; set; } = pageNumber;
         public int PageSize { get; set; } = pageSize;
+
     }
 
     internal class GetAllTissueCultureBatchQueryHandler(ITissueCultureBatchRepository repository) : IRequestHandler<GetAllTissueCultureBatchQuery, PageResult<TissueCultureBatchDTO>>
     {
         public async Task<PageResult<TissueCultureBatchDTO>> Handle(GetAllTissueCultureBatchQuery request, CancellationToken cancellationToken)
         {
-            var tissueCultureBatches = await repository.FindAllProjectToAsync<TissueCultureBatchDTO>(
-                pageNo: request.PageNumber,
-                pageSize: request.PageSize,
-                cancellationToken: cancellationToken);
-            return tissueCultureBatches.ToAppPageResult();
+            try
+            {
+                var tissueCultureBatches = await repository.FindAllProjectToAsync<TissueCultureBatchDTO>(
+                    pageNo: request.PageNumber,
+                    pageSize: request.PageSize,
+                    cancellationToken: cancellationToken);
+                return tissueCultureBatches.ToAppPageResult();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"{ex.Message}", ex);
+            }
         }
     }
 }
