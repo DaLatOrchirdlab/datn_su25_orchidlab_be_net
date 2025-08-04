@@ -7,6 +7,7 @@ using orchid_backend_net.Application.Report.CreateReport;
 using orchid_backend_net.Application.Report.DeleteReport;
 using orchid_backend_net.Application.Report.GetAllReport;
 using orchid_backend_net.Application.Report.GetReportInfor;
+using orchid_backend_net.Application.Report.GetReportPerTech;
 using orchid_backend_net.Application.Report.UpdateReport;
 using System.Net.Mime;
 
@@ -16,6 +17,35 @@ namespace orchid_backend_net.API.Controllers.Report
     [ApiController]
     public class ReportController(ISender sender, ILogger<ReportController> logger) : BaseController(sender)
     {
+
+
+        [HttpGet]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(JsonResponse<ReportDTO>), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(JsonResponse<ReportDTO>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<JsonResponse<PageResult<ReportDTO>>>> FilterByTechnician(
+            [FromQuery] int pageNumber,
+            [FromQuery] int pageSize,
+            [FromQuery] string techID,
+            CancellationToken cancellationToken)
+        {
+            try
+            {
+                var result = await sender.Send(new GetReportPerTechQuery(pageNumber, pageSize, techID), cancellationToken);
+                logger.LogInformation("Received GET request at {Time}", DateTime.UtcNow);
+                return Ok(new JsonResponse<PageResult<ReportDTO>>(result));
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation(ex, "Error occurred while processing GET request at {Time}", DateTime.UtcNow);
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpGet]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(JsonResponse<ReportDTO>), StatusCodes.Status201Created)]

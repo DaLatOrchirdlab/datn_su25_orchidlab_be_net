@@ -14,5 +14,7 @@ namespace orchid_backend_net.Domain.Entities
         public bool IsLatest { get; set; } = false; // Indicates if this report is the latest for the sample
         public bool Status {  get; set; }
         public virtual ICollection<ReportAttributes> ReportAttributes { get; set; } = [];
+        public virtual ICollection<Imgs> Imgs { get; set; } = [];
+        public virtual Users Technician { get; set; }
     }
 }
