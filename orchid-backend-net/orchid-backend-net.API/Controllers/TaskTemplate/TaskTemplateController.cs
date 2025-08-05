@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using orchid_backend_net.API.Controllers.ResponseTypes;
-using orchid_backend_net.API.Controllers.Task;
 using orchid_backend_net.Application.Common.Pagination;
 using orchid_backend_net.Application.TaskTemplate;
 using orchid_backend_net.Application.TaskTemplate.CreateTaskTemplate;
@@ -15,7 +14,7 @@ namespace orchid_backend_net.API.Controllers.TaskTemplate
 {
     [Route("api/TaskTemplate")]
     [ApiController]
-    public class TaskTemplateController(ISender sender, ILogger<TaskController> logger) : BaseController(sender)
+    public class TaskTemplateController(ISender sender, ILogger<TaskTemplateController> logger) : BaseController(sender)
     {
         [HttpGet]
         [Produces(MediaTypeNames.Application.Json)]
