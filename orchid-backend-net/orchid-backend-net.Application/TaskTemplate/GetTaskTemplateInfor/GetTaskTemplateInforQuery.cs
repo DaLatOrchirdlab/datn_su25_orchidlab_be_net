@@ -22,7 +22,7 @@ namespace orchid_backend_net.Application.TaskTemplate.GetTaskTemplateInfor
             try
             {
                 var obj = await this._taskTemplateRepository.FindProjectToAsync<TaskTemplateDTO>(query => query.Where(x => x.ID.Equals(request.ID)), cancellationToken: cancellationToken);
-                return obj == null ? obj : throw new NotFoundException($"not found task template with ID {request.ID}");
+                return obj != null ? obj : throw new NotFoundException($"not found task template with ID {request.ID}");
             }
             catch (Exception ex)
             {
