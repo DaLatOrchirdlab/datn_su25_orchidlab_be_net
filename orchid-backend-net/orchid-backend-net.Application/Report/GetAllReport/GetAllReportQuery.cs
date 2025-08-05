@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using MediatR;
+using orchid_backend_net.Application.Common.Extension;
 using orchid_backend_net.Application.Common.Interfaces;
 using orchid_backend_net.Application.Common.Pagination;
 using orchid_backend_net.Domain.Common.Exceptions;
+using orchid_backend_net.Domain.Entities;
 using orchid_backend_net.Domain.IRepositories;
 
 namespace orchid_backend_net.Application.Report.GetAllReport
@@ -11,11 +13,13 @@ namespace orchid_backend_net.Application.Report.GetAllReport
     {
         public int PageNumber { get; set; }
         public int PageSize { get; set; }
+        public string? TechnicianId { get; set; }
         public GetAllReportQuery() { }
-        public GetAllReportQuery(int pageNumber, int pageSize)
+        public GetAllReportQuery(int pageNumber, int pageSize, string? technicianId)
         {
             PageSize = pageSize;
             PageNumber = pageNumber;
+            TechnicianId = technicianId;
         }
     }
 
@@ -26,16 +30,19 @@ namespace orchid_backend_net.Application.Report.GetAllReport
         {
             try
             {
-                var result = await reportRepository.FindAllAsync(request.PageNumber, request.PageSize, cancellationToken);
-                if (result == null)
-                    throw new NotFoundException("Not found any Report in the system.");
-                return PageResult<ReportDTO>.Create(
-                    totalCount: result.TotalCount,
-                    pageCount: result.PageSize,
-                    pageNumber: request.PageNumber,
+                IQueryable<Reports> queryOptions(IQueryable<Reports> query)
+                {
+                    if(!string.IsNullOrWhiteSpace(request.TechnicianId))
+                        query = query.Where(x => x.TechnicianID.ToLower().Equals(request.TechnicianId.ToLower()));
+                    return query;
+                }
+
+                var reports = await reportRepository.FindAllProjectToAsync<ReportDTO>(
+                    pageNo: request.PageNumber,
                     pageSize: request.PageSize,
-                    data: result.MapToReprotDTOList(mapper)
-                    );
+                    queryOptions: queryOptions,
+                    cancellationToken: cancellationToken);
+                return reports.ToAppPageResult();
             }
             catch (Exception ex)
             {

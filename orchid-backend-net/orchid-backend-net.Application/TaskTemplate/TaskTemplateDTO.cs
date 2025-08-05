@@ -1,17 +1,12 @@
 ﻿using AutoMapper;
 using orchid_backend_net.Application.Common.Mappings;
 using orchid_backend_net.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace orchid_backend_net.Application.TaskTemplate
 {
     public class TaskTemplateDTO : IMapFrom<TaskTemplates>
     {
+        public string ID { get; set; }
         public string Name { get; set; }
         public string StageID { get; set; }
         public string Description { get; set; }
