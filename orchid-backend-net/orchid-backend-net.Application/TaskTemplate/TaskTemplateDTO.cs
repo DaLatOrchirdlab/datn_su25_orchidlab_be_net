@@ -17,7 +17,7 @@ namespace orchid_backend_net.Application.TaskTemplate
         {
             profile.CreateMap<TaskTemplates, TaskTemplateDTO>()
                 .ForMember(dest => dest.Details, opt => opt.MapFrom(src => src.TemplateDetails))
-                .ForMember(dest => dest.StageName, opt => opt.MapFrom(src => src.Stages.Name))
+                .ForMember(dest => dest.StageName, opt => opt.MapFrom(src => src.Stage.Name))
                 .ReverseMap();
         }
     }
