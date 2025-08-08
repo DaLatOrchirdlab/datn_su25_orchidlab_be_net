@@ -1,6 +1,16 @@
-﻿namespace orchid_backend_net.Application.TissueCultureBatch.UpdateTissueCultureBatch
+﻿using FluentValidation;
+
+namespace orchid_backend_net.Application.TissueCultureBatch.UpdateTissueCultureBatch
 {
-    internal class UpdateTissueCultureBatchCommandValidator
+    public class UpdateTissueCultureBatchCommandValidator : AbstractValidator<UpdateTissueCultureBatchCommand>
     {
+        public UpdateTissueCultureBatchCommandValidator()
+        {
+            Configuration();
+        }
+        void Configuration()
+        {
+
+        }
     }
 }
