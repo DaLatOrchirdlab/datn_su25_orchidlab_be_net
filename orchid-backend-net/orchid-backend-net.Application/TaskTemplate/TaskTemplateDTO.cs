@@ -24,6 +24,6 @@ namespace orchid_backend_net.Application.TaskTemplate
                 .ForMember(dest => dest.Details, opt => opt.MapFrom(src => src.TemplateDetails))
                 .ForMember(dest => dest.StageName, opt => opt.MapFrom(src => src.Stages.Name))
                 .ReverseMap();
-        }
+        }   
     }
 }
