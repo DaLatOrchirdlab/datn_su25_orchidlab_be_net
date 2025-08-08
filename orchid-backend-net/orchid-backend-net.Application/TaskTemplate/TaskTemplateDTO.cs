@@ -8,6 +8,7 @@ namespace orchid_backend_net.Application.TaskTemplate
     {
         public string ID { get; set; }
         public string Name { get; set; }
+        public string StageID {  get; set; }
         public string StageName { get; set; }
         public string Description { get; set; }
         public bool Status { get; set; }
