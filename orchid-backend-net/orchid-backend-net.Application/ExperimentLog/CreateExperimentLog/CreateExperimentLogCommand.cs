@@ -22,7 +22,8 @@ namespace orchid_backend_net.Application.ExperimentLog.CreateExperimentLog
     internal class CreateExperimentLogCommandHandler(IExperimentLogRepository experimentLogRepository, IHybridizationRepository hybridizationRepository,
         ILinkedRepository linkedRepository, IStageRepository stageRepository,
         ISender sender, ITaskTemplatesRepository taskTemplatesRepository,
-        ITaskTemplateDetailsRepository taskTemplateDetailsRepository) : IRequestHandler<CreateExperimentLogCommand, string>
+        ITaskTemplateDetailsRepository taskTemplateDetailsRepository,
+        ICurrentUserService currentUserService) : IRequestHandler<CreateExperimentLogCommand, string>
     {
         public async Task<string> Handle(CreateExperimentLogCommand request, CancellationToken cancellationToken)
         {
@@ -79,7 +80,9 @@ namespace orchid_backend_net.Application.ExperimentLog.CreateExperimentLog
                     MethodID = request.MethodID,
                     Description = request.Description,
                     TissueCultureBatchID = request.TissueCultureBatchID,
-                    Status = 1
+                    Status = 1,
+                    Create_date = DateTime.UtcNow,
+                    Create_by = currentUserService.UserId,
                 };
                 experimentLogRepository.Add(obj);
 
