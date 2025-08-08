@@ -63,32 +63,5 @@ namespace orchid_backend_net.API.Controllers.Images
                 return BadRequest(ex.Message);
             }
         }
-
-        [HttpPost]
-        [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<JsonResponse<string>>> Create(
-            IFormFile file,
-            CancellationToken cancellationToken)
-        {
-            try
-            {
-                using var stream = file.OpenReadStream();
-                stream.Position = 0;
-                var command = new CreateImageCommand(stream, file.FileName);
-                var result = await sender.Send(command, cancellationToken);
-                logger.LogInformation("Received POST request at {Time}", DateTime.UtcNow);
-                return Ok(new JsonResponse<string>(result));
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex, "Error occurred while processing POST request at {Time}", DateTime.UtcNow);
-                return BadRequest(ex.Message);
-            }
-        }
     }
 }
