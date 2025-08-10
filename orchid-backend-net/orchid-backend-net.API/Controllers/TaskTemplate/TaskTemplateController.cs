@@ -1,17 +1,7 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using orchid_backend_net.API.Controllers.ResponseTypes;
-using orchid_backend_net.API.Controllers.Task;
 using orchid_backend_net.Application.Common.Pagination;
-using orchid_backend_net.Application.Method;
-using orchid_backend_net.Application.Method.CreateMethod;
-using orchid_backend_net.Application.Method.DeleteMethod;
-using orchid_backend_net.Application.Method.GetMethodInfor;
-using orchid_backend_net.Application.Method.UpdateMethod;
-using orchid_backend_net.Application.Report;
-using orchid_backend_net.Application.Report.GetAllReport;
-using orchid_backend_net.Application.Tasks.GetAllTasks;
 using orchid_backend_net.Application.TaskTemplate;
 using orchid_backend_net.Application.TaskTemplate.CreateTaskTemplate;
 using orchid_backend_net.Application.TaskTemplate.DeleteTaskTemplate;
@@ -24,7 +14,7 @@ namespace orchid_backend_net.API.Controllers.TaskTemplate
 {
     [Route("api/TaskTemplate")]
     [ApiController]
-    public class TaskTemplateController(ISender sender, ILogger<TaskController> logger) : BaseController(sender)
+    public class TaskTemplateController(ISender sender, ILogger<TaskTemplateController> logger) : BaseController(sender)
     {
         [HttpGet]
         [Produces(MediaTypeNames.Application.Json)]

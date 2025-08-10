@@ -1,6 +1,16 @@
-﻿namespace orchid_backend_net.Application.TissueCultureBatch.GetTissueCultureBatchInfor
+﻿using FluentValidation;
+
+namespace orchid_backend_net.Application.TissueCultureBatch.GetTissueCultureBatchInfor
 {
-    internal class GetTissueCultureBatchInforQueryValidator
+    public class GetTissueCultureBatchInforQueryValidator : AbstractValidator<GetTissueCultureBatchInforQuery>
     {
+        public GetTissueCultureBatchInforQueryValidator()
+        {
+            Configuration();
+        }
+        void Configuration()
+        {
+
+        }
     }
 }

@@ -10,7 +10,7 @@ namespace orchid_backend_net.Infrastructure.Persistence.Configuration
         public void Configure(EntityTypeBuilder<Imgs> builder)
         {
             builder.HasOne(x => x.Report)
-                .WithMany()
+                .WithMany(x => x.Imgs)
                 .HasForeignKey(x => x.ReportID)
                 .OnDelete(DeleteBehavior.Restrict);
         }

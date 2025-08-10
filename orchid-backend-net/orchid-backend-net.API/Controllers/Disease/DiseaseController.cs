@@ -2,68 +2,71 @@
 using Microsoft.AspNetCore.Mvc;
 using orchid_backend_net.API.Controllers.ResponseTypes;
 using orchid_backend_net.Application.Common.Pagination;
-using orchid_backend_net.Application.Report;
-using orchid_backend_net.Application.Report.CreateReport;
-using orchid_backend_net.Application.Report.DeleteReport;
-using orchid_backend_net.Application.Report.GetAllReport;
-using orchid_backend_net.Application.Report.GetReportInfor;
-using orchid_backend_net.Application.Report.UpdateReport;
+using orchid_backend_net.Application.Disease;
+using orchid_backend_net.Application.Disease.Analysis;
+using orchid_backend_net.Application.Disease.Create;
+using orchid_backend_net.Application.Disease.Delete;
+using orchid_backend_net.Application.Disease.GetAll;
+using orchid_backend_net.Application.Disease.GetInfor;
+using orchid_backend_net.Application.Disease.Update;
 using System.Net.Mime;
 
-namespace orchid_backend_net.API.Controllers.Report
+namespace orchid_backend_net.API.Controllers.Disease
 {
-    [Route("api/report")]
+    [Route("api/disease")]
     [ApiController]
-    public class ReportController(ISender sender, ILogger<ReportController> logger) : BaseController(sender)
+    public class DiseaseController(ISender sender, ILogger<DiseaseController> logger) : BaseController(sender)
     {
         [HttpGet]
         [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(typeof(JsonResponse<ReportDTO>), StatusCodes.Status201Created)]
-        [ProducesResponseType(typeof(JsonResponse<ReportDTO>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(JsonResponse<DiseaseDTO>), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(JsonResponse<DiseaseDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<JsonResponse<PageResult<ReportDTO>>>> GetAll(
+        public async Task<ActionResult<JsonResponse<PageResult<DiseaseDTO>>>> GetAll(
             [FromQuery] int pageNumber,
             [FromQuery] int pageSize,
-            [FromQuery] string? technicianId,
-            CancellationToken cancellationToken)
+            [FromQuery] string? searchTerm,
+            [FromQuery] decimal? minInfectedRate,
+            [FromQuery] bool? isActive,
+            CancellationToken cancellationToken = default)
         {
             try
             {
-                var result = await sender.Send(new GetAllReportQuery(pageNumber, pageSize, technicianId), cancellationToken);
+                var result = await sender.Send(new GetAllDiseaseQuery(pageNumber, pageSize, searchTerm, minInfectedRate, isActive), cancellationToken);
                 logger.LogInformation("Received GET request at {Time}", DateTime.UtcNow);
-                return Ok(new JsonResponse<PageResult<ReportDTO>>(result));
+                return Ok(new JsonResponse<PageResult<DiseaseDTO>>(result));
             }
             catch (Exception ex)
             {
-                logger.LogInformation(ex, "Error occurred while processing GET request at {Time}", DateTime.UtcNow);
+                logger.LogError(ex, "Error occurred while processing GET request at {Time}", DateTime.UtcNow);
                 return BadRequest(ex.Message);
             }
         }
 
         [HttpGet("{id}")]
         [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(typeof(JsonResponse<ReportDTO>), StatusCodes.Status201Created)]
-        [ProducesResponseType(typeof(JsonResponse<ReportDTO>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(JsonResponse<DiseaseDTO>), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(JsonResponse<DiseaseDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<JsonResponse<ReportDTO>>> GetInfor(
-           [FromQuery] string id,
-           CancellationToken cancellationToken)
+        public async Task<ActionResult<JsonResponse<DiseaseDTO>>> GetInfor(
+           [FromRoute] string id,
+           CancellationToken cancellationToken = default)
         {
             try
             {
-                var result = await sender.Send(new GetReportInforQuery(id), cancellationToken);
+                var result = await sender.Send(new GetDiseaseInforQuery(id), cancellationToken);
                 logger.LogInformation("Received GET request at {Time}", DateTime.UtcNow);
-                return Ok(new JsonResponse<ReportDTO>(result));
+                return Ok(new JsonResponse<DiseaseDTO>(result));
             }
             catch (Exception ex)
             {
-                logger.LogInformation(ex, "Error occurred while processing GET request at {Time}", DateTime.UtcNow);
+                logger.LogError(ex, "Error occurred while processing GET request at {Time}", DateTime.UtcNow);
                 return BadRequest(ex.Message);
             }
         }
@@ -77,14 +80,47 @@ namespace orchid_backend_net.API.Controllers.Report
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<JsonResponse<string>>> Create(
-            [FromBody] CreateReportCommand command,
-            CancellationToken cancellationToken)
+           [FromBody] CreateDiseaseCommand command,
+           CancellationToken cancellationToken = default)
         {
             try
             {
                 var result = await sender.Send(command, cancellationToken);
                 logger.LogInformation("Received POST request at {Time}", DateTime.UtcNow);
                 return Ok(new JsonResponse<string>(result));
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Error occurred while processing POST request at {Time}", DateTime.UtcNow);
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("analyze")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(JsonResponse<AnalysisDTO>), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(JsonResponse<AnalysisDTO>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<JsonResponse<AnalysisDTO>>> AnalyzeImage(
+           IFormFile imageFile)
+        {
+            try
+            {
+                if (imageFile == null || imageFile.Length == 0)
+                    return BadRequest("Image file is required.");
+
+                using var stream = imageFile.OpenReadStream();
+                using var memoryStream = new MemoryStream();
+                await stream.CopyToAsync(memoryStream);
+                var imageBytes = memoryStream.ToArray();
+
+                var command = new DiseaseAnalysisCommand { ImageBytes = imageBytes };
+                var result = await _sender.Send(command);
+                logger.LogInformation("Received POST request at {Time}", DateTime.UtcNow);
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -102,8 +138,8 @@ namespace orchid_backend_net.API.Controllers.Report
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<JsonResponse<string>>> Update(
-            [FromBody] UpdateReportCommand command,
-            CancellationToken cancellationToken)
+           [FromBody] UpdateDiseaseCommand command,
+           CancellationToken cancellationToken = default)
         {
             try
             {
@@ -127,8 +163,8 @@ namespace orchid_backend_net.API.Controllers.Report
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<JsonResponse<string>>> Delete(
-            [FromBody] DeleteReportCommand command,
-            CancellationToken cancellationToken)
+           [FromBody] DeleteDiseaseCommand command,
+           CancellationToken cancellationToken = default)
         {
             try
             {

@@ -11,7 +11,7 @@ namespace orchid_backend_net.Application.TaskTemplate
 {
     public class TaskTemplateDetailsDTO : IMapFrom<TaskTemplateDetails>
     {
-        public string ID {  get; set; }
+        public string ID { get; set; }
         public string Element { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }

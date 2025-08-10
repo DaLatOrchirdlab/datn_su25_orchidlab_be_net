@@ -1,6 +1,16 @@
-﻿namespace orchid_backend_net.Application.TissueCultureBatch.DeleteTissueCultureBatch
+﻿using FluentValidation;
+
+namespace orchid_backend_net.Application.TissueCultureBatch.DeleteTissueCultureBatch
 {
-    internal class DeleteTissueCultureBatchCommandValidator
+    public class DeleteTissueCultureBatchCommandValidator : AbstractValidator<DeleteTissueCultureBatchCommand>
     {
+        public DeleteTissueCultureBatchCommandValidator()
+        {
+            Configuration();
+        }
+        void Configuration()
+        {
+
+        }
     }
 }

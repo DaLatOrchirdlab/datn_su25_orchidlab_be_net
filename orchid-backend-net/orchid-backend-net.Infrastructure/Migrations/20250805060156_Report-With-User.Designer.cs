@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using orchid_backend_net.Infrastructure.Persistence;
@@ -11,9 +12,11 @@ using orchid_backend_net.Infrastructure.Persistence;
 namespace orchid_backend_net.Infrastructure.Migrations
 {
     [DbContext(typeof(OrchidDbContext))]
-    partial class OrchidDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250805060156_Report-With-User")]
+    partial class ReportWithUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -740,14 +743,7 @@ namespace orchid_backend_net.Infrastructure.Migrations
                     b.Property<DateTime>("End_date")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<bool>("IsDaily")
-                        .HasColumnType("boolean");
-
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("ReportInformation")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -766,10 +762,6 @@ namespace orchid_backend_net.Infrastructure.Migrations
 
                     b.Property<DateTime?>("Update_date")
                         .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Url")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.HasKey("ID");
 
