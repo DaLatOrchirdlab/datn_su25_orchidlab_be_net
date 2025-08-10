@@ -20,6 +20,9 @@ namespace orchid_backend_net.Application.Tasks
         public DateTime End_date { get; set; }
         public DateTime Create_at { get; set; }
         public Domain.Enums.TaskStatus Status { get; set; }
+        public string Url { get; set; }
+        public string ReportInformation { get; set; }
+        public bool IsDaily { get; set; }
 
         public void Mapping(Profile profile)
         {

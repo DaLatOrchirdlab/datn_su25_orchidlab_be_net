@@ -15,12 +15,13 @@ namespace orchid_backend_net.Application.Tasks.CreateTask
         public string Description { get; set; }
         public DateTime Start_date { get; set; }
         public DateTime End_date { get; set; }
+        public bool IsDaily {  get; set; }
         public List<CreateTaskAttributeCommand> Attribute { get; set; }
         public List<string> TechnicianID { get; set; }
         public CreateTaskCommand(string name, string description, 
             DateTime start_date, DateTime end_date, List<CreateTaskAttributeCommand> attribute, 
             List<string> technicianID, string experimentLogID, string stageID, 
-            string sampleId)
+            string sampleId, bool isdaily)
         {
             Name = name;
             Description = description;
@@ -31,6 +32,7 @@ namespace orchid_backend_net.Application.Tasks.CreateTask
             ExperimentLogID = experimentLogID;
             StageID = stageID;
             SampleID = sampleId;
+            IsDaily = isdaily;
         }
         public CreateTaskCommand() { }
     }
@@ -51,6 +53,7 @@ namespace orchid_backend_net.Application.Tasks.CreateTask
                     End_date = request.End_date,
                     Description = request.Description,
                     Researcher = currentUserService.UserId,
+                    IsDaily = request.IsDaily,
                     Status = 0,
                 };
                 taskRepository.Add(task);
