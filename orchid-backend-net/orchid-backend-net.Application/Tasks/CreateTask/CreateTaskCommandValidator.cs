@@ -38,13 +38,13 @@ namespace orchid_backend_net.Application.Tasks.CreateTask
                 .NotEmpty()
                 .WithMessage("End time can not be empty.");
 
-            //RuleFor(x => x.ExperimentLogID)
-            //    .NotNull()
-            //    .NotEmpty()
-            //    .WithMessage("Experiment log cannot be null or empty.");
-            //RuleFor(x => x.ExperimentLogID)
-            //    .MustAsync(async (id, cancellationToken) => await IsExperimentLogExist(id, cancellationToken))
-            //    .WithMessage(x => $"Cannot find experiment log with id: {x.ExperimentLogID}.");
+            RuleFor(x => x.ExperimentLogID)
+                .NotNull()
+                .NotEmpty()
+                .WithMessage("Experiment log cannot be null or empty.");
+            RuleFor(x => x.ExperimentLogID)
+                .MustAsync(async (id, cancellationToken) => await IsExperimentLogExist(id, cancellationToken))
+                .WithMessage(x => $"Cannot find experiment log with id: {x.ExperimentLogID}.");
 
             RuleFor(x => x.StageID)
                 .NotNull()
@@ -54,13 +54,13 @@ namespace orchid_backend_net.Application.Tasks.CreateTask
                 .MustAsync(async (id, cancellationToken) => await IsStageExist(id, cancellationToken))
                 .WithMessage(x => $"Cannot find stage with id: {x.StageID}.");
 
-            //RuleFor(x => x.SampleID)
-            //    .NotNull()
-            //    .NotEmpty()
-            //    .WithMessage("Sample cannot be null or empty.");
-            //RuleFor(x => x.SampleID)
-            //    .MustAsync(async (id, cancellationToken) => await IsSampleExist(id, cancellationToken))
-            //    .WithMessage(x => $"Cannot find sample with id: {x.SampleID}");
+            RuleFor(x => x.SampleID)
+                .NotNull()
+                .NotEmpty()
+                .WithMessage("Sample cannot be null or empty.");
+            RuleFor(x => x.SampleID)
+                .MustAsync(async (id, cancellationToken) => await IsSampleExist(id, cancellationToken))
+                .WithMessage(x => $"Cannot find sample with id: {x.SampleID}");
         }
 
         private async Task<bool> IsStageExist(string stageId, CancellationToken cancellationToken)
