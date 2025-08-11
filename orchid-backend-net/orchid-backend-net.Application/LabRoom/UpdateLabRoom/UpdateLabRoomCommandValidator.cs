@@ -14,8 +14,8 @@ namespace orchid_backend_net.Application.LabRoom.UpdateLabRoom
         }
         void Configuration()
         {
-            RuleFor(x => x.Description.Count())
-                .LessThanOrEqualTo(200)
+            RuleFor(x => x.Description.Length)
+                .GreaterThan(200)
                 .WithMessage("Description is too long.");
 
             RuleFor(x => x.Name)
@@ -31,7 +31,7 @@ namespace orchid_backend_net.Application.LabRoom.UpdateLabRoom
         private async Task<bool> IsDuplicatedName(string? name, CancellationToken cancellationToken)
         {
             if (string.IsNullOrWhiteSpace(name))
-                return false;
+                return true;
             //true => validator pass
             //false => validator catch
             return await _labRoomRepository.AnyAsync(x => x.Name.ToLower().Equals(name.ToLower()), cancellationToken);

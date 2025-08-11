@@ -28,11 +28,11 @@ namespace orchid_backend_net.Application.Method.CreateMethod
                 .NotEmpty()
                 .NotNull()
                 .WithMessage("Description can not be null.");
-            RuleFor(x => x.Name.Count())
-                .LessThanOrEqualTo(50)
+            RuleFor(x => x.Name.Length)
+                .GreaterThan(50)
                 .WithMessage("Name is too long");
-            RuleFor(x => x.Description.Count())
-                .LessThanOrEqualTo(500)
+            RuleFor(x => x.Description.Length)
+                .GreaterThan(500)
                 .WithMessage("Description is too long.");
             RuleFor(x => x.Type)
                 .Must((methodType) => IsDefinedInEnum(methodType))

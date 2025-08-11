@@ -13,8 +13,8 @@ namespace orchid_backend_net.Application.Element.UpdateElement
         }
         void Configuration()
         {
-            RuleFor(x => x.Description.Count())
-                .LessThanOrEqualTo(250)
+            RuleFor(x => x.Description.Length)
+                .GreaterThan(250)
                 .WithMessage("Element description is too long.");
             RuleFor(x => x.ID)
                 .MustAsync(async (id, cancellationToken) => await ElementExists(id, cancellationToken))
