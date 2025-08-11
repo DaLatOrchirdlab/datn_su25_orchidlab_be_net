@@ -5,7 +5,7 @@ using orchid_backend_net.Domain.IRepositories;
 
 namespace orchid_backend_net.Application.Images.Create
 {
-    public class CreateImageCommand(Stream fileStream, string fileName, string reportId) : IRequest, ICommand
+    public class CreateImageCommand(Stream fileStream, string fileName, string reportId) : IRequest<string>, ICommand
     {
         public Stream FileStream { get; set; } = fileStream;
         public string FileName { get; set; } = fileName;
@@ -14,7 +14,7 @@ namespace orchid_backend_net.Application.Images.Create
 
     internal class CreateImageCommandHandler(IImageUploaderService uploaderService, IImageRepository imageRepository) : IRequestHandler<CreateImageCommand, string>
     {
-        public async Task Handle(CreateImageCommand request, CancellationToken cancellationToken)
+        public async Task<string> Handle(CreateImageCommand request, CancellationToken cancellationToken)
         {
             var url = await uploaderService.UpdloadImageAsync(request.FileStream, request.FileName);
             Imgs imgs = new()
@@ -24,7 +24,7 @@ namespace orchid_backend_net.Application.Images.Create
                 Status = true,
             };
             imageRepository.Add(imgs);
-            await imageRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
+            return await imageRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? $"{imgs.ID}" : "Failed";
         }
     }
 }
