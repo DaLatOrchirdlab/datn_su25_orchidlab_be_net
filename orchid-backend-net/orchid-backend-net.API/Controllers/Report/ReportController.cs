@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using orchid_backend_net.API.Controllers.ResponseTypes;
 using orchid_backend_net.Application.Common.Pagination;
+using orchid_backend_net.Application.Images.Create;
 using orchid_backend_net.Application.Report;
 using orchid_backend_net.Application.Report.CreateReport;
 using orchid_backend_net.Application.Report.DeleteReport;
@@ -78,19 +79,11 @@ namespace orchid_backend_net.API.Controllers.Report
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<JsonResponse<string>>> Create(
             [FromBody] CreateReportCommand command,
-            List<IFormFile> files,
             CancellationToken cancellationToken)
         {
             try
             {
                 var result = await sender.Send(command, cancellationToken);
-                foreach(var image in files) 
-                {
-                    using var stream = image.OpenReadStream();
-                    stream.Position = 0;
-                    var command = new CreateImageCommand(stream, file.FileName, result);
-                    var imageResult = await sender.Send(command, cancellationToken);
-                }
                 logger.LogInformation("Received POST request at {Time}", DateTime.UtcNow);
                 return Ok(new JsonResponse<string>(result));
             }
