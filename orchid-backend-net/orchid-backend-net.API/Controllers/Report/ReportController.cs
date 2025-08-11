@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using orchid_backend_net.API.Controllers.ResponseTypes;
 using orchid_backend_net.Application.Common.Pagination;
+using orchid_backend_net.Application.Images.Create;
 using orchid_backend_net.Application.Report;
 using orchid_backend_net.Application.Report.CreateReport;
 using orchid_backend_net.Application.Report.DeleteReport;
