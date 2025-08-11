@@ -22,6 +22,9 @@ namespace orchid_backend_net.Infrastructure.Service.SeedData
                         Start_date = now.AddDays(-3),
                         End_date = now.AddDays(2),
                         Create_at = now,
+                        Url = "a",
+                        ReportInformation = "Report for sterilization task",
+                        IsDaily = true,
                         Status = 2 // InProcess
                     },
                     new()
@@ -33,6 +36,9 @@ namespace orchid_backend_net.Infrastructure.Service.SeedData
                         Start_date = now,
                         End_date = now.AddDays(5),
                         Create_at = now,
+                        Url = "b",
+                        ReportInformation = "Report for subculturing task",
+                        IsDaily = false,
                         Status = 0 // Assign
                     }
                 };

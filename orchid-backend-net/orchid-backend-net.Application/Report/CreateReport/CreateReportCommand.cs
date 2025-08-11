@@ -44,7 +44,7 @@ namespace orchid_backend_net.Application.Report.CreateReport
                     attributeCommand.ReportID = obj.ID;
                     sender.Send(attributeCommand, cancellationToken); // Send the command to create report attributes
                 }
-                return await reportRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? $"Created report with id: {obj.ID}" : "Failed to create report.";
+                return await reportRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? $"{obj.ID}" : "Failed to create report.";
             }
             catch (Exception ex)
             {
