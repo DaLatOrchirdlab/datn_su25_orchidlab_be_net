@@ -80,6 +80,8 @@ namespace orchid_backend_net.API.Controllers.Images
         {
             try
             {
+                if(string.IsNullOrEmpty(reportId))
+                    return BadRequest("Report ID is required.");
                 if (images.Count == 0)
                 {
                     return BadRequest("No images provided.");
