@@ -56,8 +56,6 @@ namespace orchid_backend_net.Application.Tasks.CreateTask
                     Researcher = currentUserService.UserName,
                     IsDaily = request.IsDaily,
                     Status = 0,
-                    ReportInformation = "aasdasdgse rgs ergs erg serg sdrgs ttg",
-                    Url = "aeksrghbskdrgbilsdgyfbiarybfgukjsfdbgjksdfyg"
                 };
                 taskRepository.Add(task);
 
