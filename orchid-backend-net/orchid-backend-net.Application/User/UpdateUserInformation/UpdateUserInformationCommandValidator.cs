@@ -1,12 +1,12 @@
 ﻿using FluentValidation;
 using orchid_backend_net.Domain.IRepositories;
 
-namespace orchid_backend_net.Application.User.DeleteUser
+namespace orchid_backend_net.Application.User.UpdateUser
 {
-    public class DeleteUserCommandValidator : AbstractValidator<DeleteUserCommand>
+    public class UpdateUserInformationCommandValidator : AbstractValidator<UpdateUserInformationCommand>
     {
         private readonly IUserRepository _userRepository;
-        public DeleteUserCommandValidator(IUserRepository userRepository)
+        public UpdateUserInformationCommandValidator(IUserRepository userRepository)
         {
             _userRepository = userRepository;
             Configure();
@@ -15,16 +15,14 @@ namespace orchid_backend_net.Application.User.DeleteUser
         private void Configure()
         {
             RuleFor(x => x.Id)
-                .NotNull()
                 .NotEmpty()
-                .WithMessage("Id can not be null or empty.");
-
+                .NotNull()
+                .WithMessage("User id can not be null or empty.");
             RuleFor(x => x.Id)
                 .MustAsync(async (id, cancellationToken) => await IsUserExist(id, cancellationToken))
-                .WithMessage(x => $"Can not found user with id: {x.Id}");
+                .WithMessage(x => $"User with id: {x.Id} can not be found.");
         }
-
         private async Task<bool> IsUserExist(string id, CancellationToken cancellationToken)
-            => await _userRepository.AnyAsync(x => x.ID.Equals(id) && x.Status, cancellationToken);
+            => await _userRepository.AnyAsync(x => x.ID.Equals(id), cancellationToken);
     }
 }

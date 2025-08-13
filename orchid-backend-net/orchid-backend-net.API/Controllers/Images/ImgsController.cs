@@ -80,6 +80,7 @@ namespace orchid_backend_net.API.Controllers.Images
         {
             try
             {
+                logger.LogInformation("Received POST request at {Time}", DateTime.UtcNow);
                 if(string.IsNullOrEmpty(reportId))
                     return BadRequest("Report ID is required.");
                 if (images.Count == 0)
@@ -97,7 +98,6 @@ namespace orchid_backend_net.API.Controllers.Images
                         return BadRequest("Failed to upload image: " + file.FileName);
                     }
                 }
-                logger.LogInformation("Received POST request at {Time}", DateTime.UtcNow);
                 return Ok(new JsonResponse<string>("Images uploaded successfully."));
             }
             catch (Exception ex)

@@ -8,8 +8,11 @@ using orchid_backend_net.Application.Authentication.Refreshtoken.RefreshTokenQue
 using orchid_backend_net.Application.Common.Pagination;
 using orchid_backend_net.Application.User;
 using orchid_backend_net.Application.User.CreateUser;
+using orchid_backend_net.Application.User.DeleteUser;
 using orchid_backend_net.Application.User.GetAllUser;
 using orchid_backend_net.Application.User.GetUserInfor;
+using orchid_backend_net.Application.User.UpdateUser;
+using orchid_backend_net.Application.User.UpdateUserAvatar;
 using System.Net.Mime;
 
 namespace orchid_backend_net.API.Controllers.UserController
@@ -34,6 +37,30 @@ namespace orchid_backend_net.API.Controllers.UserController
             {
                 _logger.LogInformation("Received GET request at {Time}", DateTime.UtcNow);
                 return Ok(await this._sender.Send(query, cancellationToken));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while processing GET request at {Time}", DateTime.UtcNow);
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("{id}")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(JsonResponse<UserDTO>), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(JsonResponse<UserDTO>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<JsonResponse<UserDTO>>> GetId(
+            [FromRoute] string id,
+            CancellationToken cancellationToken)
+        {
+            try
+            {
+                _logger.LogInformation("Received GET request at {Time}", DateTime.UtcNow);
+                return Ok(await this._sender.Send(new GetUserInforQuery(id), cancellationToken));
             }
             catch (Exception ex)
             {
@@ -106,6 +133,8 @@ namespace orchid_backend_net.API.Controllers.UserController
 
         [HttpPost]
         [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
@@ -123,6 +152,82 @@ namespace orchid_backend_net.API.Controllers.UserController
             {
                 _logger.LogError(ex, "Error occurred while processing POST request at {Time}", DateTime.UtcNow);
                 return BadRequest(new ProblemDetails { Title = "User creation failed", Detail = ex.Message });
+            }
+        }
+
+        [HttpDelete]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<JsonResponse<string>>> Delete(
+            [FromBody] DeleteUserCommand command,
+            CancellationToken cancellationToken)
+        {
+            try
+            {
+                _logger.LogInformation("Received DELETE request at {Time}", DateTime.UtcNow);
+                var result = await this._sender.Send(command, cancellationToken);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while processing DELETE request at {Time}", DateTime.UtcNow);
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<JsonResponse<string>>> UpdateInformation(
+            [FromBody] UpdateUserInformationCommand command,
+            CancellationToken cancellationToken)
+        {
+            try
+            {
+                _logger.LogInformation("Received PUT request at {Time}", DateTime.UtcNow);
+                var result = await this._sender.Send(command, cancellationToken);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while processing PUT request at {Time}", DateTime.UtcNow);
+                return BadRequest(new ProblemDetails { Title = "User update failed", Detail = ex.Message });
+            }
+        }
+
+        [HttpPut("images")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<JsonResponse<string>>> UpdateAvatar(
+            IFormFile image,
+            [FromForm] string userId,
+            CancellationToken cancellationToken)
+        {
+            try
+            {
+                _logger.LogInformation("Received PUT request at {Time}", DateTime.UtcNow);
+                using var stream = image.OpenReadStream();
+                stream.Position = 0;
+                var command = new UpdateUserAvatarCommand(userId, image.FileName, stream);
+                var result = await this._sender.Send(command, cancellationToken);
+                return Ok("hehex");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while processing PUT request at {Time}", DateTime.UtcNow);
+                return BadRequest(new ProblemDetails { Title = "User update failed", Detail = ex.Message });
             }
         }
     }
