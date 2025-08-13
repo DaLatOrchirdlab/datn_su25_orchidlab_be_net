@@ -26,9 +26,10 @@ namespace orchid_backend_net.Infrastructure.Repository
                 {
                     ClientId = options.Value.ClientId,
                     ClientSecret = options.Value.ClientSecret,
-                }
+                },
+                Scopes = [GmailService.Scope.GmailSend],
             }),
-            "user",
+            "user-gmail",
             tokenResponse
             );
 
