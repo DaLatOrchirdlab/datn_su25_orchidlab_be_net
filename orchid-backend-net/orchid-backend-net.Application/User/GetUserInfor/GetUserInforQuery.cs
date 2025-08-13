@@ -22,7 +22,7 @@ namespace orchid_backend_net.Application.User.GetUserInfor
         {
             try
             {
-                var user = await userRepository.FindAsync(x => x.ID.Equals(request.ID) && x.Status == true, cancellationToken);
+                var user = await userRepository.FindAsync(x => x.ID.Equals(request.ID), cancellationToken);
                 return user.MapToUserDTO(mapper);
             }
             catch (Exception ex)

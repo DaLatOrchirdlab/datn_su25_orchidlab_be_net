@@ -16,7 +16,7 @@ namespace orchid_backend_net.Application.Images.Create
     {
         public async Task<bool> Handle(CreateImageCommand request, CancellationToken cancellationToken)
         {
-            var url = await uploaderService.UpdloadImageAsync(request.FileStream, request.FileName);
+            var url = await uploaderService.UpdloadImageAsync(request.FileStream, request.FileName, "report-image");
             Imgs imgs = new()
             {
                 ReportID = request.ReportId,

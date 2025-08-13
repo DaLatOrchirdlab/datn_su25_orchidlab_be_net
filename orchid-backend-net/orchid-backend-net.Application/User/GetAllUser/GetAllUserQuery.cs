@@ -24,7 +24,7 @@ namespace orchid_backend_net.Application.User.GetAllUser
 
         public async Task<PageResult<UserDTO>> Handle(GetAllUserQuery request, CancellationToken cancellationToken)
         {
-            var list = await userRepository.FindAllAsync(x => x.Status == true, request.PageNumber, request.PageSize, cancellationToken); ;
+            var list = await userRepository.FindAllAsync(request.PageNumber, request.PageSize, cancellationToken); ;
             if (list.Count() == 0)
                 throw new NotFoundException("there're no user in the system.");
             return PageResult<UserDTO>.Create(totalCount: list.TotalCount,
