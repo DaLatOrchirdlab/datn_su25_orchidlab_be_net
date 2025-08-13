@@ -12,6 +12,7 @@ namespace orchid_backend_net.Application.User.UpdateUser
         public string? Password { get; set; }
         public string? PhoneNumber { get; set; }
         public int? RoleId { get; set; }
+        public bool? IsActive { get; set; };
     }
 
     public class UpdateUserInformationCommandHandler(IUserRepository userRepository, ICurrentUserService currentUserService) : IRequestHandler<UpdateUserInformationCommand, string>
@@ -30,6 +31,7 @@ namespace orchid_backend_net.Application.User.UpdateUser
             user.Password = passwordHash;
             user.PhoneNumber = request.PhoneNumber ?? user.PhoneNumber;
             user.RoleID = request.RoleId ?? user.RoleID;
+            user.Status = request.IsActive ?? user.Status;
             user.Update_date = DateTime.UtcNow;
             user.Update_by = currentUserService.UserName;
             userRepository.Update(user);
