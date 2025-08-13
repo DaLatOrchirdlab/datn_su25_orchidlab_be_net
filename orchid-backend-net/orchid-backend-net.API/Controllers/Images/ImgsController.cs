@@ -1,8 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using orchid_backend_net.API.Controllers.ResponseTypes;
-using orchid_backend_net.Application.Common.Models;
 using orchid_backend_net.Application.Common.Pagination;
 using orchid_backend_net.Application.Images;
 using orchid_backend_net.Application.Images.Create;
@@ -81,7 +79,7 @@ namespace orchid_backend_net.API.Controllers.Images
             try
             {
                 logger.LogInformation("Received POST request at {Time}", DateTime.UtcNow);
-                if(string.IsNullOrEmpty(reportId))
+                if (string.IsNullOrEmpty(reportId))
                     return BadRequest("Report ID is required.");
                 if (images.Count == 0)
                 {

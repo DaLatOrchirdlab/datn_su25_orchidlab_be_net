@@ -218,11 +218,15 @@ namespace orchid_backend_net.API.Controllers.UserController
             try
             {
                 _logger.LogInformation("Received PUT request at {Time}", DateTime.UtcNow);
+                if(string.IsNullOrEmpty(userId))
+                    return BadRequest("User ID is required.");
+                if (image == null || image.Length == 0)
+                    return BadRequest("Image file is required.");
                 using var stream = image.OpenReadStream();
                 stream.Position = 0;
                 var command = new UpdateUserAvatarCommand(userId, image.FileName, stream);
                 var result = await this._sender.Send(command, cancellationToken);
-                return Ok("hehex");
+                return Ok(new JsonResponse<string>(result));
             }
             catch (Exception ex)
             {
