@@ -12,7 +12,7 @@ namespace orchid_backend_net.Application.User.UpdateUser
         public string? Password { get; set; }
         public string? PhoneNumber { get; set; }
         public int? RoleId { get; set; }
-        public bool? IsActive { get; set; };
+        public bool? IsActive { get; set; }
     }
 
     public class UpdateUserInformationCommandHandler(IUserRepository userRepository, ICurrentUserService currentUserService) : IRequestHandler<UpdateUserInformationCommand, string>
