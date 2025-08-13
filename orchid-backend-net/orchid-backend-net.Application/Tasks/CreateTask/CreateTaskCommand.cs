@@ -38,7 +38,7 @@ namespace orchid_backend_net.Application.Tasks.CreateTask
     }
 
     internal class CreateTaskCommandHandler(ITaskRepository taskRepository, ILinkedRepository linkedRepository, 
-        IExperimentLogRepository experimentLogRepository, ISampleRepository sampleRepository,
+        //IExperimentLogRepository experimentLogRepository, ISampleRepository sampleRepository,
         ICurrentUserService currentUserService, ISender sender) : IRequestHandler<CreateTaskCommand, string>
     {
 
@@ -56,8 +56,8 @@ namespace orchid_backend_net.Application.Tasks.CreateTask
                     Researcher = currentUserService.UserName,
                     IsDaily = request.IsDaily,
                     Status = 0,
-                    ReportInformation = "a",
-                    Url = "a"
+                    ReportInformation = "aasdasdgse rgs ergs erg serg sdrgs ttg",
+                    Url = "aeksrghbskdrgbilsdgyfbiarybfgukjsfdbgjksdfyg"
                 };
                 taskRepository.Add(task);
 
@@ -77,24 +77,24 @@ namespace orchid_backend_net.Application.Tasks.CreateTask
 
                 var linkeds = new Domain.Entities.Linkeds
                 {
-                    //ExperimentLogID = request.ExperimentLogID,
-                    //SampleID = request.SampleID,
+                    ExperimentLogID = request.ExperimentLogID,
+                    SampleID = request.SampleID,
                     TaskID = task.ID,
-                    //StageID = request.StageID,
+                    StageID = request.StageID,
                     ProcessStatus = 0
                 };
-                if ((await sampleRepository.FindAsync(x => x.ID.Equals(request.SampleID), cancellationToken)) != null)
-                {
-                    linkeds.SampleID = request.SampleID;
-                    linkeds.ExperimentLogID = null;
-                    linkeds.StageID = request.StageID != null ? request.StageID : (await linkedRepository.FindAsync(x => x.SampleID.Equals(request.StageID) && x.StageID != null, cancellationToken)).StageID;
-                }
-                if ((await experimentLogRepository.FindAsync(x => x.ID.Equals(request.ExperimentLogID), cancellationToken)) != null)
-                {
-                    linkeds.SampleID = null;
-                    linkeds.ExperimentLogID = request.ExperimentLogID;
-                    linkeds.StageID = request.StageID != null ? request.StageID : (await linkedRepository.FindAsync(x => x.ExperimentLogID.Equals(request.ExperimentLogID) && x.StageID != null, cancellationToken)).StageID;
-                }
+                //if ((await sampleRepository.FindAsync(x => x.ID.Equals(request.SampleID), cancellationToken)) != null)
+                //{
+                //    linkeds.SampleID = request.SampleID;
+                //    linkeds.ExperimentLogID = null;
+                //    linkeds.StageID = request.StageID != null ? request.StageID : (await linkedRepository.FindAsync(x => x.SampleID.Equals(request.StageID) && x.StageID != null, cancellationToken)).StageID;
+                //}
+                //if ((await experimentLogRepository.FindAsync(x => x.ID.Equals(request.ExperimentLogID), cancellationToken)) != null)
+                //{
+                //    linkeds.SampleID = null;
+                //    linkeds.ExperimentLogID = request.ExperimentLogID;
+                //    linkeds.StageID = request.StageID != null ? request.StageID : (await linkedRepository.FindAsync(x => x.ExperimentLogID.Equals(request.ExperimentLogID) && x.StageID != null, cancellationToken)).StageID;
+                //}
 
                 linkedRepository.Add(linkeds);
 
