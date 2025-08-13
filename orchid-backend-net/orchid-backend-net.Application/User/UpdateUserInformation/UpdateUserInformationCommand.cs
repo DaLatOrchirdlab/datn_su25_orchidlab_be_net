@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using BCrypt.Net;
+using MediatR;
 using orchid_backend_net.Application.Common.Interfaces;
 using orchid_backend_net.Domain.IRepositories;
 
@@ -18,8 +19,15 @@ namespace orchid_backend_net.Application.User.UpdateUser
         public async Task<string> Handle(UpdateUserInformationCommand request, CancellationToken cancellationToken)
         {
             var user = await userRepository.FindAsync(x => x.ID.Equals(request.Id), cancellationToken);
+
+            string passwordHash = string.Empty;
+            if (!string.IsNullOrWhiteSpace(request.Password))
+                passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
+            else 
+                passwordHash = user.Password;
+
             user.Name = request.Name ?? user.Name;
-            user.Password = request.Password ?? user.Password;
+            user.Password = passwordHash;
             user.PhoneNumber = request.PhoneNumber ?? user.PhoneNumber;
             user.RoleID = request.RoleId ?? user.RoleID;
             user.Update_date = DateTime.UtcNow;

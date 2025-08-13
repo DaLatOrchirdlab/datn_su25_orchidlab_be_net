@@ -31,6 +31,7 @@ namespace orchid_backend_net.Application.User.CreateUser
     {
         public async Task<string> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
+            string defaultPassword = "12345678";
             Users user = new()
             {
                 Name = request.Name,
@@ -38,7 +39,7 @@ namespace orchid_backend_net.Application.User.CreateUser
                 PhoneNumber = request.PhoneNumber,
                 RoleID = request.RoleID,
                 Status = true,
-                Password = BCrypt.Net.BCrypt.HashPassword("12345678"),
+                Password = BCrypt.Net.BCrypt.HashPassword(defaultPassword),
                 Create_by = currentUserService.UserId,
                 Create_date = DateTime.UtcNow,
             };
@@ -47,7 +48,7 @@ namespace orchid_backend_net.Application.User.CreateUser
             var emailBody = await File.ReadAllTextAsync(templatePath);
             emailBody = emailBody.Replace("{UserName}", user.Name)
                 .Replace("{UserEmail}", user.Email)
-                .Replace("{UserPassword}", "12345678");
+                .Replace("{UserPassword}", defaultPassword);
             //_ = Task.Run(() => emailSender.SendEmailAsync(user.Email, "Thông báo tài khoản hệ thống Orchid Lab", emailBody), cancellationToken);
             await emailSender.SendEmailAsync(user.Email, "Thông báo tài khoản hệ thống OrchidLab", emailBody);
             userRepository.Add(user);
