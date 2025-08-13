@@ -17,8 +17,8 @@ namespace orchid_backend_net.Domain.Entities
                                         //3: DoneInTime,
                                         //4: DoneInLate,
                                         //5: Cancel,
-        public string Url { get; set; }
-        public string ReportInformation { get; set; }
+        public string? Url { get; set; }
+        public string? ReportInformation { get; set; }
         public bool IsDaily { get; set; } // true: Daily, false: Weekly
         public virtual ICollection<TasksAssign> Assigns { get; set; }
         public virtual ICollection<TaskAttributes> Attributes { get; set; }
