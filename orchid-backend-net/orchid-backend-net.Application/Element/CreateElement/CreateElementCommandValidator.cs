@@ -18,7 +18,7 @@ namespace orchid_backend_net.Application.Element.CreateElement
                 .NotNull()
                 .WithMessage("Element description can not be null.");
             RuleFor(x => x.Description.Length)
-                .GreaterThan(250)
+                .LessThanOrEqualTo(250)
                 .WithMessage("Element description is too long.");
             RuleFor(x => x.Name)
                 .NotEmpty()

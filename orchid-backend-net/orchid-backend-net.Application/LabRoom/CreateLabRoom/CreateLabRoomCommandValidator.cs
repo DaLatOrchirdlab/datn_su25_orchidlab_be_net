@@ -25,7 +25,7 @@ namespace orchid_backend_net.Application.LabRoom.CreateLabRoom
                 .NotNull()
                 .WithMessage("Description can not be null.");
             RuleFor(x => x.Description.Length)
-                .GreaterThan(200)
+                .LessThanOrEqualTo(200)
                 .WithMessage("Description is too long.");
         }
         private async Task<bool> IsLabRoomNameDuplicated(string name, CancellationToken cancellationToken)

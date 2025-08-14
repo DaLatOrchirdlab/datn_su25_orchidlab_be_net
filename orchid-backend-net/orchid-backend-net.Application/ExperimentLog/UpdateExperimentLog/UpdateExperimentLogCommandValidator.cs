@@ -22,7 +22,7 @@ namespace orchid_backend_net.Application.ExperimentLog.UpdateExperimentLog
         void Configuration()
         {
             RuleFor(x => x.Description.Length)
-                .GreaterThan(200)
+                .LessThanOrEqualTo(200)
                 .WithMessage("Description is too long.");
             RuleFor(x => x.Hybridization.Count())
                 .LessThanOrEqualTo(2)

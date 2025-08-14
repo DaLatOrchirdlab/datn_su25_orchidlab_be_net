@@ -9,20 +9,18 @@ namespace orchid_backend_net.Application.TissueCultureBatch.GetTissueCultureBatc
     public class GetTissueCultureBatchInforQuery : IRequest<TissueCultureBatchDTO>, IQuery
     {
         public string ID { get; set; }
-        public GetTissueCultureBatchInforQuery(string iD)
+        public GetTissueCultureBatchInforQuery(string id)
         {
-            ID = iD;
+            ID = id;
         }
     }
 
     internal class GetTissueCultureBatchInforQueryHandler : IRequestHandler<GetTissueCultureBatchInforQuery, TissueCultureBatchDTO>
     {
         private readonly ITissueCultureBatchRepository _tissueCultureBatchRepository;
-        private readonly ILabRoomRepository _labroomRepository;
         public GetTissueCultureBatchInforQueryHandler(ITissueCultureBatchRepository tissueCultureBatchRepository, ILabRoomRepository labroomRepository)
         {
             this._tissueCultureBatchRepository = tissueCultureBatchRepository;
-            this._labroomRepository = labroomRepository;
         }
         public async Task<TissueCultureBatchDTO> Handle(GetTissueCultureBatchInforQuery request, CancellationToken cancellationToken)
         {
