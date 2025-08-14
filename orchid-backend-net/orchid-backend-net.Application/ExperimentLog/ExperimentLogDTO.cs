@@ -13,6 +13,7 @@ namespace orchid_backend_net.Application.ExperimentLog
         public string Name { get; set; }
         public string MethodName { get; set; }
         public string Description { get; set; }
+        public string TissueCultureBatchID { get; set; }
         public string TissueCultureBatchName { get; set; }
         public string CurrentStageName { get; set; }
         public List<StageDTO> Stages {  get; set; }
