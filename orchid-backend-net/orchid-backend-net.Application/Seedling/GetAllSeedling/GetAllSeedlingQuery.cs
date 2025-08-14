@@ -37,13 +37,13 @@ namespace orchid_backend_net.Application.Seedling.GetAllSeedling
                 IQueryable<Seedlings> queryOptions(IQueryable<Seedlings> query)
                 {
                     if (!string.IsNullOrWhiteSpace(request.SearchTerm))
-                        query = query.Where(x => x.LocalName.Equals(request.SearchTerm));
+                        query = query.Where(x => x.LocalName.Contains(request.SearchTerm));
 
                     if (!string.IsNullOrWhiteSpace(request.Parent1))
-                        query = query.Where(x => x.Parent1.ToLower().Equals(request.Parent1.ToLower()));
+                        query = query.Where(x => x.Parent1.ToLower().Contains(request.Parent1.ToLower()));
 
                     if (!string.IsNullOrWhiteSpace(request.Parent2))
-                        query = query.Where(x => x.Parent2.ToLower().Equals(request.Parent2.ToLower()));
+                        query = query.Where(x => x.Parent2.ToLower().Contains(request.Parent2.ToLower()));
                     return query.OrderBy(x => x.Create_date);
                 }
                 var seedlings = await seedlingRepository.FindAllProjectToAsync<SeedlingDTO>(
