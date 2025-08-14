@@ -183,13 +183,26 @@ namespace orchid_backend_net.API.Controllers.Task
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<JsonResponse<string>>> UpdateReportTask(
-            [FromBody] ReportTaskCommand command,
+            IFormFile image,
+            [FromForm] string taskId,
+            [FromForm] string reportInformation,
             CancellationToken cancellationToken)
         {
             try
             {
-                var result = await sender.Send(command, cancellationToken);
                 logger.LogInformation("Received PUT request at {Time}", DateTime.UtcNow);
+                if(image == null || image.Length == 0)
+                {
+                    return BadRequest("Image file is required.");
+                }
+                if (string.IsNullOrWhiteSpace(taskId))
+                    return BadRequest("Task id can not be null.");
+                if(string.IsNullOrWhiteSpace(reportInformation))
+                    return BadRequest("Report information can not be null.");
+                using var stream = image.OpenReadStream();
+                stream.Position = 0;
+                var command = new ReportTaskCommand(stream, image.FileName, reportInformation, taskId);
+                var result = await sender.Send(command, cancellationToken);
                 return Ok(new JsonResponse<string>(result));
             }
             catch (Exception ex)

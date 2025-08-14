@@ -19,15 +19,11 @@ namespace orchid_backend_net.Application.Tasks.CreateTask
 
         void Configuration()
         {
-            RuleFor(x => x.End_date)
-                .GreaterThan(x => x.Start_date)
+            RuleFor(x => DateOnly.FromDateTime(x.End_date))
+                .GreaterThanOrEqualTo(x => DateOnly.FromDateTime(x.Start_date))
                 .WithMessage("Task can not end before start time.");
-            RuleFor(x => x.End_date)
-                .NotNull()
-                .NotEmpty()
-                .WithMessage("End time can not be empty.");
-            RuleFor(x => x.Start_date)
-                .GreaterThanOrEqualTo(DateTime.UtcNow)
+            RuleFor(x => DateOnly.FromDateTime(x.Start_date))
+                .GreaterThanOrEqualTo(DateOnly.FromDateTime(DateTime.UtcNow))
                 .WithMessage("Task can not start before create time.");
             RuleFor(x => x.Start_date)
                 .NotNull()
