@@ -44,7 +44,7 @@ namespace orchid_backend_net.Application.Seedling.GetAllSeedling
 
                     if (!string.IsNullOrWhiteSpace(request.Parent2))
                         query = query.Where(x => x.Parent2.ToLower().Equals(request.Parent2.ToLower()));
-                    return query;
+                    return query.OrderBy(x => x.Create_date);
                 }
                 var seedlings = await seedlingRepository.FindAllProjectToAsync<SeedlingDTO>(
                     pageNo: request.PageNumber,
