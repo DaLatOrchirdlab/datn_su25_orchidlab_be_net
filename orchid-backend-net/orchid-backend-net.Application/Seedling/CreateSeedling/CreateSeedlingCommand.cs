@@ -2,6 +2,8 @@
 using orchid_backend_net.Domain.IRepositories;
 using orchid_backend_net.Domain.Entities;
 using orchid_backend_net.Application.Common.Interfaces;
+using System.Threading.Tasks;
+using orchid_backend_net.Domain.Common.Exceptions;
 
 namespace orchid_backend_net.Application.Seedling.CreateSeedling
 {
@@ -30,13 +32,24 @@ namespace orchid_backend_net.Application.Seedling.CreateSeedling
                     LocalName = request.LocalName,
                     ScientificName = request.ScientificName,
                     Description = request.Description,
-                    Parent1 = request.MotherID,
-                    Parent2 = request.FatherID,
+                    //Parent1 = request.MotherID,
+                    //Parent2 = request.FatherID,
                     Dob = request.DoB,
                     Create_date = DateTime.UtcNow,
                     Create_by = currentUserService.UserName ?? "system"
                 };
-                seedlingRepository.Add(seedling);
+                if(await IsExitsSeedling(request.MotherID, cancellationToken) && await IsExitsSeedling(request.FatherID, cancellationToken))
+                {
+                    seedling.Parent1 = request.MotherID;
+                    seedling.Parent1 = request.FatherID;
+                }
+                else
+                {
+                    throw new NotFoundException("not found parent");
+                }
+
+
+                    seedlingRepository.Add(seedling);
 
                 var characteristicsEntities = new List<Characteristics>();
 
@@ -79,5 +92,9 @@ namespace orchid_backend_net.Application.Seedling.CreateSeedling
                 throw new Exception($"{ex.Message}");
             }
         }
+
+
+        async Task<bool> IsExitsSeedling(string id, CancellationToken cancellationToken)
+            => (await seedlingRepository.AnyAsync(x => x.ID.Equals(id), cancellationToken));
     }
 }
