@@ -27,7 +27,7 @@ namespace orchid_backend_net.Application.TissueCultureBatch.GetTissueCultureBatc
             try
             {
                 var obj = await this._tissueCultureBatchRepository.FindProjectToAsync<TissueCultureBatchDTO>(query => query.Where(x => x.ID.Equals(request.ID)), cancellationToken: cancellationToken);
-                return obj == null ? obj : throw new NotFoundException($"not found tissue culture batch with ID {request.ID}");
+                return obj != null ? obj : throw new NotFoundException($"not found tissue culture batch with ID {request.ID}");
             }
             catch (Exception ex)
             {
