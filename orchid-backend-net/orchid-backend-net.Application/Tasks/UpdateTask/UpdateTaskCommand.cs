@@ -14,11 +14,11 @@ namespace orchid_backend_net.Application.Tasks.UpdateTask
         public string? Name { get; set; }
         public string? Description { get; set; }
         public int? Status { get; set; }
-        public List<UpdateTaskAssignCommand>? TaskAssignUpdate { get; set; }
+        public UpdateTaskAssignCommand? TaskAssignUpdate { get; set; }
         public List<UpdateTaskAttributeCommand>? TaskAttributeUpdate { get; set; }
         public List<CreateTaskAttributeCommand>? TaskAttributeCreate { get; set; }
         public UpdateTaskCommand(string id, string? name, string? description,
-            int? status, List<UpdateTaskAssignCommand>? assign, List<UpdateTaskAttributeCommand>? attribute, 
+            int? status, UpdateTaskAssignCommand? assign, List<UpdateTaskAttributeCommand>? attribute, 
             List<CreateTaskAttributeCommand>? createTaskAttributeCommands)
         {
             ID = id;
@@ -48,12 +48,18 @@ namespace orchid_backend_net.Application.Tasks.UpdateTask
                 task.Update_by = currentUserService.UserId;
 
                 //check task assign list to update
-                var taskAssignList = await taskAssignRepository.FindAllAsync(x => x.TaskID.Equals(request.ID), cancellationToken);
-                foreach (var updateTaskAssignCommand in request.TaskAssignUpdate)
+                var taskAssign = await taskAssignRepository.FindAsync(x => x.TaskID.Equals(request.ID), cancellationToken);
+                //foreach (var updateTaskAssignCommand in request.TaskAssignUpdate)
+                //{
+                //    if (taskAssignList.Any(x => x.ID.Equals(updateTaskAssignCommand.Id) && IsDifferentTechnician(x, updateTaskAssignCommand)))
+                //        await sender.Send(updateTaskAssignCommand, cancellationToken);
+                //}
+                if(taskAssign.TechnicianID != request.TaskAssignUpdate.TechnicianId)
                 {
-                    if (taskAssignList.Any(x => x.ID.Equals(updateTaskAssignCommand.Id) && IsDifferentTechnician(x, updateTaskAssignCommand)))
-                        await sender.Send(updateTaskAssignCommand, cancellationToken);
+                    taskAssign.TechnicianID = request.TaskAssignUpdate.TechnicianId;
+                    await sender.Send(taskAssign, cancellationToken);
                 }
+
 
                 //check task attribute list to update
                 var taskAttributeList = await taskAttributeRepository.FindAllAsync(x => x.TaskID.Equals(request.ID), cancellationToken);

@@ -9,14 +9,14 @@ namespace orchid_backend_net.Application.TissueCultureBatch.UpdateTissueCultureB
     {
         public string ID { get; set; }
         public string? Name { get; set; }
-        public string? LabName { get; set; }
+        public string? LabRoomID { get; set; }
         public bool Status { get; set; }
         public string Description { get; set; }
-        public UpdateTissueCultureBatchCommand(string id, string name, string labname, bool status, string description)
+        public UpdateTissueCultureBatchCommand(string id, string name, string labroomid, bool status, string description)
         {
             ID = id;
             Name = name;
-            LabName = labname;
+            LabRoomID = labroomid;
             Status = status;
             Description = description;
         }
@@ -41,8 +41,8 @@ namespace orchid_backend_net.Application.TissueCultureBatch.UpdateTissueCultureB
                 tissue.Description = request.Description;
                 tissue.Status = request.Status;
                 tissue.Name = request.Name;
-                if ((await this._labRoomRepository.FindAsync(x => x.ID.Equals(request.LabName), cancellationToken)) == null)
-                    throw new NotFoundException($"not found lab room with ID {request.LabName}");
+                if ((await this._labRoomRepository.FindAsync(x => x.ID.Equals(request.LabRoomID), cancellationToken)) == null)
+                    throw new NotFoundException($"not found lab room with ID {request.LabRoomID }");
                 return (await this._tissueCultureBatchRepository.UnitOfWork.SaveChangesAsync(cancellationToken)) > 0 ? $"Updated tissue culture batch with ID {request.ID}" : "Failed to update tissue culture batch";
             }
             catch (Exception ex)
