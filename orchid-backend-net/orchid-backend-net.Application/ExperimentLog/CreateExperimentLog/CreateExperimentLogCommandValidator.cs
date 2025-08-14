@@ -8,7 +8,9 @@ namespace orchid_backend_net.Application.ExperimentLog.CreateExperimentLog
         private readonly ITissueCultureBatchRepository _tissueCultureBatchRepository;
         private readonly IMethodRepository _methodRepository;
         private readonly ISeedlingRepository _seedlingRepository;
-        public CreateExperimentLogCommandValidator(IMethodRepository methodRepository, ITissueCultureBatchRepository tissueCultureBatchRepository, ISeedlingRepository seedlingRepository)
+        private readonly IExperimentLogRepository _experimentLogRepository;
+        public CreateExperimentLogCommandValidator(IMethodRepository methodRepository, ITissueCultureBatchRepository tissueCultureBatchRepository,
+            ISeedlingRepository seedlingRepository, IExperimentLogRepository experimentLogRepository)
         {
             _methodRepository = methodRepository;
             _tissueCultureBatchRepository = tissueCultureBatchRepository;
@@ -24,6 +26,9 @@ namespace orchid_backend_net.Application.ExperimentLog.CreateExperimentLog
             RuleFor(x => x.TissueCultureBatchID)
                 .MustAsync(async (id, cancellationToken) => await IsTissueCultureBatchExist(id, cancellationToken))
                 .WithMessage(x => $"Not found TissueCultureBatch with ID: {x.TissueCultureBatchID}");
+            RuleFor(x => x.TissueCultureBatchID)
+                .MustAsync(async (id, cancellationToken) => !await IsTissueCultureBatchFree(id, cancellationToken))
+                .WithMessage(x => $"TissueCultureBatch with ID: {x.TissueCultureBatchID} is in process.");
 
             RuleFor(x => x.MethodID)
                 .NotEmpty()
@@ -79,5 +84,8 @@ namespace orchid_backend_net.Application.ExperimentLog.CreateExperimentLog
                 "Sexual" => command.Hybridization.Count == 2,
             };
         }
+
+        private async Task<bool> IsTissueCultureBatchFree(string id, CancellationToken cancellationToken)
+            => await _experimentLogRepository.AnyAsync(x => x.TissueCultureBatchID.Equals(id) && x.Status == 1, cancellationToken);
     }
 }

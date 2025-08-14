@@ -49,7 +49,6 @@ namespace orchid_backend_net.Application.User.CreateUser
             emailBody = emailBody.Replace("{UserName}", user.Name)
                 .Replace("{UserEmail}", user.Email)
                 .Replace("{UserPassword}", defaultPassword);
-            //_ = Task.Run(() => emailSender.SendEmailAsync(user.Email, "Thông báo tài khoản hệ thống Orchid Lab", emailBody), cancellationToken);
             await emailSender.SendEmailAsync(user.Email, "Thông báo tài khoản hệ thống OrchidLab", emailBody);
             userRepository.Add(user);
             return await userRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0
