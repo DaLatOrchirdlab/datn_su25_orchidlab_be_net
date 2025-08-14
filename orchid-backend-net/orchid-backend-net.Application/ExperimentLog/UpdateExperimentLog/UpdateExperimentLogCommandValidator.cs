@@ -66,7 +66,7 @@ namespace orchid_backend_net.Application.ExperimentLog.UpdateExperimentLog
 
             //case 1.a: check method to see type
             var methodID = command.MethodID ?? experimentLog.ID;
-            var method = await _methodRepository.FindAsync(x => x.ID.Equals(command.ID) && x.Status, cancellationToken);
+            var method = await _methodRepository.FindAsync(x => x.ID.Equals(command.MethodID) && x.Status, cancellationToken);
             if (method == null) return false;
 
             //case 1.b: get hybrid
