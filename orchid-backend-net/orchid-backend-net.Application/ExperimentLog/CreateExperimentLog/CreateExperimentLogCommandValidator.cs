@@ -15,6 +15,7 @@ namespace orchid_backend_net.Application.ExperimentLog.CreateExperimentLog
             _methodRepository = methodRepository;
             _tissueCultureBatchRepository = tissueCultureBatchRepository;
             _seedlingRepository = seedlingRepository;
+            _experimentLogRepository = experimentLogRepository;
             Configuration();
         }
         void Configuration()
