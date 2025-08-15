@@ -184,7 +184,7 @@ namespace orchid_backend_net.API.Controllers.Task
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<JsonResponse<string>>> UpdateReportTask(
-            [FromForm] IFormFile image,
+            IFormFile image,
             [FromForm] string description,
             [FromForm] string taskid,
             CancellationToken cancellationToken)
