@@ -184,16 +184,13 @@ namespace orchid_backend_net.API.Controllers.Task
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<JsonResponse<string>>> UpdateReportTask(
-            [FromForm] IFormFile image,
+            IFormFile image,
             [FromForm] string description,
             [FromForm] string taskid,
             CancellationToken cancellationToken)
         {
             try
             {
-                //var result = await sender.Send(command, cancellationToken);
-                //logger.LogInformation("Received PUT request at {Time}", DateTime.UtcNow);
-                //return Ok(new JsonResponse<string>(result));
                 logger.LogInformation("Received POST request at {Time}", DateTime.UtcNow);
                 if (string.IsNullOrEmpty(taskid))
                     return BadRequest("Task ID is required.");
