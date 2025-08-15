@@ -191,9 +191,6 @@ namespace orchid_backend_net.API.Controllers.Task
         {
             try
             {
-                //var result = await sender.Send(command, cancellationToken);
-                //logger.LogInformation("Received PUT request at {Time}", DateTime.UtcNow);
-                //return Ok(new JsonResponse<string>(result));
                 logger.LogInformation("Received POST request at {Time}", DateTime.UtcNow);
                 if (string.IsNullOrEmpty(taskid))
                     return BadRequest("Task ID is required.");
