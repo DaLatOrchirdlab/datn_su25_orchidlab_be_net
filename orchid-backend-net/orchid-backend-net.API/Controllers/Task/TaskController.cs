@@ -173,7 +173,6 @@ namespace orchid_backend_net.API.Controllers.Task
         /// <summary>
         /// researcher update task
         /// </summary>
-        /// <param name="command"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpPut("update-report-task")]
