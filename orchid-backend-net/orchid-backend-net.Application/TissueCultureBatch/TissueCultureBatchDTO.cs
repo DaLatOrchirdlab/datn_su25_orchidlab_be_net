@@ -9,6 +9,7 @@ namespace orchid_backend_net.Application.TissueCultureBatch
         public string Name { get; set; }
         public string LabName { get; set; }
         public string Description { get; set; }
+        public string ExperimentLogName {  get; set; }
         public bool Status { get; set; }
 
         public static TissueCultureBatchDTO Create(TissueCultureBatches entity)
@@ -20,6 +21,7 @@ namespace orchid_backend_net.Application.TissueCultureBatch
                 LabName = entity.LabRoom.Name,
                 Status = entity.Status,
                 Description = entity.Description,
+                ExperimentLogName = entity.ExperimentLogs?.Where(x => x.Status == 1 || x.Status == 2).ToString(),
             };
         }
 
