@@ -116,7 +116,7 @@ namespace orchid_backend_net.Application.ExperimentLog.CreateExperimentLog
                                 value: (double)detail.ExpectedValue
                             )).ToList();
 
-                        var taskCommand = new CreateTaskWhenCreateExperimentLog(pipeline.TaskTemplateName, pipeline.TaskTemplateDescription, DateTime.UtcNow,
+                        var taskCommand = new CreateTaskWhenCreateExperimentLog(pipeline.TaskTemplateName + $" {obj.Name}", pipeline.TaskTemplateDescription, DateTime.UtcNow,
                             DateTime.UtcNow.AddDays(1), attributes, request.TechnicianID,
                             obj.ID, pipeline.StageID, sampleId);
                         var taskId = await sender.Send(taskCommand, cancellationToken);

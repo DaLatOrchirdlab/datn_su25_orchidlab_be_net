@@ -9,24 +9,15 @@ namespace orchid_backend_net.Application.TissueCultureBatch
         public string Name { get; set; }
         public string LabName { get; set; }
         public string Description { get; set; }
+        public string InUse { get; set; }
         public bool Status { get; set; }
-
-        public static TissueCultureBatchDTO Create(TissueCultureBatches entity)
-        {
-            return new TissueCultureBatchDTO
-            {
-                ID = entity.ID,
-                Name = entity.Name,
-                LabName = entity.LabRoom.Name,
-                Status = entity.Status,
-                Description = entity.Description,
-            };
-        }
 
         public void Mapping(AutoMapper.Profile profile)
         {
             profile.CreateMap<TissueCultureBatches, TissueCultureBatchDTO>()
                 .ForMember(dest => dest.LabName, opt => opt.MapFrom(src => src.LabRoom.Name))
+                .ForMember(dest => dest.InUse, opt 
+                => opt.MapFrom(src => src.ExperimentLogs.FirstOrDefault(eL => eL.Status == 1).Name))
                 .ReverseMap();
         }
     }
