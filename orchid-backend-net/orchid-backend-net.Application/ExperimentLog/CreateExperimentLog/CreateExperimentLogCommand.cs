@@ -22,6 +22,7 @@ namespace orchid_backend_net.Application.ExperimentLog.CreateExperimentLog
     internal class CreateExperimentLogCommandHandler(IExperimentLogRepository experimentLogRepository, IHybridizationRepository hybridizationRepository,
         ILinkedRepository linkedRepository, IStageRepository stageRepository,
         ISender sender, ITaskTemplatesRepository taskTemplatesRepository,
+        
         ITaskTemplateDetailsRepository taskTemplateDetailsRepository,
         ICurrentUserService currentUserService) : IRequestHandler<CreateExperimentLogCommand, string>
     {
@@ -84,6 +85,7 @@ namespace orchid_backend_net.Application.ExperimentLog.CreateExperimentLog
                     Create_date = DateTime.UtcNow,
                     Create_by = currentUserService.UserId,
                 };
+                
                 experimentLogRepository.Add(obj);
 
                 //create hybridzations
