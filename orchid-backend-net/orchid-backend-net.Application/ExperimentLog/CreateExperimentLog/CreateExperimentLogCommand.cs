@@ -3,7 +3,6 @@ using orchid_backend_net.Application.Common.Interfaces;
 using orchid_backend_net.Application.Sample.CreateSample;
 using orchid_backend_net.Application.TaskAttribute.CreateTaskAttribute;
 using orchid_backend_net.Application.Tasks.CreateTaskWhenCreateExperimentLog;
-//using orchid_backend_net.Domain.Common.Exceptions;
 using orchid_backend_net.Domain.Entities;
 using orchid_backend_net.Domain.IRepositories;
 
@@ -23,7 +22,7 @@ namespace orchid_backend_net.Application.ExperimentLog.CreateExperimentLog
     internal class CreateExperimentLogCommandHandler(IExperimentLogRepository experimentLogRepository, IHybridizationRepository hybridizationRepository,
         ILinkedRepository linkedRepository, IStageRepository stageRepository,
         ISender sender, ITaskTemplatesRepository taskTemplatesRepository,
-        //ITissueCultureBatchRepository tissueCultureBatchRepository,
+        
         ITaskTemplateDetailsRepository taskTemplateDetailsRepository,
         ICurrentUserService currentUserService) : IRequestHandler<CreateExperimentLogCommand, string>
     {
@@ -81,17 +80,12 @@ namespace orchid_backend_net.Application.ExperimentLog.CreateExperimentLog
                     CurrentStageID = stageIds.FirstOrDefault(), // Assuming the first stage is the current stage
                     MethodID = request.MethodID,
                     Description = request.Description,
-                    TissueCultureBatchID = request.TissueCultureBatchID,//checking if it bussy or not
+                    TissueCultureBatchID = request.TissueCultureBatchID,
                     Status = 1,
                     Create_date = DateTime.UtcNow,
                     Create_by = currentUserService.UserId,
                 };
-                //var tissue =await tissueCultureBatchRepository.FindAsync(x => x.ID.Equals(request.TissueCultureBatchID));
-                //if (tissue == null)
-                //    throw new NotFoundException($"Not found any tissuecultuerbatch with ID {request.TissueCultureBatchID}");
-                //if ((tissue.ExperimentLogs.Where(x => x.Status == 1 || x.Status == 2)).Count() > 0)
-                //    throw new Exception("Error orcurd when attach tissueculturebatch");
-                //obj.TissueCultureBatchID = request.TissueCultureBatchID;
+                
                 experimentLogRepository.Add(obj);
 
                 //create hybridzations
