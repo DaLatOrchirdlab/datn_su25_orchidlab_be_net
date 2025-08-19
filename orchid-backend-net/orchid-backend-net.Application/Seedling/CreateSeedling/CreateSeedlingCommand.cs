@@ -43,6 +43,11 @@ namespace orchid_backend_net.Application.Seedling.CreateSeedling
                     seedling.Parent1 = request.MotherID;
                     seedling.Parent1 = request.FatherID;
                 }
+                else if (await IsExitsSeedling(request.MotherID, cancellationToken) || await IsExitsSeedling(request.FatherID, cancellationToken))
+                {
+                    seedling.Parent1 = request.MotherID;
+                    seedling.Parent1 = request.FatherID;
+                }
                 else
                 {
                     throw new NotFoundException("not found parent");

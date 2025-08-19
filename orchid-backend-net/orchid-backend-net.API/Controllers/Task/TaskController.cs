@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using orchid_backend_net.API.Controllers.ResponseTypes;
 using orchid_backend_net.Application.Common.Pagination;
+using orchid_backend_net.Application.Images.Create;
 using orchid_backend_net.Application.Tasks;
 using orchid_backend_net.Application.Tasks.CreateTask;
 using orchid_backend_net.Application.Tasks.DeleteTask;
@@ -11,6 +12,7 @@ using orchid_backend_net.Application.Tasks.GetTaskInfor;
 using orchid_backend_net.Application.Tasks.ReportTask;
 using orchid_backend_net.Application.Tasks.UpdateTask;
 using orchid_backend_net.Application.Tasks.UpdateTaskStatus;
+using orchid_backend_net.Domain.Entities;
 using System.Net.Mime;
 
 namespace orchid_backend_net.API.Controllers.Task
@@ -171,26 +173,38 @@ namespace orchid_backend_net.API.Controllers.Task
         /// <summary>
         /// researcher update task
         /// </summary>
-        /// <param name="command"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpPut("update-report-task")]
         [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(typeof(JsonResponse<TaskDTO>), StatusCodes.Status201Created)]
-        [ProducesResponseType(typeof(JsonResponse<TaskDTO>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<JsonResponse<string>>> UpdateReportTask(
-            [FromBody] ReportTaskCommand command,
+            IFormFile image,
+            [FromForm] string description,
+            [FromForm] string taskid,
             CancellationToken cancellationToken)
         {
             try
             {
-                var result = await sender.Send(command, cancellationToken);
-                logger.LogInformation("Received PUT request at {Time}", DateTime.UtcNow);
-                return Ok(new JsonResponse<string>(result));
+                logger.LogInformation("Received POST request at {Time}", DateTime.UtcNow);
+                if (string.IsNullOrEmpty(taskid))
+                    return BadRequest("Task ID is required.");
+                if(image == null)
+                    return BadRequest("No images provided.");
+                using var stream = image.OpenReadStream();
+                stream.Position = 0;
+                var command = new ReportTaskCommand(stream, image.FileName, description, taskid);
+                var imageResult = await sender.Send(command, cancellationToken);
+                if (imageResult.Equals(false))
+                {
+                    return BadRequest("Failed to upload image: " + image.FileName);
+                }
+                return Ok(new JsonResponse<string>("Images uploaded successfully."));
             }
             catch (Exception ex)
             {
