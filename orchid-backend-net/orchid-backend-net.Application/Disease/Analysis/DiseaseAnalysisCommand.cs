@@ -17,9 +17,22 @@ namespace orchid_backend_net.Application.Disease.Analysis
             try
             {
                 OrchidAnalysisResult result = await orchidAnalyzerService.AnalyzeAsync(request.ImageBytes);
-                var disease = await diseaseRepository.FindProjectToAsync<DiseaseDTO>(
-                    query => query.Where(disease => disease.ID.Equals(result.Disease)), cancellationToken);
-                return new AnalysisDTO(result.Stage, disease);
+                var diseaseId = result.Disease.Probability.Keys.ToList();
+
+                var disease = await diseaseRepository.FindAllToDictionaryAsync(filter => diseaseId.Contains(filter.ID),
+                    key => key.ID, 
+                    value => value.Name, 
+                    cancellationToken: cancellationToken);
+                
+                var finalPropabilityMapping = result.Disease.Probability.ToDictionary(
+                    prop => disease.GetValueOrDefault(prop.Key, prop.Key),
+                    prop => prop.Value);
+
+                return new AnalysisDTO(result.Stage, new DiseaseResultDTO()
+                {
+                    Predict = result.Disease.Predict,
+                    Probability = finalPropabilityMapping,
+                });
             }
             catch (Exception ex)
             {
