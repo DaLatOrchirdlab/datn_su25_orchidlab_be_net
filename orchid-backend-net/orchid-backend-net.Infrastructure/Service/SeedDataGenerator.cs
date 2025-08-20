@@ -10,6 +10,7 @@ namespace orchid_backend_net.Infrastructure.Service
         {
             await SeedRoles.SeedAsync(context);
             await SeedUsers.SeedAsync(context);
+            await SeedDisease.SeedAsync(context);
 
             await SeedLabRooms.SeedAsync(context);
             await SeedMethods.SeedAsync(context);

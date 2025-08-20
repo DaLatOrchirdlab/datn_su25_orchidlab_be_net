@@ -8,7 +8,6 @@ namespace orchid_backend_net.Infrastructure.Repository
 {
     public class OrchidAnalyzerService(IConfiguration configuration) : IOrchidAnalyzerService
     {
-
         public async Task<OrchidAnalysisResult> AnalyzeAsync(byte[] imageBytes)
         {
             var processedBytes = ResizeAndCompressingImage.ResizeAndCompressImages(imageBytes, 1024, 1024, 70);
