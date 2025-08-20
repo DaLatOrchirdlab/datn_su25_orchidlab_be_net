@@ -30,9 +30,9 @@ namespace orchid_backend_net.Application.Sample.GetAllSample
             {
                 IQueryable<Domain.Entities.Samples> queryOptions(IQueryable<Domain.Entities.Samples> query)
                 {
-                    query = query.Where(x => x.Status != 2);
+                    //query = query.Where(x => x.Status != 2);
                     if (!string.IsNullOrWhiteSpace(request.ExperimentLogId))
-                        query = query.Where(x => x.Linkeds.Any(linkeds => linkeds.ExperimentLogID.Equals(request.ExperimentLogId)) && x.Status != 2);
+                        query = query.Where(x => x.Linkeds.Any(linkeds => linkeds.ExperimentLogID.Equals(request.ExperimentLogId)));
                     return query;
                 }
 
