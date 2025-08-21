@@ -20,7 +20,7 @@ namespace orchid_backend_net.Application.ExperimentLog.DeleteExperimentLog
             try
             {
                 var experimentLog = await experimentLogRepository.FindAsync(x => x.ID.Equals(request.ID), cancellationToken);
-                experimentLog.Status = 4;
+                experimentLog.Status = 3;
                 return await experimentLogRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? $"Deleted ExperimentLog with ID :{request.ID}" : "Failed to delete ExperimentLog.";
             }
             catch (Exception ex)
