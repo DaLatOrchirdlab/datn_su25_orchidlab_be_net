@@ -16,7 +16,6 @@ namespace orchid_backend_net.Application.Element.DeleteElement
     }
     internal class DeleteElementCommandHandler(IElementRepositoty elementRepository) : IRequestHandler<DeleteElementCommand, string>
     {
-        //private readonly IElementRepositoty _elementRepository;
         public async Task<string> Handle(DeleteElementCommand request, CancellationToken cancellationToken)
         {
             try
