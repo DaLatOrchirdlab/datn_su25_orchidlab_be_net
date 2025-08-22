@@ -10,6 +10,7 @@ namespace orchid_backend_net.Application.Element
         public string Name { get; set; }
         public string Description { get; set; }
         public bool Status { get; set; }
+        public int CurrentInStage {  get; set; }
 
         public static ElementDTO Create(string id, string name, string description)
         {
@@ -24,6 +25,7 @@ namespace orchid_backend_net.Application.Element
         public void Mapping(Profile profile)
         {
             profile.CreateMap<Elements, ElementDTO>()
+                .ForMember(dest => dest.CurrentInStage, otp => otp.MapFrom(src => src.ElementInStages.Count))
                 .ReverseMap();
         }
     }
