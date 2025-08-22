@@ -16,7 +16,7 @@ namespace orchid_backend_net.Application.Element.CreateElement
         }
     }
 
-    internal class CreateElementCommandHandler(IElementRepositoty elementRepositoty) : IRequestHandler<CreateElementCommand, string>
+    internal class CreateElementCommandHandler(IElementRepositoty elementRepository) : IRequestHandler<CreateElementCommand, string>
     {
         public async Task<string> Handle(CreateElementCommand request, CancellationToken cancellationToken)
         {
@@ -28,8 +28,8 @@ namespace orchid_backend_net.Application.Element.CreateElement
                     Description = request.Description,
                     Status = true,
                 };
-                elementRepositoty.Add(obj);
-                return await elementRepositoty.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? $"Created element name : {request.Name}." : "Failed create element.";
+                elementRepository.Add(obj);
+                return await elementRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? $"Created element name : {request.Name}." : "Failed create element.";
             }
             catch (Exception ex)
             {

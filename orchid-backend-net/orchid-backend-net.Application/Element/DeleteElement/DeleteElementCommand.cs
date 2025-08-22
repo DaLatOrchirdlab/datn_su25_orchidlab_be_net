@@ -14,17 +14,16 @@ namespace orchid_backend_net.Application.Element.DeleteElement
             this.ID = ID;
         }
     }
-    internal class DeleteElementCommandHandler(IElementRepositoty elementRepositoty) : IRequestHandler<DeleteElementCommand, string>
+    internal class DeleteElementCommandHandler(IElementRepositoty elementRepository) : IRequestHandler<DeleteElementCommand, string>
     {
-        private readonly IElementRepositoty _elementRepository;
         public async Task<string> Handle(DeleteElementCommand request, CancellationToken cancellationToken)
         {
             try
             {
-                var element = await this._elementRepository.FindAsync(x => x.ID.Equals(request.ID), cancellationToken);
+                var element = await elementRepository.FindAsync(x => x.ID.Equals(request.ID), cancellationToken);
                 element.Status = false;
-                this._elementRepository.Update(element);
-                return await this._elementRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? $"Deleted element with ID: {request.ID}" : $"Failed delete element with ID :{request.ID}";
+                elementRepository.Update(element);
+                return await elementRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? $"Deleted element with ID: {request.ID}" : $"Failed delete element with ID :{request.ID}";
             }
             catch (Exception ex)
             {
