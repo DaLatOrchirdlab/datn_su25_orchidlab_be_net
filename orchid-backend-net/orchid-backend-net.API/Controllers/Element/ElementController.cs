@@ -77,7 +77,7 @@ namespace orchid_backend_net.API.Controllers.Element
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<JsonResponse<string>>> UpdateElement(
-            UpdateElementCommand command, CancellationToken cancellationToken)
+            [FromBody]UpdateElementCommand command, CancellationToken cancellationToken)
         {
             try
             {
@@ -100,7 +100,7 @@ namespace orchid_backend_net.API.Controllers.Element
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<JsonResponse<string>>> CreateElement(
-            CreateElementCommand command, CancellationToken cancellationToken)
+            [FromBody]CreateElementCommand command, CancellationToken cancellationToken)
         {
             try
             {
@@ -122,7 +122,7 @@ namespace orchid_backend_net.API.Controllers.Element
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)] 
         public async Task<ActionResult<JsonResponse<string>>> DeleteElement(
-            DeleteElementCommand command, CancellationToken cancellationToken)
+            [FromBody]DeleteElementCommand command, CancellationToken cancellationToken)
         {
             try
             {
