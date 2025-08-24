@@ -8,6 +8,7 @@ namespace orchid_backend_net.Application.TissueCultureBatch
         public string ID { get; set; }
         public string Name { get; set; }
         public string LabName { get; set; }
+        public string LabRoomID { get; set; }
         public string Description { get; set; }
         public string InUse { get; set; }
         public bool Status { get; set; }
