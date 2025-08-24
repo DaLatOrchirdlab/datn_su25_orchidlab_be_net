@@ -6,6 +6,8 @@ using System.Text.Json.Serialization;
 
 namespace orchid_backend_net.Application.Stage.CreateStage
 {
+    //fix this shit 
+
     public class CreateStageCommand(string name, string description, int dateOfProcessing, int step, List<string> elementInStages, List<CreateReferentInStage> referents) : IRequest, ICommand
     {
         public string Name { get; set; } = name;
