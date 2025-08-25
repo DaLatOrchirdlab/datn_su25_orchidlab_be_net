@@ -16,11 +16,12 @@ namespace orchid_backend_net.Application.Report.GetAllReport
         public string? TechnicianId { get; set; }
         public string? ExperimentLogId { get; set; }
         public GetAllReportQuery() { }
-        public GetAllReportQuery(int pageNumber, int pageSize, string? technicianId)
+        public GetAllReportQuery(int pageNumber, int pageSize, string? technicianId, string? experimentLogId)
         {
             PageSize = pageSize;
             PageNumber = pageNumber;
             TechnicianId = technicianId;
+            ExperimentLogId = experimentLogId;
         }
     }
 
