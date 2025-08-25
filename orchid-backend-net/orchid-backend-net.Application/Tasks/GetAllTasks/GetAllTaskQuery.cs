@@ -12,12 +12,16 @@ namespace orchid_backend_net.Application.Tasks.GetAllTasks
         public int PageSize { get; set; }
         public string? TechnicianId { get; set; }
         public string? ResearcherId { get; set; }
-        public GetAllTaskQuery(int pagenumber, int pagesize, string? technicianId, string? researcherId)
+        public string? stageID {  get; set; }
+        public string? experimentLogID {  get; set; }
+        public GetAllTaskQuery(int pagenumber, int pagesize, string? technicianId, string? researcherId, string? stageID, string? experimentLogID)
         {
             this.PageNumber = pagenumber;
             this.PageSize = pagesize;
             TechnicianId = technicianId;
             ResearcherId = researcherId;
+            this.stageID = stageID;
+            this.experimentLogID = experimentLogID;
         }
         public GetAllTaskQuery() { }
     }
@@ -35,6 +39,10 @@ namespace orchid_backend_net.Application.Tasks.GetAllTasks
                         query = query.Where(x => x.Assigns.Any(assign => assign.TechnicianID == request.TechnicianId));
                     if (!string.IsNullOrWhiteSpace(request.ResearcherId))
                         query = query.Where(x => x.Researcher.Equals(request.ResearcherId));
+                    if (!string.IsNullOrWhiteSpace(request.stageID))
+                        query = query.Where(x => x.Linkeds.Any(x => x.StageID.Equals(request.stageID)));
+                    if (!string.IsNullOrWhiteSpace(request.experimentLogID))
+                        query = query.Where(x => x.Linkeds.Any(x => x.ExperimentLogID.Equals(request.experimentLogID)));
                     return query;
                 }
 

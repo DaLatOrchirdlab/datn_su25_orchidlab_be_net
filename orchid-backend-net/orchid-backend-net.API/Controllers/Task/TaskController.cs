@@ -34,11 +34,13 @@ namespace orchid_backend_net.API.Controllers.Task
             [FromQuery] int pageSize,
             [FromQuery] string? technicianId,
             [FromQuery] string? researcherId,
+            [FromRoute] string? stageId,
+            [FromRoute] string? experimentlogId,
             CancellationToken cancellationToken)
         {
             try
             {
-                var result = await sender.Send(new GetAllTaskQuery(pageNo, pageSize, technicianId, researcherId), cancellationToken);
+                var result = await sender.Send(new GetAllTaskQuery(pageNo, pageSize, technicianId, researcherId, stageId, experimentlogId), cancellationToken);
                 logger.LogInformation("Received GET request at {Time}", DateTime.UtcNow);
                 return Ok(new JsonResponse<PageResult<GetAllTaskQueryDto>>(result));
             }
