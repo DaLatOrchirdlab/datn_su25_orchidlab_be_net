@@ -14,6 +14,7 @@ namespace orchid_backend_net.Application.Report.GetAllReport
         public int PageNumber { get; set; }
         public int PageSize { get; set; }
         public string? TechnicianId { get; set; }
+        public string? ExperimentLogId { get; set; }
         public GetAllReportQuery() { }
         public GetAllReportQuery(int pageNumber, int pageSize, string? technicianId)
         {
@@ -34,7 +35,9 @@ namespace orchid_backend_net.Application.Report.GetAllReport
                 {
                     if(!string.IsNullOrWhiteSpace(request.TechnicianId))
                         query = query.Where(x => x.TechnicianID.ToLower().Equals(request.TechnicianId.ToLower()));
-                    return query;
+                    if (!string.IsNullOrWhiteSpace(request.ExperimentLogId))
+                        query = query.Where(report => report.Sample.Linkeds.Any(linkeds => linkeds.ExperimentLogID.Equals(request.ExperimentLogId)));
+                        return query;
                 }
 
                 var reports = await reportRepository.FindAllProjectToAsync<ReportDTO>(
