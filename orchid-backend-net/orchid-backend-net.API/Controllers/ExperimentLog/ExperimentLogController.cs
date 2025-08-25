@@ -91,7 +91,7 @@ namespace orchid_backend_net.API.Controllers.ExperimentLog
                 return BadRequest(ex.Message);
             }
         }
-        [HttpPut]
+        [HttpPut("stage-changer")]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status200OK)]
