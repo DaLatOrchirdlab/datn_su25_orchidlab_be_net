@@ -34,8 +34,8 @@ namespace orchid_backend_net.API.Controllers.Task
             [FromQuery] int pageSize,
             [FromQuery] string? technicianId,
             [FromQuery] string? researcherId,
-            [FromRoute] string? stageId,
-            [FromRoute] string? experimentlogId,
+            [FromQuery] string? stageId,
+            [FromQuery] string? experimentlogId,
             CancellationToken cancellationToken)
         {
             try
