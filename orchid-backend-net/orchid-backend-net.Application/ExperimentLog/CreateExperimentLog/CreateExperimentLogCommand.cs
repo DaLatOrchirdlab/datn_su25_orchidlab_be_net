@@ -102,6 +102,7 @@ namespace orchid_backend_net.Application.ExperimentLog.CreateExperimentLog
                 }
 
                 //bulk Insert Linkeds - sample - task
+                //chưa phân biệt cho expeiment log hay là cho sample
                 for (int i = 0; i < request.NumberOfSample; i++)
                 {
                     var sampleId = await sender.Send(

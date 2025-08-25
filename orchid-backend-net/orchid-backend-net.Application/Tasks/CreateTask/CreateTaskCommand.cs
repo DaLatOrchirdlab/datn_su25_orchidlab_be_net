@@ -10,6 +10,7 @@ namespace orchid_backend_net.Application.Tasks.CreateTask
     public class CreateTaskCommand : IRequest<string>, ICommand
     {
         public string? ExperimentLogID { get; set; }
+        //remove stage ID
         public string? StageID { get; set; }
         public string? SampleID { get; set; }
         public string Name { get; set; }
