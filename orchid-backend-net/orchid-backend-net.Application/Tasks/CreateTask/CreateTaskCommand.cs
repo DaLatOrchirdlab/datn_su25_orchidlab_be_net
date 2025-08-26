@@ -2,7 +2,6 @@
 using orchid_backend_net.Application.Common.Interfaces;
 using orchid_backend_net.Application.TaskAssign.CreateTaskAssign;
 using orchid_backend_net.Application.TaskAttribute.CreateTaskAttribute;
-using orchid_backend_net.Domain.Entities;
 using orchid_backend_net.Domain.IRepositories;
 
 namespace orchid_backend_net.Application.Tasks.CreateTask
@@ -10,7 +9,6 @@ namespace orchid_backend_net.Application.Tasks.CreateTask
     public class CreateTaskCommand : IRequest<string>, ICommand
     {
         public string? ExperimentLogID { get; set; }
-        public string? StageID { get; set; }
         public string? SampleID { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
@@ -21,7 +19,7 @@ namespace orchid_backend_net.Application.Tasks.CreateTask
         public List<string> TechnicianID { get; set; }
         public CreateTaskCommand(string name, string description,
             DateTime start_date, DateTime end_date, List<CreateTaskAttributeCommand> attribute,
-            List<string> technicianID, string? experimentLogID, string? stageID,
+            List<string> technicianID, string? experimentLogID,
             string? sampleId, bool isdaily)
         {
             Name = name;
@@ -31,7 +29,6 @@ namespace orchid_backend_net.Application.Tasks.CreateTask
             Attribute = attribute;
             TechnicianID = technicianID;
             ExperimentLogID = experimentLogID;
-            StageID = stageID;
             SampleID = sampleId;
             IsDaily = isdaily;
         }
@@ -86,11 +83,12 @@ namespace orchid_backend_net.Application.Tasks.CreateTask
                         SampleID = request.SampleID,
                         ExperimentLogID = experimentLogId,
                         TaskID = task.ID,
-                        StageID = request.StageID ?? experimentLog.CurrentStageID,
+                        StageID = experimentLog.CurrentStageID,
                         ProcessStatus = 0
                     };
                     linkedRepository.Add(linkeds);
                 }
+
                 if ((await experimentLogRepository.FindAsync(x => x.ID.Equals(request.ExperimentLogID), cancellationToken)) != null)
                 {
                     var experimentLog = await experimentLogRepository.FindAsync(x => x.ID.Equals(request.ExperimentLogID), cancellationToken);
@@ -99,25 +97,15 @@ namespace orchid_backend_net.Application.Tasks.CreateTask
                         .Where(sample => sample != null)
                         .Distinct()
                         .ToList();
-                    foreach (var linkedSample in uniqueLinkedsSample)
+                    var linkeds = new Domain.Entities.Linkeds
                     {
-                        var sample = await sampleRepository.FindAsync(x => x.ID.Equals(linkedSample), cancellationToken);
-                        if (sample != null)
-                        {
-                            var linkeds = new Domain.Entities.Linkeds
-                            {
-                                ExperimentLogID = request.ExperimentLogID,
-                                SampleID = sample.ID,
-                                TaskID = task.ID,
-                                StageID = request.StageID ?? experimentLog.CurrentStageID,
-                                ProcessStatus = 0
-                            };
-                            linkedRepository.Add(linkeds);
-                        }
-                    }
-
+                        ExperimentLogID = request.ExperimentLogID,
+                        TaskID = task.ID,
+                        StageID = experimentLog.CurrentStageID,
+                        ProcessStatus = 0
+                    };
+                    linkedRepository.Add(linkeds);
                 }
-
                 return await taskRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? "Create task successfully." : "Failed to create task.";
             }
             catch (Exception ex)
