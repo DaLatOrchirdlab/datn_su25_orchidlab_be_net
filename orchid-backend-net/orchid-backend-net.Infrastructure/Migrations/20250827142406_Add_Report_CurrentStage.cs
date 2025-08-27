@@ -18,6 +18,8 @@ namespace orchid_backend_net.Infrastructure.Migrations
                 defaultValue: "");
         }
 
+
+
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
