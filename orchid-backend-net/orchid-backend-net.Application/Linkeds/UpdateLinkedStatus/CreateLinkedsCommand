@@ -1,5 +1,0 @@
-namespace orchid-backend-net.Application.Linkeds;
-
-public class CreateaLinkedsCommand {
-
-}

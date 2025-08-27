@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using orchid_backend_net.Application.Common.Interfaces;
+using orchid_backend_net.Application.Linkeds.CreateLinkedsCommand;
 using orchid_backend_net.Application.TaskAssign.CreateTaskAssign;
 using orchid_backend_net.Application.TaskAttribute.CreateTaskAttribute;
 using orchid_backend_net.Domain.IRepositories;
@@ -35,8 +36,7 @@ namespace orchid_backend_net.Application.Tasks.CreateTask
         public CreateTaskCommand() { }
     }
 
-    internal class CreateTaskCommandHandler(ITaskRepository taskRepository, ILinkedRepository linkedRepository,
-        IExperimentLogRepository experimentLogRepository, ISampleRepository sampleRepository,
+    internal class CreateTaskCommandHandler(ITaskRepository taskRepository,
         ICurrentUserService currentUserService, ISender sender) : IRequestHandler<CreateTaskCommand, string>
     {
 
@@ -71,46 +71,13 @@ namespace orchid_backend_net.Application.Tasks.CreateTask
                     await sender.Send(assignCommand, cancellationToken);
                 }
 
-                if ((await sampleRepository.FindAsync(x => x.ID.Equals(request.SampleID), cancellationToken)) != null)
-                {
-                    var linkedExperimentLog = await linkedRepository.FindAllAsync(x => x.SampleID.Equals(request.SampleID) && x.StageID != null, cancellationToken);
-                    var experimentLogId = linkedExperimentLog.Select(x => x.ExperimentLogID)
-                        .FirstOrDefault(x => x != null);
-                    var experimentLog = await experimentLogRepository.FindAsync(x => x.ID.Equals(experimentLogId), cancellationToken);
-
-                    var linkeds = new Domain.Entities.Linkeds
-                    {
-                        SampleID = request.SampleID,
-                        ExperimentLogID = experimentLogId,
-                        TaskID = task.ID,
-                        StageID = experimentLog.CurrentStageID,
-                        ProcessStatus = 0
-                    };
-                    linkedRepository.Add(linkeds);
-                }
-
-                if ((await experimentLogRepository.FindAsync(x => x.ID.Equals(request.ExperimentLogID), cancellationToken)) != null)
-                {
-                    var experimentLog = await experimentLogRepository.FindAsync(x => x.ID.Equals(request.ExperimentLogID), cancellationToken);
-                    var linkedsSampleDuplicated = await linkedRepository.FindAllAsync(x => x.ExperimentLogID.Equals(request.ExperimentLogID), cancellationToken);
-                    var uniqueLinkedsSample = linkedsSampleDuplicated.Select(linkeds => linkeds.SampleID)
-                        .Where(sample => sample != null)
-                        .Distinct()
-                        .ToList();
-                    var linkeds = new Domain.Entities.Linkeds
-                    {
-                        ExperimentLogID = request.ExperimentLogID,
-                        TaskID = task.ID,
-                        StageID = experimentLog.CurrentStageID,
-                        ProcessStatus = 0
-                    };
-                    linkedRepository.Add(linkeds);
-                }
+                //task for only a single sample
+                var linkedsCommand = new CreateaLinkedsCommand()
                 return await taskRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? "Create task successfully." : "Failed to create task.";
             }
             catch (Exception ex)
             {
-                throw new Exception($"{ex.Message}");
+                throw new ArgumentException($"{ex.Message}");
             }
         }
     }
