@@ -14,7 +14,11 @@ namespace orchid_backend_net.Domain.Entities
         [ForeignKey(nameof(SampleID))]
         public virtual Samples Sample { get; set; }
         public bool IsLatest { get; set; } // Indicates if this report is the latest for the sample
-        public bool Status { get; set; }
+        //using for researcher to manage report 
+        public int Status { get; set; }
+        public string? ReviewReprot {  get; set; }
+
+        public string CurrentStage {  get; set; }
         public virtual ICollection<ReportAttributes> ReportAttributes { get; set; } = [];
         public virtual ICollection<Imgs> Imgs { get; set; } = [];
     }

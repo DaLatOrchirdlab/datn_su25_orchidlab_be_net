@@ -21,7 +21,7 @@ namespace orchid_backend_net.Application.Report.GetReportInfor
         {
             try
             {
-                var result = await reportRepository.FindAsync(x => x.ID.Equals(request.ID) && x.Status == true, cancellationToken);
+                var result = await reportRepository.FindAsync(x => x.ID.Equals(request.ID) && x.Delete_date == null, cancellationToken);
                 if (result == null)
                     throw new NotFoundException($"Not found report with ID :{request.ID}");
                 return result.MapToReportDTO(mapper);

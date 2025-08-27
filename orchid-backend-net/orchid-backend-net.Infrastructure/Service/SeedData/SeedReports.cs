@@ -23,7 +23,7 @@ namespace orchid_backend_net.Infrastructure.Service.SeedData
                         Name = "Báo cáo lần 1 - Sample A",
                         Description = "Theo dõi mầm sau cấy",
                         IsLatest = true,
-                        Status = true
+                        Status = 0
                     },
                     new()
                     {
@@ -33,7 +33,7 @@ namespace orchid_backend_net.Infrastructure.Service.SeedData
                         Name = "Báo cáo lần 1 - Sample B",
                         Description = "Theo dõi rễ phát triển",
                         IsLatest = true,
-                        Status = true
+                        Status = 0
                     }
                 };
 

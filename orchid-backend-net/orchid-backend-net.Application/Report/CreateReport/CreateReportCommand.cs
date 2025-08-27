@@ -34,7 +34,7 @@ namespace orchid_backend_net.Application.Report.CreateReport
                     SampleID = request.Sample,
                     TechnicianID = currentUserService.UserId,
                     IsLatest = true, 
-                    Status = true,
+                    Status = 0,
                     Create_by = currentUserService.UserId, 
                     Create_date = DateTime.UtcNow
                 };
