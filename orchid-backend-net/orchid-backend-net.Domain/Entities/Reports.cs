@@ -13,6 +13,7 @@ namespace orchid_backend_net.Domain.Entities
         public string SampleID { get; set; }
         [ForeignKey(nameof(SampleID))]
         public virtual Samples Sample { get; set; }
+        public string StageId { get; set; }
         public bool IsLatest { get; set; } // Indicates if this report is the latest for the sample
         //using for researcher to manage report 
         public string StageId { get; set; }

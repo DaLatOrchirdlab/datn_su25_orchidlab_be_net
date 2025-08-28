@@ -7,6 +7,7 @@ using orchid_backend_net.Application.ExperimentLog.CreateExperimentLog;
 using orchid_backend_net.Application.ExperimentLog.DeleteExperimentLog;
 using orchid_backend_net.Application.ExperimentLog.GetAllExperimentLog;
 using orchid_backend_net.Application.ExperimentLog.GetExperimentLogInfor;
+using orchid_backend_net.Application.ExperimentLog.StateChangeExperimentLog;
 using orchid_backend_net.Application.ExperimentLog.UpdateExperimentLog;
 using System.Net.Mime;
 
@@ -77,6 +78,29 @@ namespace orchid_backend_net.API.Controllers.ExperimentLog
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<JsonResponse<string>>> UpdateExperimentLog(
             UpdateExperimentLogCommand command, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var result = await this._sender.Send(command, cancellationToken);
+                _logger.LogInformation("Received PUT request at {Time}", DateTime.UtcNow);
+                return Ok(new JsonResponse<string>(result));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while processing PUT request at {Time}", DateTime.UtcNow);
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpPut("stage-changer")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<JsonResponse<string>>> StateChange(
+            StateChangeExperimentLogCommand command, CancellationToken cancellationToken)
         {
             try
             {

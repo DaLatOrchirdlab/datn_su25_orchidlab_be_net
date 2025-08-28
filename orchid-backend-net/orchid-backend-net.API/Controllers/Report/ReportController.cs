@@ -29,11 +29,13 @@ namespace orchid_backend_net.API.Controllers.Report
             [FromQuery] int pageNumber,
             [FromQuery] int pageSize,
             [FromQuery] string? technicianId,
+            [FromQuery] string? experimentLogId,
+            [FromQuery] string? stageId,
             CancellationToken cancellationToken)
         {
             try
             {
-                var result = await sender.Send(new GetAllReportQuery(pageNumber, pageSize, technicianId), cancellationToken);
+                var result = await sender.Send(new GetAllReportQuery(pageNumber, pageSize, technicianId, experimentLogId, stageId), cancellationToken);
                 logger.LogInformation("Received GET request at {Time}", DateTime.UtcNow);
                 return Ok(new JsonResponse<PageResult<ReportDTO>>(result));
             }
