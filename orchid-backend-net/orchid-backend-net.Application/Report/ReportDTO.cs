@@ -15,6 +15,7 @@ namespace orchid_backend_net.Application.Report
         public string Sample { get; set; }
         public string Technician { get; set; }
         public ReportStatus Status { get; set; }
+        public string? ReviewReport {  get; set; }
         public List<ReportAttributesDTO> ReportAttributes { get; set; }
         public void Mapping(Profile profile)
         {
