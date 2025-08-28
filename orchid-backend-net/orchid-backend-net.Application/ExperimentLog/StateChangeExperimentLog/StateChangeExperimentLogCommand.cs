@@ -2,18 +2,12 @@
 using orchid_backend_net.Application.Common.Interfaces;
 using orchid_backend_net.Domain.Common.Exceptions;
 using orchid_backend_net.Domain.IRepositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace orchid_backend_net.Application.ExperimentLog.StateChangeExperimentLog
 {
     public class StateChangeExperimentLogCommand : IRequest<string>, ICommand
     {
-        public string ELID {  get; set; }
-        public StateChangeExperimentLogCommand() { }
+        public string ELID { get; set; }
         public StateChangeExperimentLogCommand(string ELID)
         {
             this.ELID = ELID;
@@ -38,7 +32,7 @@ namespace orchid_backend_net.Application.ExperimentLog.StateChangeExperimentLog
                 if (nextStage == null)
                     throw new NotFoundException("Not found next stage, that is the last one.");
                 List<Domain.Entities.Samples> sample = await sampleRepository.FindAllAsync(x => x.Linkeds.Any(x => x.ExperimentLogID.Equals(EL.ID)), cancellationToken);
-                foreach( var sampleItem in sample)
+                foreach (var sampleItem in sample)
                 {
                     linkedRepository.Add(new Domain.Entities.Linkeds()
                     {
@@ -55,7 +49,7 @@ namespace orchid_backend_net.Application.ExperimentLog.StateChangeExperimentLog
 
                 return await experimentLogRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? "Successed" : "Failed";
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 throw new Exception($"{ex.Message}");
             }
