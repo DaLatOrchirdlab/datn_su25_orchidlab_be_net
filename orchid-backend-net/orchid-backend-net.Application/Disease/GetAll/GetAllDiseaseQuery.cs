@@ -9,10 +9,10 @@ namespace orchid_backend_net.Application.Disease.GetAll
 {
     public class GetAllDiseaseQuery(int pageNo, int pageSize, string? searchTerm, decimal? minRate, bool? isActive) : IRequest<PageResult<DiseaseDTO>>, IQuery
     {
-        public int PageNumber { get; set; }
-        public int PageSize { get; set; }
-        public string? SearchTerm { get; set; }
-        public decimal? MinInfectedRate { get; set; }
+        public int PageNumber { get; set; } = pageNo;
+        public int PageSize { get; set; } = pageSize;
+        public string? SearchTerm { get; set; } = searchTerm;   
+        public decimal? MinInfectedRate { get; set; } = minRate;
         public bool? IsActive { get; set; } = isActive;
     }
 
