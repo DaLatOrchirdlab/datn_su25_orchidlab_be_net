@@ -31,6 +31,7 @@ namespace orchid_backend_net.Application.Report.ReviewReport
             {
                 var report = await reportRepository.FindAsync(x => x.ID.Equals(request.ID) && x.Status != 2, cancellationToken);
                 report.ReviewReport = request.ReviewReportText;
+                report.Status = 1;
                 reportRepository.Update(report);
                 return (await reportRepository.UnitOfWork.SaveChangesAsync(cancellationToken)) > 0 ? "Successfully" : "Failed";
             }
