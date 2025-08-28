@@ -414,10 +414,6 @@ namespace orchid_backend_net.Infrastructure.Migrations
                     b.Property<DateTime?>("Create_date")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("CurrentStage")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("Delete_by")
                         .HasColumnType("text");
 
@@ -435,10 +431,14 @@ namespace orchid_backend_net.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("ReviewReprot")
+                    b.Property<string>("ReviewReport")
                         .HasColumnType("text");
 
                     b.Property<string>("SampleID")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("StageId")
                         .IsRequired()
                         .HasColumnType("text");
 

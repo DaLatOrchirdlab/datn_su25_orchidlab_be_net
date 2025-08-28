@@ -10,13 +10,11 @@ namespace orchid_backend_net.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<int>(
-                name: "Status",
-                table: "Reports",
-                type: "integer",
-                nullable: false,
-                oldClrType: typeof(bool),
-                oldType: "boolean");
+            migrationBuilder.Sql(
+                @"ALTER TABLE ""Reports"" 
+                ALTER COLUMN ""Status"" TYPE integer 
+                USING CASE WHEN ""Status"" = true THEN 1 ELSE 0 END;"
+            );
 
             migrationBuilder.AddColumn<string>(
                 name: "ReviewReprot",

@@ -14,14 +14,15 @@ namespace orchid_backend_net.Application.Report.CreateReport
         public List<CreateReportAttributeCommand> AttributeCommands { get; set; } = attributeCommands;
     }
 
-    internal class CreateReportCommandHandler(IReportRepository reportRepository, ISender sender, ICurrentUserService currentUserService) : IRequestHandler<CreateReportCommand, string>
+    internal class CreateReportCommandHandler(IReportRepository reportRepository, ISender sender, ICurrentUserService currentUserService, IExperimentLogRepository experimentLogRepository) : IRequestHandler<CreateReportCommand, string>
     {
         public async Task<string> Handle(CreateReportCommand request, CancellationToken cancellationToken)
         {
             try
             {
+                var experimentLog = await experimentLogRepository.FindAsync(x => x.Linkeds.Any(linkeds => linkeds.SampleID!.Equals(request.Sample)), cancellationToken);
                 var oldReports = await reportRepository.FindAsync(x => x.IsLatest && x.SampleID.Equals(request.Sample), cancellationToken);
-                if(oldReports != null)
+                if (oldReports != null)
                 {
                     oldReports.IsLatest = false; // Mark the old report as not the latest
                     reportRepository.Update(oldReports); // Update the old report
@@ -32,23 +33,24 @@ namespace orchid_backend_net.Application.Report.CreateReport
                     Description = request.Description,
                     Name = request.Name,
                     SampleID = request.Sample,
-                    TechnicianID = currentUserService.UserId,
+                    StageId = experimentLog!.CurrentStageID,
+                    TechnicianID = currentUserService.UserName,
                     IsLatest = true, 
                     Status = 0,
-                    Create_by = currentUserService.UserId, 
+                    Create_by = currentUserService.UserName, 
                     Create_date = DateTime.UtcNow
                 };
                 reportRepository.Add(obj);
                 foreach (var attributeCommand in request.AttributeCommands)
                 {
                     attributeCommand.ReportID = obj.ID;
-                    sender.Send(attributeCommand, cancellationToken); // Send the command to create report attributes
+                    await sender.Send(attributeCommand, cancellationToken); // Send the command to create report attributes
                 }
                 return await reportRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? $"{obj.ID}" : "Failed to create report.";
             }
             catch (Exception ex)
             {
-                throw new Exception($"{ex.Message}");
+                throw new ArgumentException($"{ex.Message}");
             }
         }
     }

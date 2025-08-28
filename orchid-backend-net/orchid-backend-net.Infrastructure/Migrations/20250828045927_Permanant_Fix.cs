@@ -5,27 +5,24 @@
 namespace orchid_backend_net.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Add_Report_CurrentStage : Migration
+    public partial class Permanant_Fix : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
-                name: "CurrentStage",
+            migrationBuilder.RenameColumn(
+                name: "ReviewReprot",
                 table: "Reports",
-                type: "text",
-                nullable: false,
-                defaultValue: "");
+                newName: "ReviewReport");
         }
-
-
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "CurrentStage",
-                table: "Reports");
+            migrationBuilder.RenameColumn(
+                name: "ReviewReport",
+                table: "Reports",
+                newName: "ReviewReprot");
         }
     }
 }
