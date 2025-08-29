@@ -34,7 +34,7 @@ namespace orchid_backend_net.Application.Report.CreateReport
                     Name = request.Name,
                     SampleID = request.Sample,
                     StageId = experimentLog!.CurrentStageID,
-                    TechnicianID = currentUserService.UserName,
+                    TechnicianID = currentUserService.UserId,
                     IsLatest = true, 
                     Status = 0,
                     Create_by = currentUserService.UserName, 
