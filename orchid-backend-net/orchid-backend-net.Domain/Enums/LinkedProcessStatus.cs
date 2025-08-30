@@ -4,6 +4,7 @@
     {
         Continue,
         Paused,
+        Done,
         Canceled,
     }
 }

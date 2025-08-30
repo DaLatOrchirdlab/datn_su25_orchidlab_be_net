@@ -32,6 +32,12 @@ namespace orchid_backend_net.Application.ExperimentLog.StateChangeExperimentLog
                 if (nextStage == null)
                     throw new NotFoundException("Not found next stage, that is the last one.");
                 List<Domain.Entities.Samples> sample = await sampleRepository.FindAllAsync(x => x.Linkeds.Any(x => x.ExperimentLogID.Equals(EL.ID)), cancellationToken);
+                List<Domain.Entities.Linkeds> existingLinkeds = await linkedRepository.FindAllAsync(x => x.ExperimentLogID.Equals(EL.ID) && x.StageID.Equals(EL.CurrentStageID), cancellationToken);
+                foreach(var item in existingLinkeds)
+                {
+                    item.ProcessStatus = 2;
+                    linkedRepository.Update(item);
+                }
                 foreach (var sampleItem in sample)
                 {
                     linkedRepository.Add(new Domain.Entities.Linkeds()
@@ -40,7 +46,6 @@ namespace orchid_backend_net.Application.ExperimentLog.StateChangeExperimentLog
                         ProcessStatus = 0,
                         StageID = nextStage.ID,
                         SampleID = sampleItem.ID,
-                        TaskID = null
                     });
                 }
 

@@ -38,6 +38,7 @@ namespace orchid_backend_net.Application.Report.ExportReportPDF
                 var user = await userRepository.FindAsync(x => x.ID.Equals(technician.TechnicianID), cancellationToken);
                 technicianNames.Add(user.Name);
             }
+            technicianNames = technicianNames.Distinct().ToList();
 
             var samples = await sampleRepository.FindAllAsync(x => x.Linkeds.Any(linkeds => linkeds.ExperimentLogID!.Equals(request.ExperimentLogId)), cancellationToken);
 
@@ -52,10 +53,10 @@ namespace orchid_backend_net.Application.Report.ExportReportPDF
                 experimentLog = new
                 {
                     experimentLog.Name,
-                    experimentLog.Create_by,  
-                    CreateDate = experimentLog.Create_date,
-                    EndDate = totalDate,
-                    DeleteDate = experimentLog.Delete_date,
+                    experimentLog.Create_by,
+                    Create_date = experimentLog.Create_date,
+                    End_date = totalDate,
+                    Delete_date = experimentLog.Delete_date,
                 },
                 technicianNames,
                 seedlings,
