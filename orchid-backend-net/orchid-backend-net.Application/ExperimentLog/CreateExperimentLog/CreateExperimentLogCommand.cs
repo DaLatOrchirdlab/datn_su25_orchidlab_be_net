@@ -83,7 +83,7 @@ namespace orchid_backend_net.Application.ExperimentLog.CreateExperimentLog
                     TissueCultureBatchID = request.TissueCultureBatchID,
                     Status = 1,
                     Create_date = DateTime.UtcNow,
-                    Create_by = currentUserService.UserId,
+                    Create_by = currentUserService.UserName,
                 };
                 
                 experimentLogRepository.Add(obj);

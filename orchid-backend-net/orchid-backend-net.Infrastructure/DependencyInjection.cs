@@ -11,6 +11,7 @@ using orchid_backend_net.Infrastructure.Repository;
 using orchid_backend_net.Infrastructure.Service;
 using orchid_backend_net.Infrastructure.Service.CloudinarySettings;
 using orchid_backend_net.Infrastructure.Service.GmailSettings;
+using orchid_backend_net.Infrastructure.Service.PdfGenerator;
 using orchid_backend_net.Infrastructure.Service.RedisSettings;
 
 namespace orchid_backend_net.Infrastructure
@@ -86,7 +87,7 @@ namespace orchid_backend_net.Infrastructure
             services.AddScoped<IMethodRepository, MethodRepository>();
             services.AddScoped<IReportRepository, RepostRepository>();
             services.AddScoped<ISampleRepository, SampleRepository>();
-            services.AddScoped<ISeedlingAttributeRepository,SeedlingAttributeRepository>();
+            services.AddScoped<ISeedlingAttributeRepository, SeedlingAttributeRepository>();
             services.AddScoped<ISeedlingRepository, SeedlingRepository>();
             services.AddScoped<ICharactersicticRepository, CharacteristicRepository>();
             services.AddScoped<IStageRepository, StageRepository>();
@@ -95,7 +96,7 @@ namespace orchid_backend_net.Infrastructure
             services.AddScoped<ITaskAssignRepository, TaskAssignRepository>();
             services.AddScoped<IHybridizationRepository, HybridizationRepository>();
             services.AddScoped<ILinkedRepository, LinkedRepository>();
-            services.AddScoped<ITissueCultureBatchRepository,TissueCultureBatchRepository>();
+            services.AddScoped<ITissueCultureBatchRepository, TissueCultureBatchRepository>();
             services.AddScoped<IElementInStageRepository, ElementInStageRepository>();
             services.AddScoped<IReferentRepository, ReferentRepository>();
             services.AddScoped<IImageRepository, ImageRepository>();
@@ -109,6 +110,7 @@ namespace orchid_backend_net.Infrastructure
             services.AddScoped<ITaskTemplatesRepository, TaskTemplateRepository>();
             services.AddScoped<ITaskTemplateDetailsRepository, TaskTemplateDetailRepository>();
             services.AddScoped<IReportAttributeRepository, ReportAttributeRepository>();
+            services.AddScoped<IPdfReportGenerator, PdfReportGenerator>();
             return services;
         }
     }
