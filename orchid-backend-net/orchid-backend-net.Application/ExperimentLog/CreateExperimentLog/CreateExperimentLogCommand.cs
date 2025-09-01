@@ -81,7 +81,7 @@ namespace orchid_backend_net.Application.ExperimentLog.CreateExperimentLog
                     MethodID = request.MethodID,
                     Description = request.Description,
                     TissueCultureBatchID = request.TissueCultureBatchID,
-                    Status = 1,
+                    Status = 0,
                     Create_date = DateTime.UtcNow,
                     Create_by = currentUserService.UserName,
                 };

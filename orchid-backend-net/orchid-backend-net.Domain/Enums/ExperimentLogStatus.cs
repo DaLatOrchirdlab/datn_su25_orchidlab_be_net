@@ -2,7 +2,6 @@
 {
     public enum ExperimentLogStatus
     {
-        Created,
         InProcess,
         Done,
         Cancel
