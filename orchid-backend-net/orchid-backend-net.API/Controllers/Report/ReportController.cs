@@ -6,6 +6,7 @@ using orchid_backend_net.Application.Images.Create;
 using orchid_backend_net.Application.Report;
 using orchid_backend_net.Application.Report.CreateReport;
 using orchid_backend_net.Application.Report.DeleteReport;
+using orchid_backend_net.Application.Report.ExportReportPDF;
 using orchid_backend_net.Application.Report.GetAllReport;
 using orchid_backend_net.Application.Report.GetReportInfor;
 using orchid_backend_net.Application.Report.ReviewReport;
@@ -170,6 +171,21 @@ namespace orchid_backend_net.API.Controllers.Report
             {
                 logger.LogError(ex, "Error occurred while processing DELETE request at {Time}", DateTime.UtcNow);
                 return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("export-pdf/{experimentLogId}")]
+        public async Task<IActionResult> ExportReportToPdf([FromRoute] string experimentLogId, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var pdfBytes = await sender.Send(new ExportReportPdfCommand(experimentLogId), cancellationToken);
+                return File(pdfBytes, "application/pdf", $"Report_{experimentLogId}.pdf");
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Error occurred while exporting report to PDF at {Time}", DateTime.UtcNow);
+                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while exporting the report to PDF.");
             }
         }
     }

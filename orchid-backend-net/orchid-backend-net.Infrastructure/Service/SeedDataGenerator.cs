@@ -20,6 +20,7 @@ namespace orchid_backend_net.Infrastructure.Service
             await SeedSamples.SeedAsync(context);
             await SeedTissueCultureBatches.SeedAsync(context);
             await SeedTasks.SeedAsync(context);
+            await SeedTaskAssigns.SeedAsync(context);
             await SeedExperimentLogs.SeedAsync(context);
             await SeedLinkeds.SeedAsync(context);
 
