@@ -3,19 +3,19 @@ using orchid_backend_net.Application.Common.Interfaces;
 
 namespace orchid_backend_net.Application.Authentication.Logout
 {
-    public class LogoutCommand(string refreshToken) : IRequest, ICommand
+    public class LogoutCommand(string refreshToken) : IRequest<string>, ICommand
     {
         public string refreshToken { get; } = refreshToken;
     }
 
-    internal class  LogoutCommandHandler(ICacheService cacheService) : IRequestHandler<LogoutCommand>
+    internal class  LogoutCommandHandler(ICacheService cacheService) : IRequestHandler<LogoutCommand, string>
     {
-        public async Task Handle(LogoutCommand request, CancellationToken cancellationToken)
+        public async Task<string> Handle(LogoutCommand request, CancellationToken cancellationToken)
         {
             try
             {
                 var cacheKey = $"auth:refresh_token:{request.refreshToken.Trim().ToLowerInvariant()}";
-                await cacheService.RemoveAsync(cacheKey);
+                return await cacheService.RemoveAsync(cacheKey) ? "Logout uccessfully" : "Failed to logout";
             }
             catch(Exception ex)
             {

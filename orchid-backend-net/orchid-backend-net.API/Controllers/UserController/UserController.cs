@@ -236,16 +236,19 @@ namespace orchid_backend_net.API.Controllers.UserController
             }
         }
 
-        [HttpPost("logout")] 
-        public async Task<ActionResult> LogOut([FromBody] LogoutCommand logoutCommand, CancellationToken cancellationToken)
+        [HttpPost("logout")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<JsonResponse<string>>> LogOut([FromBody] LogoutCommand logoutCommand, CancellationToken cancellationToken)
         {
             try
             {
                 _logger.LogInformation("Received POST request for logout at {Time}", DateTime.UtcNow);
-                // Here you would typically remove the refresh token from your data store or cache
-                // For example, if you're using a cache service, you might do something like this:
-                await _sender.Send(logoutCommand, cancellationToken);
-                return Ok(new { Message = "Logout successful" });
+                var result = await _sender.Send(logoutCommand, cancellationToken);
+                return Ok(new JsonResponse<string>(result));
             }
             catch (Exception ex)
             {
