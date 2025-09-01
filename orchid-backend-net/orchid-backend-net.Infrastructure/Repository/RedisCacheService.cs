@@ -20,9 +20,15 @@ namespace orchid_backend_net.Infrastructure.Repository
             return value;
         }
 
-        public async Task RemoveAsync(string key)
+        public async Task<bool> RemoveAsync(string key)
         {
-            await cache.RemoveAsync(key);
+            var existingValue = await cache.GetStringAsync(key);
+            if (existingValue != null)
+            {
+                await cache.RemoveAsync(key);
+                return true;
+            }
+            return false;
         }
     }
 }
