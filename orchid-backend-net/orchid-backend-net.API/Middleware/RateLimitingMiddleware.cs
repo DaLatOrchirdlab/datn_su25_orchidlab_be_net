@@ -4,7 +4,7 @@ namespace orchid_backend_net.API.Middleware
 {
     public class RateLimitingMiddleware(RequestDelegate next, IDistributedCache cache, ILogger<RateLimitingMiddleware> logger)
     {
-        private const int LIMIT = 100; // Max requests per window
+        private const int LIMIT = 100000; // Max requests per window
         private const int WINDOW_SECONDS = 60; // Time window in seconds
         public async Task InvokeAsync(HttpContext context)
         {

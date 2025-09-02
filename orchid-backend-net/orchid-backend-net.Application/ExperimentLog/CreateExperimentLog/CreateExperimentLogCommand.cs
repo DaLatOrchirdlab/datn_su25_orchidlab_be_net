@@ -22,7 +22,6 @@ namespace orchid_backend_net.Application.ExperimentLog.CreateExperimentLog
     internal class CreateExperimentLogCommandHandler(IExperimentLogRepository experimentLogRepository, IHybridizationRepository hybridizationRepository,
         ILinkedRepository linkedRepository, IStageRepository stageRepository,
         ISender sender, ITaskTemplatesRepository taskTemplatesRepository,
-        
         ITaskTemplateDetailsRepository taskTemplateDetailsRepository,
         ICurrentUserService currentUserService) : IRequestHandler<CreateExperimentLogCommand, string>
     {
@@ -52,6 +51,8 @@ namespace orchid_backend_net.Application.ExperimentLog.CreateExperimentLog
                     .ToDictionary(g => g.Key, g => g.ToList());
 
                 //flatten Task Pipeline
+                //if task about report => report for each sample
+                //task not about report => el id which means for whole experiment log
                 var taskPipelineInfos = stages
                     .SelectMany(stage =>
                         taskTemplatesDict.TryGetValue(stage.ID, out var templates)
