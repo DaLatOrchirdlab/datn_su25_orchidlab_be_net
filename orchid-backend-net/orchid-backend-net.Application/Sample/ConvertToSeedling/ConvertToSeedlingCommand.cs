@@ -40,12 +40,22 @@ namespace orchid_backend_net.Application.Sample.ConvertToSeedling
                 var seedling = new Seedlings()
                 {
                     Dob = sample.Dob,
-                    Parent1 = listParent[0].ParentID,
+                    //Parent1 = listParent[0].ParentID,
                     //Parent2 = listParent[1].ParentID,
                     LocalName = sample.Name,
                     ScientificName = sample.Name,
                     Description = sample.Description,
                 };
+                if (listParent.Count() == 1)
+                {
+                    seedling.Parent1 = listParent[0].ParentID;
+                }
+                else if(listParent.Count() == 2)
+                {
+                    seedling.Parent1 = listParent[0].ParentID;
+                    seedling.Parent2 = listParent[1].ParentID;
+                }
+
                 seedlingRepository.Add(seedling);
                 sample.Status = 3;
                 sampleRepository.Update(sample);
