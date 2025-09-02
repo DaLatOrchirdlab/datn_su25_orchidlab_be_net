@@ -16,10 +16,10 @@ namespace orchid_backend_net.Application.Tasks.CreateTask
         public DateTime End_date { get; set; }
         public bool IsDaily { get; set; }
         public List<CreateTaskAttributeCommand> Attribute { get; set; }
-        public List<string> TechnicianID { get; set; }
+        public List<CreateTaskAssignCommand> AssignCommand { get; set; }
         public CreateTaskCommand(string name, string description,
             DateTime start_date, DateTime end_date, List<CreateTaskAttributeCommand> attribute,
-            List<string> technicianID, string? experimentLogID,
+            List<CreateTaskAssignCommand> assignCommand, string? experimentLogID,
             string? sampleId, bool isdaily)
         {
             Name = name;
@@ -27,7 +27,7 @@ namespace orchid_backend_net.Application.Tasks.CreateTask
             Start_date = start_date;
             End_date = end_date;
             Attribute = attribute;
-            TechnicianID = technicianID;
+            AssignCommand = assignCommand;
             ExperimentLogID = experimentLogID;
             SampleID = sampleId;
             IsDaily = isdaily;
@@ -64,17 +64,16 @@ namespace orchid_backend_net.Application.Tasks.CreateTask
                     await sender.Send(command, cancellationToken);
                 }
 
-                foreach (var technicianID in request.TechnicianID)
+                foreach (var assignCommand in request.AssignCommand)
                 {
-                    CreateTaskAssignCommand assignCommand = new(technicianId: technicianID);
-                    assignCommand.TechnicianId = technicianID;
                     assignCommand.TaskId = task.ID;
                     await sender.Send(assignCommand, cancellationToken);
                 }
 
-                if ((await sampleRepository.FindAsync(x => x.ID.Equals(request.SampleID), cancellationToken)) != null)
+                //for only sample
+                if (!string.IsNullOrWhiteSpace(request.SampleID) && string.IsNullOrWhiteSpace(request.ExperimentLogID))
                 {
-                    var linkedExperimentLog = await linkedRepository.FindAllAsync(x => x.SampleID.Equals(request.SampleID) && x.StageID != null, cancellationToken);
+                    var linkedExperimentLog = await linkedRepository.FindAllAsync(x => x.SampleID!.Equals(request.SampleID) && x.StageID != null, cancellationToken);
                     var experimentLogId = linkedExperimentLog.Select(x => x.ExperimentLogID)
                         .FirstOrDefault(x => x != null);
                     var experimentLog = await experimentLogRepository.FindAsync(x => x.ID.Equals(experimentLogId), cancellationToken);
@@ -89,30 +88,19 @@ namespace orchid_backend_net.Application.Tasks.CreateTask
                     };
                     linkedRepository.Add(linkeds);
                 }
-                if ((await experimentLogRepository.FindAsync(x => x.ID.Equals(request.ExperimentLogID), cancellationToken)) != null)
+
+                //for whole experiment log
+                if (!string.IsNullOrWhiteSpace(request.ExperimentLogID))
                 {
                     var experimentLog = await experimentLogRepository.FindAsync(x => x.ID.Equals(request.ExperimentLogID), cancellationToken);
-                    var linkedsSampleDuplicated = await linkedRepository.FindAllAsync(x => x.ExperimentLogID.Equals(request.ExperimentLogID), cancellationToken);
-                    var uniqueLinkedsSample = linkedsSampleDuplicated.Select(linkeds => linkeds.SampleID)
-                        .Where(sample => sample != null)
-                        .Distinct()
-                        .ToList();
-                    foreach (var linkedSample in uniqueLinkedsSample)
+                    var linkeds = new Domain.Entities.Linkeds
                     {
-                        var sample = await sampleRepository.FindAsync(x => x.ID.Equals(linkedSample), cancellationToken);
-                        if (sample != null)
-                        {
-                            var linkeds = new Domain.Entities.Linkeds
-                            {
-                                ExperimentLogID = request.ExperimentLogID,
-                                SampleID = sample.ID,
-                                TaskID = task.ID,
-                                StageID = experimentLog.CurrentStageID,
-                                ProcessStatus = 0
-                            };
-                            linkedRepository.Add(linkeds);
-                        }
-                    }
+                        ExperimentLogID = request.ExperimentLogID,
+                        TaskID = task.ID,
+                        StageID = experimentLog.CurrentStageID,
+                        ProcessStatus = 0
+                    };
+                    linkedRepository.Add(linkeds);
                 }
 
                 return await taskRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? "Create task successfully." : "Failed to create task.";

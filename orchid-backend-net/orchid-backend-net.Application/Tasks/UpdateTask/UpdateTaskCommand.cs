@@ -13,7 +13,6 @@ namespace orchid_backend_net.Application.Tasks.UpdateTask
         public string ID { get; set; }
         public string? Name { get; set; }
         public string? Description { get; set; }
-        //remove this section
         public List<UpdateTaskAttributeCommand>? TaskAttributeUpdate { get; set; }
         public List<CreateTaskAttributeCommand>? TaskAttributeCreate { get; set; }
         public UpdateTaskCommand(string id, string? name, string? description,
@@ -55,7 +54,6 @@ namespace orchid_backend_net.Application.Tasks.UpdateTask
                         await sender.Send(command, cancellationToken);
                     }
                 }
-
 
                 //if researcher created a new task attribute => this will handle the case
                 if (request.TaskAttributeCreate != null && request.TaskAttributeCreate.Count > 0)

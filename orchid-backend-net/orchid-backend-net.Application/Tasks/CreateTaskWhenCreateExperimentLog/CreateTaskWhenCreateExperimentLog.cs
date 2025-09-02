@@ -9,8 +9,6 @@ namespace orchid_backend_net.Application.Tasks.CreateTaskWhenCreateExperimentLog
     public class CreateTaskWhenCreateExperimentLog : IRequest<string>, ICommand
     {
         public string ExperimentLogID { get; set; }
-        public string StageID { get; set; }
-        public string SampleID { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public DateTime Start_date { get; set; }
@@ -19,8 +17,7 @@ namespace orchid_backend_net.Application.Tasks.CreateTaskWhenCreateExperimentLog
         public List<string> TechnicianID { get; set; }
         public CreateTaskWhenCreateExperimentLog(string name, string description,
             DateTime start_date, DateTime end_date, List<CreateTaskAttributeCommand> attribute,
-            List<string> technicianID, string experimentLogID, string stageID,
-            string sampleId)
+            List<string> technicianID, string experimentLogID)
         {
             Name = name;
             Description = description;
@@ -29,8 +26,6 @@ namespace orchid_backend_net.Application.Tasks.CreateTaskWhenCreateExperimentLog
             Attribute = attribute;
             TechnicianID = technicianID;
             ExperimentLogID = experimentLogID;
-            StageID = stageID;
-            SampleID = sampleId;
         }
     }
 
