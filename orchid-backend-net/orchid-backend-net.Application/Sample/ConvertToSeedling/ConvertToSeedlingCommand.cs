@@ -39,7 +39,7 @@ namespace orchid_backend_net.Application.Sample.ConvertToSeedling
                 List<Hybridizations> listParent = ExperimentLog.Hybridizations.ToList();
                 var seedling = new Seedlings()
                 {
-                    Dob = DateOnly.Parse(ExperimentLog.Create_date.ToString()),
+                    Dob = DateOnly.FromDateTime((DateTime)ExperimentLog.Create_date),
                     Parent1 = listParent[0].ParentID,
                     Parent2 = listParent[1].ParentID ?? null,
                     LocalName = sample.Name,
