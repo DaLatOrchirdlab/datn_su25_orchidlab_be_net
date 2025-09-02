@@ -47,7 +47,9 @@ namespace orchid_backend_net.Application.Sample.ConvertToSeedling
                     Description = sample.Description,
                 };
                 seedlingRepository.Add(seedling);
-                return (await seedlingRepository.UnitOfWork.SaveChangesAsync(cancellationToken)) > 0 ? "" : "";
+                sample.Status = 3;
+                sampleRepository.Update(sample);
+                return (await seedlingRepository.UnitOfWork.SaveChangesAsync(cancellationToken)) > 0 ? "Success" : "Failed";
             }
             catch (Exception ex) 
             {
