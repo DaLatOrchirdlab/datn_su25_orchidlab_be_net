@@ -22,7 +22,7 @@ namespace orchid_backend_net.Application.Sample
                     src.Reports
                         .Where(x => x.IsLatest)
                         .SelectMany(report => report.ReportAttributes)))
-                .ForMember(dest => dest.ExperimentLogName, opt => opt.MapFrom(src => src.Linkeds.FirstOrDefault(linked => linked.TaskID.Equals(src.ID)).ExperimentLog.Name))
+                .ForMember(dest => dest.ExperimentLogName, opt => opt.MapFrom(src => src.Linkeds.FirstOrDefault(linked => linked.SampleID.Equals(src.ID)).ExperimentLog.Name))
                 .ReverseMap();
         }
     }
