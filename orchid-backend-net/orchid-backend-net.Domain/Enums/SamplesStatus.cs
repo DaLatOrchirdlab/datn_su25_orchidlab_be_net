@@ -5,6 +5,6 @@
         Process,
         Suspended,
         Destroyed,
-        ChanegedToSeedling
+        ChangedToSeedling
     }
 }
