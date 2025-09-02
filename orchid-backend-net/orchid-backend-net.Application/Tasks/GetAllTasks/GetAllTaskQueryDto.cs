@@ -7,6 +7,7 @@ namespace orchid_backend_net.Application.Tasks.GetAllTasks
     {
         public string ID { get; set; }
         public string Researcher { get; set; }
+        public string ExperimentLogName { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public DateTime Start_date { get; set; }
@@ -16,7 +17,9 @@ namespace orchid_backend_net.Application.Tasks.GetAllTasks
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<Domain.Entities.Tasks, GetAllTaskQueryDto>();
+            profile.CreateMap<Domain.Entities.Tasks, GetAllTaskQueryDto>()
+                .ForMember(dest => dest.ExperimentLogName, opt => opt.MapFrom(src =>
+                    src.Linkeds.FirstOrDefault(linked => linked.TaskID.Equals(src.ID)).ExperimentLog.Name));
         }
     }
 }
