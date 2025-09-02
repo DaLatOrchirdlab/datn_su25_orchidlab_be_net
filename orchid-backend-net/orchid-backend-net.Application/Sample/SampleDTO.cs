@@ -12,6 +12,7 @@ namespace orchid_backend_net.Application.Sample
         public string Description { get; set; }
         public DateOnly Dob { get; set; }
         public Domain.Enums.SamplesStatus StatusEnum { get; set; }
+        public string ExperimentLogName {  get; set; }
         public List<ReportAttributesDTO> ReportAttributes { get; set; }
 
         public void Mapping(Profile profile)
@@ -21,6 +22,7 @@ namespace orchid_backend_net.Application.Sample
                     src.Reports
                         .Where(x => x.IsLatest)
                         .SelectMany(report => report.ReportAttributes)))
+                .ForMember(dest => dest.ExperimentLogName, opt => opt.MapFrom(src => src.Linkeds.FirstOrDefault(linked => linked.TaskID.Equals(src.ID)).ExperimentLog.Name))
                 .ReverseMap();
         }
     }
