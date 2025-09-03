@@ -144,6 +144,13 @@ namespace orchid_backend_net.API.Controllers.Sample
             }
         }
 
+        /// <summary>
+        /// Use to delete sample when infected
+        /// the command contains reaseon with one kind of message: Nhiễm bệnh => infected sample
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [HttpDelete]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status201Created)]

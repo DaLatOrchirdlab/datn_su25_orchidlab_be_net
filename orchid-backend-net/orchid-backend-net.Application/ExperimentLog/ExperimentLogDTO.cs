@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using orchid_backend_net.Application.Common.Mappings;
-using orchid_backend_net.Application.Sample;
 using orchid_backend_net.Application.Stage;
 using orchid_backend_net.Domain.Entities;
 using orchid_backend_net.Domain.Enums;
@@ -16,7 +15,7 @@ namespace orchid_backend_net.Application.ExperimentLog
         public string TissueCultureBatchID { get; set; }
         public string TissueCultureBatchName { get; set; }
         public string CurrentStageName { get; set; }
-        public List<StageDTO> Stages {  get; set; }
+        public List<StageDTO> Stages { get; set; }
         public List<HybridzationDTO> Hybridizations { get; set; }
         public ExperimentLogStatus Status { get; set; }
         public string? Create_by { get; set; }
