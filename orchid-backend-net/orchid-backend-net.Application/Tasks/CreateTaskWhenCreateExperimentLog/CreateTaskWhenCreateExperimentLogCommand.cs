@@ -6,7 +6,7 @@ using orchid_backend_net.Domain.IRepositories;
 
 namespace orchid_backend_net.Application.Tasks.CreateTaskWhenCreateExperimentLog
 {
-    public class CreateTaskWhenCreateExperimentLog : IRequest<string>, ICommand
+    public class CreateTaskWhenCreateExperimentLogCommand : IRequest<string>, ICommand
     {
         public string ExperimentLogID { get; set; }
         public string Name { get; set; }
@@ -15,7 +15,7 @@ namespace orchid_backend_net.Application.Tasks.CreateTaskWhenCreateExperimentLog
         public DateTime End_date { get; set; }
         public List<CreateTaskAttributeCommand> Attribute { get; set; }
         public List<string> TechnicianID { get; set; }
-        public CreateTaskWhenCreateExperimentLog(string name, string description,
+        public CreateTaskWhenCreateExperimentLogCommand(string name, string description,
             DateTime start_date, DateTime end_date, List<CreateTaskAttributeCommand> attribute,
             List<string> technicianID, string experimentLogID)
         {
@@ -29,9 +29,9 @@ namespace orchid_backend_net.Application.Tasks.CreateTaskWhenCreateExperimentLog
         }
     }
 
-    public class CreateTaskWhenCreateExperimentLogHandler(ITaskRepository taskRepository, ICurrentUserService currentUserService, ISender sender) : IRequestHandler<CreateTaskWhenCreateExperimentLog, string>
+    public class CreateTaskWhenCreateExperimentLogHandler(ITaskRepository taskRepository, ICurrentUserService currentUserService, ISender sender) : IRequestHandler<CreateTaskWhenCreateExperimentLogCommand, string>
     {
-        public async Task<string> Handle(CreateTaskWhenCreateExperimentLog request, CancellationToken cancellationToken)
+        public async Task<string> Handle(CreateTaskWhenCreateExperimentLogCommand request, CancellationToken cancellationToken)
         {
             try
             {
