@@ -87,6 +87,6 @@ namespace orchid_backend_net.Application.ExperimentLog.CreateExperimentLog
         }
 
         private async Task<bool> IsTissueCultureBatchFree(string id, CancellationToken cancellationToken)
-            => await _experimentLogRepository.AnyAsync(x => x.TissueCultureBatchID.Equals(id) && x.Status == 1, cancellationToken);
+            => await _experimentLogRepository.AnyAsync(x => x.TissueCultureBatchID.Equals(id) && x.Status == 0, cancellationToken);
     }
 }
