@@ -14,13 +14,23 @@ namespace orchid_backend_net.Application.Report.ExportReportPDF
         IHybridizationRepository hybridizationRepository, ISeedlingRepository seedlingRepository,
         IMethodRepository methodRepository, ITaskRepository taskRepository,
         ISampleRepository sampleRepository, ITaskAssignRepository taskAssignRepository, 
-        IUserRepository userRepository) : IRequestHandler<ExportReportPdfCommand, byte[]>
+        IUserRepository userRepository, ILinkedRepository linkedRepository) : IRequestHandler<ExportReportPdfCommand, byte[]>
     {
         public async Task<byte[]> Handle(ExportReportPdfCommand request, CancellationToken cancellationToken)
         {
             List<Seedlings> seedlings = [];
             List<string> technicianNames = [];
             var experimentLog = await experimentLogRepository.FindAsync(x => x.ID.Equals(request.ExperimentLogId), cancellationToken);
+            
+            var method = await methodRepository.FindAsync(x => x.ID.Equals(experimentLog.MethodID), cancellationToken);
+            int totalDate = 0;
+            foreach (var stage in method.Stages)
+            {
+                totalDate += stage.DateOfProcessing;
+            }
+
+            var samples = await sampleRepository.FindAllAsync(x => x.Linkeds.Any(linkeds => linkeds.ExperimentLogID!.Equals(request.ExperimentLogId)), cancellationToken);
+            var linkeds = await linkedRepository.FindAllAsync(x => x.ExperimentLogID!.Equals(request.ExperimentLogId), cancellationToken);
 
             var hybrid = await hybridizationRepository.FindAllAsync(x => x.ExperimentLogID.Equals(request.ExperimentLogId), cancellationToken);
             foreach (var hype in hybrid)
@@ -29,7 +39,6 @@ namespace orchid_backend_net.Application.Report.ExportReportPDF
                 seedlings.Add(seedling);
             }
 
-            var method = await methodRepository.FindAsync(x => x.ID.Equals(experimentLog.MethodID), cancellationToken);
             var tasks = await taskRepository.FindAllAsync(x => x.Linkeds.Any(linkeds => linkeds.ExperimentLogID!.Equals(request.ExperimentLogId)), cancellationToken);
             var taskIds = tasks.Select(task => task.ID).ToList();
             var assigns = await taskAssignRepository.FindAllAsync(taskAssign => taskIds.Contains(taskAssign.TaskID), cancellationToken);
@@ -39,14 +48,6 @@ namespace orchid_backend_net.Application.Report.ExportReportPDF
                 technicianNames.Add(user.Name);
             }
             technicianNames = technicianNames.Distinct().ToList();
-
-            var samples = await sampleRepository.FindAllAsync(x => x.Linkeds.Any(linkeds => linkeds.ExperimentLogID!.Equals(request.ExperimentLogId)), cancellationToken);
-
-            int totalDate = 0;
-            foreach (var stage in method.Stages)
-            {
-                totalDate += stage.DateOfProcessing;
-            }
 
             object experimentLogData = new
             {
@@ -62,7 +63,8 @@ namespace orchid_backend_net.Application.Report.ExportReportPDF
                 seedlings,
                 method,
                 task = tasks,
-                samples
+                samples,
+                linkeds,
             };
             var pdfBytes = await pdfReportGenerator.GenerateAsync(experimentLogData);
             return pdfBytes;
