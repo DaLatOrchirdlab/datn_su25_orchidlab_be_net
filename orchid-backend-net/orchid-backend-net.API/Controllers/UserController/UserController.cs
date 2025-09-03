@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using orchid_backend_net.API.Controllers.ResponseTypes;
 using orchid_backend_net.API.Service;
 using orchid_backend_net.Application.Authentication.Login;
+using orchid_backend_net.Application.Authentication.Logout;
 using orchid_backend_net.Application.Authentication.Refreshtoken.RefreshTokenQuery;
 using orchid_backend_net.Application.Common.Pagination;
 using orchid_backend_net.Application.User;
@@ -232,6 +233,27 @@ namespace orchid_backend_net.API.Controllers.UserController
             {
                 _logger.LogError(ex, "Error occurred while processing PUT request at {Time}", DateTime.UtcNow);
                 return BadRequest(new ProblemDetails { Title = "User update failed", Detail = ex.Message });
+            }
+        }
+
+        [HttpPost("logout")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<JsonResponse<string>>> LogOut([FromBody] LogoutCommand logoutCommand, CancellationToken cancellationToken)
+        {
+            try
+            {
+                _logger.LogInformation("Received POST request for logout at {Time}", DateTime.UtcNow);
+                var result = await _sender.Send(logoutCommand, cancellationToken);
+                return Ok(new JsonResponse<string>(result));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while processing logout at {Time}", DateTime.UtcNow);
+                return BadRequest(new ProblemDetails { Title = "Logout failed", Detail = ex.Message });
             }
         }
     }
