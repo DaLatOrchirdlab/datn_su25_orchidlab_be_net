@@ -67,6 +67,7 @@ namespace orchid_backend_net.Application.Sample.ConvertToSeedling
 
                 //}
                 var attributes = await reportAttributeRepository.FindAllAsync(x => x.Status == 1 && x.ReportID.Equals(report.ID), cancellationToken);
+                List<Characteristics> characteristics = new List<Characteristics>();
                 if (attributes.Count() >= 0)
                 {
                     foreach (var attribute in attributes)
@@ -80,17 +81,18 @@ namespace orchid_backend_net.Application.Sample.ConvertToSeedling
                                 Description = "new Attribute",
                                 Status = true,
                             };
-                            Characteristics characteristics = new Characteristics()
+                            Characteristics characteristic = new Characteristics()
                             {
                                 SeedlingAttributeID = seedlingAttribute.ID,
                                 SeedlingID = seedling.ID,
                                 Status = true,
                                 Value = attribute.Value,
                             };
+                            characteristics.Add(characteristic);
                         }
                         else
                         {
-                            Characteristics characteristics = new Characteristics()
+                            Characteristics characteristic = new Characteristics()
                             {
                                 SeedlingAttributeID = seedlingattribute.ID,
                                 SeedlingID = seedling.ID,
@@ -98,10 +100,9 @@ namespace orchid_backend_net.Application.Sample.ConvertToSeedling
                                 Value = attribute.Value,
                             };
                         }
-
-
                     }
                 }
+                charactersicticRepository.AddRange(characteristics);
                 seedlingRepository.Add(seedling);
                 sample.Status = 3;
                 sampleRepository.Update(sample);
