@@ -68,6 +68,7 @@ namespace orchid_backend_net.Application.Sample.ConvertToSeedling
                 //}
                 var attributes = await reportAttributeRepository.FindAllAsync(x => x.Status == 1 && x.ReportID.Equals(report.ID), cancellationToken);
                 List<Characteristics> characteristics = new List<Characteristics>();
+                List<SeedlingAttributes> seedlingAttributes = new List<SeedlingAttributes>();
                 if (attributes.Count() >= 0)
                 {
                     foreach (var attribute in attributes)
@@ -89,6 +90,7 @@ namespace orchid_backend_net.Application.Sample.ConvertToSeedling
                                 Value = attribute.Value,
                             };
                             characteristics.Add(characteristic);
+                            seedlingAttributes.Add(seedlingattribute);
                         }
                         else
                         {
@@ -103,8 +105,9 @@ namespace orchid_backend_net.Application.Sample.ConvertToSeedling
                         }
                     }
                 }
-                charactersicticRepository.AddRange(characteristics);
+                seedlingAttributeRepository.AddRange(seedlingAttributes);
                 seedlingRepository.Add(seedling);
+                charactersicticRepository.AddRange(characteristics);
                 sample.Status = 3;
                 sampleRepository.Update(sample);
                 return (await seedlingRepository.UnitOfWork.SaveChangesAsync(cancellationToken)) > 0 ? "Success" : "Failed";
