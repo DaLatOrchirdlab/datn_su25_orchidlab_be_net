@@ -99,6 +99,7 @@ namespace orchid_backend_net.Application.Sample.ConvertToSeedling
                                 Status = true,
                                 Value = attribute.Value,
                             };
+                            characteristics.Add(characteristic);
                         }
                     }
                 }
