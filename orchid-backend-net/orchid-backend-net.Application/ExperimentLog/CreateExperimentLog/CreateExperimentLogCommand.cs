@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using orchid_backend_net.Application.Common.Interfaces;
 using orchid_backend_net.Application.Hybridzations;
-using orchid_backend_net.Application.Seedling.GenerateSample;
+using orchid_backend_net.Application.Sample.GenerateSample;
 using orchid_backend_net.Application.Tasks.GenerateTask;
 using orchid_backend_net.Domain.Entities;
 using orchid_backend_net.Domain.IRepositories;

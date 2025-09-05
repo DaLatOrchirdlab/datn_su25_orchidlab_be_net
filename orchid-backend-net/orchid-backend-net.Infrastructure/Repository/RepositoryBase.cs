@@ -30,6 +30,21 @@ namespace orchid_backend_net.Infrastructure.Repository
             GetSet().Update((TPersistence)entity);
         }
 
+        public virtual void AddRange(IEnumerable<TDomain> entities)
+        {
+            GetSet().AddRange(entities.Cast<TPersistence>());
+        }
+
+        public virtual void RemoveRange(IEnumerable<TDomain> entities)
+        {
+            GetSet().RemoveRange(entities.Cast<TPersistence>());
+        }
+
+        public virtual void UpdateRange(IEnumerable<TDomain> entities)
+        {
+            GetSet().UpdateRange(entities.Cast<TPersistence>());
+        }
+
         public virtual async Task<TDomain?> FindAsync(
             Expression<Func<TPersistence, bool>> filterExpression,
             CancellationToken cancellationToken = default)

@@ -111,6 +111,7 @@ namespace orchid_backend_net.Infrastructure
             services.AddScoped<ITaskTemplateDetailsRepository, TaskTemplateDetailRepository>();
             services.AddScoped<IReportAttributeRepository, ReportAttributeRepository>();
             services.AddScoped<IPdfReportGenerator, PdfReportGenerator>();
+            services.AddHostedService<Service.HostedService.ExperimentLogHostedService>();
             return services;
         }
     }

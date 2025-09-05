@@ -17,7 +17,7 @@ namespace orchid_backend_net.Application.Sample.DeleteSample
         public string DiseaseId { get; set; } = diseaseId;
     }
 
-    internal class DeleteSampleCommandHandler(ISampleRepository sampleRepository, ISender sender) : IRequestHandler<DeleteSampleCommand, string>
+    internal class DeleteSampleCommandHandler(ISampleRepository sampleRepository, ISender sender, ILinkedRepository linkedRepository) : IRequestHandler<DeleteSampleCommand, string>
     {
         public async Task<string> Handle(DeleteSampleCommand request, CancellationToken cancellationToken)
         {
@@ -32,7 +32,13 @@ namespace orchid_backend_net.Application.Sample.DeleteSample
                     SampleID = request.Id,
                     DiseaseID = request.DiseaseId
                 }, cancellationToken);
-                if(!result) return $"Failed delete sample with ID :{request.Id}";
+                var allLinkeds = await linkedRepository.FindAllAsync(x => x.SampleID.Equals(request.Id), cancellationToken);
+                foreach (var linked in allLinkeds)
+                {
+                    linked.ProcessStatus = 2; //deleted
+                    linkedRepository.Update(linked);
+                }
+                if (!result) return $"Failed delete sample with ID :{request.Id}";
                 return await sampleRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? $"Deleted sample ID :{request.Id}" : $"Failed delete sample with ID :{request.Id}";
             }
             catch (Exception ex)

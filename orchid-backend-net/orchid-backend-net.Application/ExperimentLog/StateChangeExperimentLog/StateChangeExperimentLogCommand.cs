@@ -17,7 +17,8 @@ namespace orchid_backend_net.Application.ExperimentLog.StateChangeExperimentLog
     internal class StateChangeExperimentLogCommandHandler(IStageRepository stageRepository,
         ILinkedRepository linkedRepository,
         IExperimentLogRepository experimentLogRepository,
-        ISampleRepository sampleRepository
+        ISampleRepository sampleRepository,
+        IReportRepository reportRepository
         ) : IRequestHandler<StateChangeExperimentLogCommand, string>
     {
 
@@ -25,41 +26,57 @@ namespace orchid_backend_net.Application.ExperimentLog.StateChangeExperimentLog
         {
             try
             {
-                var EL = await experimentLogRepository.FindAsync(x => x.ID.Equals(request.ELID), cancellationToken);
-                var stageStep = (await stageRepository.FindAsync(x => x.ID.Equals(EL.CurrentStageID), cancellationToken))?.Step;
+                var eL = await experimentLogRepository.FindAsync(x => x.ID.Equals(request.ELID), cancellationToken);
+                var stageStep = (await stageRepository.FindAsync(x => x.ID.Equals(eL.CurrentStageID), cancellationToken))?.Step;
                 stageStep += 1;
-                var nextStage = await stageRepository.FindAsync(x => x.MethodID.Equals(EL.MethodID) && x.Step == stageStep, cancellationToken);
-                if (nextStage == null){
-                    EL.Status = 1;
-                    List<Domain.Entities.Linkeds> existingLinked = await linkedRepository.FindAllAsync(x => x.ExperimentLogID.Equals(EL.ID) && x.StageID.Equals(EL.CurrentStageID), cancellationToken);
-                    foreach (var linked in existingLinked) 
+                var nextStage = await stageRepository.FindAsync(x => x.MethodID.Equals(eL.MethodID) && x.Step == stageStep, cancellationToken);
+                if (nextStage == null)
+                {
+                    eL!.Status = 1;
+                    List<Domain.Entities.Linkeds> existingLinked = await linkedRepository.FindAllAsync(x => x.ExperimentLogID.Equals(eL.ID) && x.StageID.Equals(eL.CurrentStageID), cancellationToken);
+                    foreach (var linked in existingLinked)
                     {
-                        linked.ProcessStatus = 2;
+                        linked.ProcessStatus = 1;
                         linkedRepository.Update(linked);
                     }
                 }
                 else
                 {
-                    List<Domain.Entities.Samples> sample = await sampleRepository.FindAllAsync(x => x.Linkeds.Any(x => x.ExperimentLogID.Equals(EL.ID)), cancellationToken);
-                    List<Domain.Entities.Linkeds> existingLinkeds = await linkedRepository.FindAllAsync(x => x.ExperimentLogID.Equals(EL.ID) && x.StageID.Equals(EL.CurrentStageID), cancellationToken);
-                    foreach (var item in existingLinkeds)
+                    List<Domain.Entities.Samples> sample = await sampleRepository.FindAllAsync(x => x.Linkeds.Any(x => x.ExperimentLogID.Equals(eL.ID)), cancellationToken);
+
+                    var sampleIds = sample.Select(x => x.ID).ToList();
+
+                    var existedReports = await reportRepository.FindAllAsync(
+                        r => sampleIds.Contains(r.SampleID),
+                        cancellationToken);
+
+                    var sampleWithReport = existedReports.Select(r => r.SampleID).ToHashSet();
+
+                    var sampleWithoutReport = sampleIds
+                        .Where(id => !sampleWithReport.Contains(id))
+                        .ToList();
+
+                    if (sampleWithoutReport.Count > 0)
+                        return "Failed: Some samples do not have reports.";
+
+                    List<Domain.Entities.Linkeds> existingLinkeds = await linkedRepository.FindAllAsync(x => x.ExperimentLogID.Equals(eL.ID) && x.StageID.Equals(eL.CurrentStageID), cancellationToken);
+                    List<Domain.Entities.Linkeds> newLinkeds = [];
+                    existingLinkeds.ForEach(x => x.ProcessStatus = 1);
+                    sample.ForEach(sample =>
                     {
-                        item.ProcessStatus = 1;
-                        linkedRepository.Update(item);
-                    }
-                    foreach (var sampleItem in sample)
-                    {
-                        linkedRepository.Add(new Domain.Entities.Linkeds()
+                        newLinkeds.Add(new Domain.Entities.Linkeds
                         {
-                            ExperimentLogID = request.ELID,
-                            ProcessStatus = 0,
+                            ExperimentLogID = eL.ID,
+                            SampleID = sample.ID,
                             StageID = nextStage.ID,
-                            SampleID = sampleItem.ID,
+                            ProcessStatus = 0,
                         });
-                    }
-                    EL.CurrentStageID = nextStage.ID;
+                    });
+                    linkedRepository.UpdateRange(existingLinkeds);
+                    linkedRepository.AddRange(newLinkeds);
+                    eL!.CurrentStageID = nextStage.ID;
                 }
-                experimentLogRepository.Update(EL);
+                experimentLogRepository.Update(eL);
 
                 return await experimentLogRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? "Successed" : "Failed";
             }
