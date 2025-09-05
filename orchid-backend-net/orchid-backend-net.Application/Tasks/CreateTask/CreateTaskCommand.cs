@@ -40,7 +40,6 @@ namespace orchid_backend_net.Application.Tasks.CreateTask
         IExperimentLogRepository experimentLogRepository, ISampleRepository sampleRepository,
         ICurrentUserService currentUserService, ISender sender) : IRequestHandler<CreateTaskCommand, string>
     {
-
         public async Task<string> Handle(CreateTaskCommand request, CancellationToken cancellationToken)
         {
             try

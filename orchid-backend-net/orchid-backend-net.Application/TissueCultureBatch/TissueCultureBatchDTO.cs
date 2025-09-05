@@ -18,7 +18,7 @@ namespace orchid_backend_net.Application.TissueCultureBatch
             profile.CreateMap<TissueCultureBatches, TissueCultureBatchDTO>()
                 .ForMember(dest => dest.LabName, opt => opt.MapFrom(src => src.LabRoom.Name))
                 .ForMember(dest => dest.InUse, opt 
-                => opt.MapFrom(src => src.ExperimentLogs.FirstOrDefault(eL => eL.Status == 1).Name))
+                => opt.MapFrom(src => src.ExperimentLogs.FirstOrDefault(eL => eL.Status == 0).Name))
                 .ReverseMap();
         }
     }
