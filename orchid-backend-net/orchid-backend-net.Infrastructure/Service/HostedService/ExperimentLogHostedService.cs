@@ -140,7 +140,7 @@ namespace orchid_backend_net.Infrastructure.Service.HostedService
 
 
                 //update the linkeds into done
-                duplicatedFollowExperimentLogStageLinkeds.ForEach(x => x.ProcessStatus = 1);
+                duplicatedFollowExperimentLogStageLinkeds.ForEach(x => x.ProcessStatus = 2);
                 linkedRepo.UpdateRange(duplicatedFollowExperimentLogStageLinkeds);
 
                 //create new linkeds due to next stage
