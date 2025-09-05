@@ -9,8 +9,8 @@ namespace orchid_backend_net.Infrastructure.Persistence.Configuration
         public void Configure(EntityTypeBuilder<InfectedSamples> builder)
         {
             builder.HasOne(x => x.Sample)
-                .WithMany()
-                .HasForeignKey(x => x.SampleID)
+                .WithOne(x => x.InfectedSamples)
+                .HasForeignKey<InfectedSamples>(x => x.SampleID)
                 .OnDelete(DeleteBehavior.Restrict);
             builder.HasOne(x => x.Disease)
                 .WithMany()

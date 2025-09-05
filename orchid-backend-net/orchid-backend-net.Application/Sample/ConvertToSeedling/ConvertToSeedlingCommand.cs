@@ -56,6 +56,8 @@ namespace orchid_backend_net.Application.Sample.ConvertToSeedling
                     seedling.Parent2 = listParent[1].ParentID;
                 }
 
+                //logic from attribute to seedlings
+
                 seedlingRepository.Add(seedling);
                 sample.Status = 3;
                 sampleRepository.Update(sample);

@@ -17,6 +17,7 @@ namespace orchid_backend_net.Application.Report.ExportReportPDF
         IHybridizationRepository hybridizationRepository, 
         ISeedlingRepository seedlingRepository,
         ISampleRepository sampleRepository,
+        IInfectedSampleRepository infectedSampleRepository,
         ILinkedRepository linkedRepository,
         ITaskRepository taskRepository,
         ITaskAssignRepository taskAssignRepository,
@@ -28,16 +29,16 @@ namespace orchid_backend_net.Application.Report.ExportReportPDF
         public async Task<byte[]> Handle(ExportReportPdfCommand request, CancellationToken cancellationToken)
         {
             //get experiment log data when experiment log is done
-            var experimentLogData = await experimentLogRepository.FindAsync(eL => eL.ID.Equals(request.ExperimentLogId) && eL.Status != 0, cancellationToken);
+            var experimentLogData = await experimentLogRepository.FindAsync(eL => eL.ID.Equals(request.ExperimentLogId) && eL.Status == 1, cancellationToken);
 
             //get method based on experiment log
-            var method = await methodRepository.FindAsync(m => m.ID.Equals(experimentLogData.MethodID), cancellationToken);
+            var method = await methodRepository.FindAsync(m => m.ID.Equals(experimentLogData!.MethodID), cancellationToken);
 
             //calculate total days of experiment log based on method stages
-            var totalDays = method.Stages.Sum(stage => stage.DateOfProcessing);
+            var totalDays = method!.Stages.Sum(stage => stage.DateOfProcessing);
 
             //get all linkeds and sort theo stage
-            var allLinkeds = await linkedRepository.FindAllAsync(l => l.ExperimentLogID.Equals(request.ExperimentLogId), cancellationToken);
+            var allLinkeds = await linkedRepository.FindAllAsync(l => l.ExperimentLogID!.Equals(request.ExperimentLogId), cancellationToken);
 
             var linkedsByStage = allLinkeds
                 .GroupBy(linkeds => linkeds.StageID)
@@ -134,7 +135,8 @@ namespace orchid_backend_net.Application.Report.ExportReportPDF
                 var detailedSamples = stageSamples.Select(s => new
                 {
                     SampleName = s.Name,
-                    Reports = attributesBySample.GetValueOrDefault(s.ID, new List<ReportAttributes>())
+                    IsInfected = s.InfectedSamples != null,
+                    Reports = attributesBySample.GetValueOrDefault(s.ID, [])
                         .Select(ra => new
                         {
                             CreatedDate = ra.Report.Create_date,
@@ -143,7 +145,6 @@ namespace orchid_backend_net.Application.Report.ExportReportPDF
                             Min = ra.Referent.ValueFrom,
                             Actual = ra.Value,
                             Unit = ra.Referent.MeasurementUnit,
-                            Reason = ra.Report.Description,
                         })
                         .OrderBy(r => r.CreatedDate)
                         .ToList()
@@ -212,7 +213,7 @@ namespace orchid_backend_net.Application.Report.ExportReportPDF
             {
                 experimentLog = new
                 {
-                    experimentLogData.Name,
+                    experimentLogData!.Name,
                     experimentLogData.Create_by,
                     Create_date = experimentLogData.Create_date,
                     End_date = totalDays,

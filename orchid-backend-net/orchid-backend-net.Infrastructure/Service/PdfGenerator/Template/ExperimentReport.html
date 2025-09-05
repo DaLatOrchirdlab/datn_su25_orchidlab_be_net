@@ -264,8 +264,8 @@
                 <tr>
                     {{ if for.first }}
                     <td rowspan="{{ sample.Reports.size }}">{{ sample.SampleName }}</td>
-                    <td rowspan="{{ sample.Reports.size }}" class="{{ if report.Reason != null }}status-true{{ else }}status-false{{ end }}">
-                        {{ if report.Reason != null }}Khỏe{{ else }}Không khỏe{{ end }}
+                    <td rowspan="{{ sample.Reports.size }}" class="{{ if sample.IsInfected }}status-false{{ else }}status-true{{ end }}">
+                        {{ if sample.IsInfected }}Không khỏe{{ else }}Khỏe{{ end }}
                     </td>
                     {{ end }}
                     <td>{{ report.CreatedDate }}</td>

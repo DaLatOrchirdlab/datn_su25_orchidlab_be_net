@@ -11,5 +11,6 @@ namespace orchid_backend_net.Domain.Entities
         public string? Reason { get; set; }
         public virtual ICollection<Linkeds> Linkeds { get; set; } = [];
         public virtual ICollection<Reports> Reports { get; set; } = [];
+        public virtual InfectedSamples InfectedSamples { get; set; }
     }
 }

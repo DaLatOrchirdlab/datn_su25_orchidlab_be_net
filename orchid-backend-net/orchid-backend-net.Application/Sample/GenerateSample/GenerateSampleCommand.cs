@@ -3,7 +3,7 @@ using orchid_backend_net.Application.Common.Interfaces;
 using orchid_backend_net.Application.Linkeds.CreateLinkedsCommand;
 using orchid_backend_net.Application.Sample.CreateSample;
 
-namespace orchid_backend_net.Application.Seedling.GenerateSample
+namespace orchid_backend_net.Application.Sample.GenerateSample
 {
     public class GenerateSampleCommand(string experimentLogName, string experimentLogId, string stageId, int numberOfSample) : IRequest<Unit>, ICommand
     {
@@ -25,11 +25,11 @@ namespace orchid_backend_net.Application.Seedling.GenerateSample
                         new CreateSampleCommand($"Mẫu thí nghiệm số {i + 1} của {request.Name}", ""),
                         cancellationToken);
 
-                    await sender.Send(new CreateLinkedsCommand() 
-                    { 
-                        ExperimentLogID = request.ExperimentLogID, 
-                        StageID = request.StageID, 
-                        SampleID = sampleId 
+                    await sender.Send(new CreateLinkedsCommand()
+                    {
+                        ExperimentLogID = request.ExperimentLogID,
+                        StageID = request.StageID,
+                        SampleID = sampleId
                     }, cancellationToken);
                 }
                 return Unit.Value;

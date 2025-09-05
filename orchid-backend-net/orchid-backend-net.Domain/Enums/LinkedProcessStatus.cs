@@ -3,7 +3,6 @@
     public enum LinkedProcessStatus
     {
         Continue,
-        Paused,
         Done,
         Canceled,
     }
