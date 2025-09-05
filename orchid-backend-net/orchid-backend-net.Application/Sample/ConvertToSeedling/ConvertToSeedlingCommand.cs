@@ -23,7 +23,11 @@ namespace orchid_backend_net.Application.Sample.ConvertToSeedling
     public class ConvertToSeedlingCommandHandler(
         ISeedlingRepository seedlingRepository, 
         ISampleRepository sampleRepository,
-        IExperimentLogRepository experimentLogRepository
+        IExperimentLogRepository experimentLogRepository,
+        IReportRepository reportRepository,
+        IReportAttributeRepository reportAttributeRepository,
+        ICharactersicticRepository charactersicticRepository,
+        ISeedlingAttributeRepository seedlingAttributeRepository
         ) : IRequestHandler<ConvertToSeedlingCommand, string>
     {
         public async Task<string> Handle(ConvertToSeedlingCommand request, CancellationToken cancellationToken)
@@ -57,7 +61,48 @@ namespace orchid_backend_net.Application.Sample.ConvertToSeedling
                 }
 
                 //logic from attribute to seedlings
+                var report = await reportRepository.FindAsync(x => x.SampleID.Equals(request.SampleID) && x.IsLatest == true, cancellationToken);
+                //foreach (var report in reportList) 
+                //{
 
+                //}
+                var attributes = await reportAttributeRepository.FindAllAsync(x => x.Status == 1 && x.ReportID.Equals(report.ID), cancellationToken);
+                List<Characteristics> characteristics = new List<Characteristics>();
+                if (attributes.Count() >= 0)
+                {
+                    foreach (var attribute in attributes)
+                    {
+                        var seedlingattribute = await seedlingAttributeRepository.FindAsync(x => x.Name.Equals(attribute.Name) && x.Status == true, cancellationToken);
+                        if (!await seedlingAttributeRepository.AnyAsync(x => x.Name.Equals(attribute.Name) && x.Status == true, cancellationToken))
+                        {
+                            SeedlingAttributes seedlingAttribute = new SeedlingAttributes()
+                            {
+                                Name = attribute.Name,
+                                Description = "new Attribute",
+                                Status = true,
+                            };
+                            Characteristics characteristic = new Characteristics()
+                            {
+                                SeedlingAttributeID = seedlingAttribute.ID,
+                                SeedlingID = seedling.ID,
+                                Status = true,
+                                Value = attribute.Value,
+                            };
+                            characteristics.Add(characteristic);
+                        }
+                        else
+                        {
+                            Characteristics characteristic = new Characteristics()
+                            {
+                                SeedlingAttributeID = seedlingattribute.ID,
+                                SeedlingID = seedling.ID,
+                                Status = true,
+                                Value = attribute.Value,
+                            };
+                        }
+                    }
+                }
+                charactersicticRepository.AddRange(characteristics);
                 seedlingRepository.Add(seedling);
                 sample.Status = 3;
                 sampleRepository.Update(sample);
