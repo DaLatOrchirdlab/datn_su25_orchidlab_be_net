@@ -18,7 +18,8 @@ namespace orchid_backend_net.Application.ExperimentLog.StateChangeExperimentLog
         ILinkedRepository linkedRepository,
         IExperimentLogRepository experimentLogRepository,
         ISampleRepository sampleRepository,
-        IReportRepository reportRepository
+        IReportRepository reportRepository,
+        ITissueCultureBatchRepository tissueCultureBatchRepository
         ) : IRequestHandler<StateChangeExperimentLogCommand, string>
     {
 
@@ -39,6 +40,9 @@ namespace orchid_backend_net.Application.ExperimentLog.StateChangeExperimentLog
                         linked.ProcessStatus = 1;
                         linkedRepository.Update(linked);
                     }
+                    var tissue = await tissueCultureBatchRepository.FindAsync(x => x.ID.Equals(eL.TissueCultureBatchID), cancellationToken);
+                    tissue.Status = true;
+                    tissueCultureBatchRepository.Update(tissue);
                 }
                 else
                 {
