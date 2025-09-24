@@ -57,7 +57,7 @@ namespace orchid_backend_net.Application.ExperimentLog.StateChangeExperimentLog
                         .ToList();
 
                     if (sampleWithoutReport.Count > 0)
-                        return "Failed: Some samples do not have reports.";
+                        throw new ArgumentException("Failed: Some samples do not have reports.");
 
                     List<Domain.Entities.Linkeds> existingLinkeds = await linkedRepository.FindAllAsync(x => x.ExperimentLogID.Equals(eL.ID) && x.StageID.Equals(eL.CurrentStageID), cancellationToken);
                     List<Domain.Entities.Linkeds> newLinkeds = [];
