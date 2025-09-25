@@ -48,7 +48,7 @@ namespace orchid_backend_net.Application.Method.CreateMethod
                     await sender.Send(stageCommand, cancellationToken);
                 }
 
-                return await methodRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? $"Created method : {obj.Name}" : "Failed to create method.";
+                return await methodRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? $"Tạo method thành công với tên : {obj.Name}" : "Tạo thất bại.";
             }
             catch (Exception ex)
             {

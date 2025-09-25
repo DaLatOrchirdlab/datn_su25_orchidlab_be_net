@@ -36,7 +36,7 @@ namespace orchid_backend_net.API.Controllers.Images
             catch (Exception ex)
             {
                 logger.LogError(ex, "Error occurred while processing GET request at {Time}", DateTime.UtcNow);
-                return BadRequest(ex.Message);
+                return BadRequest("Lỗi khi lấy với lỗi sau: " + ex.Message);
             }
         }
 
@@ -60,7 +60,7 @@ namespace orchid_backend_net.API.Controllers.Images
             catch (Exception ex)
             {
                 logger.LogError(ex, "Error occurred while processing GET request at {Time}", DateTime.UtcNow);
-                return BadRequest(ex.Message);
+                return BadRequest("Lỗi khi lấy với lỗi sau: " + ex.Message);
             }
         }
 
@@ -80,10 +80,10 @@ namespace orchid_backend_net.API.Controllers.Images
             {
                 logger.LogInformation("Received POST request at {Time}", DateTime.UtcNow);
                 if (string.IsNullOrEmpty(reportId))
-                    return BadRequest("Report ID is required.");
+                    return BadRequest("Thiếu report Id.");
                 if (images.Count == 0)
                 {
-                    return BadRequest("No images provided.");
+                    return BadRequest("Không có hình nào được gửi.");
                 }
                 foreach (var file in images)
                 {
@@ -93,15 +93,15 @@ namespace orchid_backend_net.API.Controllers.Images
                     var imageResult = await sender.Send(command, cancellationToken);
                     if (imageResult.Equals(false))
                     {
-                        return BadRequest("Failed to upload image: " + file.FileName);
+                        return BadRequest("Lỗi khi tải hình ảnh: " + file.FileName);
                     }
                 }
-                return Ok(new JsonResponse<string>("Images uploaded successfully."));
+                return Ok(new JsonResponse<string>("Tải hình ảnh thành công."));
             }
             catch (Exception ex)
             {
                 logger.LogError(ex, "Error occurred while processing POST request at {Time}", DateTime.UtcNow);
-                return BadRequest(ex.Message);
+                return BadRequest("Lỗi khi tải hình ảnh với lỗi sau: " + ex.Message);
             }
         }
     }

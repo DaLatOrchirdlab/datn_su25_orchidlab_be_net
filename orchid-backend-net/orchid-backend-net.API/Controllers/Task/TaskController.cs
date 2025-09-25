@@ -1,9 +1,7 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using orchid_backend_net.API.Controllers.ResponseTypes;
 using orchid_backend_net.Application.Common.Pagination;
-using orchid_backend_net.Application.Images.Create;
 using orchid_backend_net.Application.Tasks;
 using orchid_backend_net.Application.Tasks.CreateTask;
 using orchid_backend_net.Application.Tasks.DeleteTask;
@@ -12,7 +10,6 @@ using orchid_backend_net.Application.Tasks.GetTaskInfor;
 using orchid_backend_net.Application.Tasks.ReportTask;
 using orchid_backend_net.Application.Tasks.UpdateTask;
 using orchid_backend_net.Application.Tasks.UpdateTaskStatus;
-using orchid_backend_net.Domain.Entities;
 using System.Net.Mime;
 
 namespace orchid_backend_net.API.Controllers.Task
@@ -47,7 +44,7 @@ namespace orchid_backend_net.API.Controllers.Task
             catch (Exception ex)
             {
                 logger.LogInformation(ex, "Error occurred while processing GET request at {Time}", DateTime.UtcNow);
-                return BadRequest(ex.Message);
+                return BadRequest("Lỗi khi lấy với lỗi sau: " + ex.Message);
             }
         }
 
@@ -72,7 +69,7 @@ namespace orchid_backend_net.API.Controllers.Task
             catch (Exception ex)
             {
                 logger.LogInformation(ex, "Error occurred while processing GET request at {Time}", DateTime.UtcNow);
-                return BadRequest(ex.Message);
+                return BadRequest("Lỗi khi lấy với lỗi sau: " + ex.Message);
             }
         }
 
@@ -90,7 +87,7 @@ namespace orchid_backend_net.API.Controllers.Task
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<JsonResponse<string>>> Create (
+        public async Task<ActionResult<JsonResponse<string>>> Create(
             [FromBody] CreateTaskCommand command,
             CancellationToken cancellationToken)
         {
@@ -98,12 +95,12 @@ namespace orchid_backend_net.API.Controllers.Task
             {
                 var result = await sender.Send(command, cancellationToken);
                 logger.LogInformation("Received POST request at {Time}", DateTime.UtcNow);
-                return Ok(new JsonResponse<string>(result));    
+                return Ok(new JsonResponse<string>(result));
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 logger.LogInformation(ex, "Error occurred while processing POST request at {Time}", DateTime.UtcNow);
-                return BadRequest(ex.Message);
+                return BadRequest("Lỗi khi tạo với lỗi sau: " + ex.Message);
             }
         }
 
@@ -134,7 +131,7 @@ namespace orchid_backend_net.API.Controllers.Task
             catch (Exception ex)
             {
                 logger.LogInformation(ex, "Error occurred while processing PUT request at {Time}", DateTime.UtcNow);
-                return BadRequest(ex.Message);
+                return BadRequest("Lỗi khi cập nhật với lỗi sau: " + ex.Message);
             }
         }
 
@@ -166,7 +163,7 @@ namespace orchid_backend_net.API.Controllers.Task
             catch (Exception ex)
             {
                 logger.LogInformation(ex, "Error occurred while processing PUT request at {Time}", DateTime.UtcNow);
-                return BadRequest(ex.Message);
+                return BadRequest("Lỗi khi cập nhật với lỗi sau: " + ex.Message);
             }
         }
 
@@ -196,7 +193,7 @@ namespace orchid_backend_net.API.Controllers.Task
                 logger.LogInformation("Received POST request at {Time}", DateTime.UtcNow);
                 if (string.IsNullOrEmpty(taskid))
                     return BadRequest("Task ID is required.");
-                if(image == null)
+                if (image == null)
                     return BadRequest("No images provided.");
                 using var stream = image.OpenReadStream();
                 stream.Position = 0;
@@ -211,7 +208,7 @@ namespace orchid_backend_net.API.Controllers.Task
             catch (Exception ex)
             {
                 logger.LogInformation(ex, "Error occurred while processing PUT request at {Time}", DateTime.UtcNow);
-                return BadRequest(ex.Message);
+                return BadRequest("Lỗi khi cập nhật với lỗi sau: " + ex.Message);
             }
         }
 
@@ -238,7 +235,7 @@ namespace orchid_backend_net.API.Controllers.Task
             catch (Exception ex)
             {
                 logger.LogInformation(ex, "Error occurred while processing DELETE request at {Time}", DateTime.UtcNow);
-                return BadRequest(ex.Message);
+                return BadRequest("Lỗi khi xóa với lỗi sau: " + ex.Message);
             }
         }
     }

@@ -42,7 +42,7 @@ namespace orchid_backend_net.API.Controllers.UserController
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while processing GET request at {Time}", DateTime.UtcNow);
-                return BadRequest(ex.Message);
+                return BadRequest("Lỗi khi lấy với lỗi sau: " + ex.Message);
             }
         }
 
@@ -66,7 +66,7 @@ namespace orchid_backend_net.API.Controllers.UserController
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while processing GET request at {Time}", DateTime.UtcNow);
-                return BadRequest(ex.Message);
+                return BadRequest("Lỗi khi lấy với lỗi sau: " + ex.Message);
             }
         }
 
@@ -97,7 +97,7 @@ namespace orchid_backend_net.API.Controllers.UserController
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while processing POST request at {Time}", DateTime.UtcNow);
-                return BadRequest(new ProblemDetails { Title = "Login failed", Detail = ex.Message });
+                return BadRequest(new ProblemDetails { Title = "Đăng nhập thất bại", Detail = ex.Message });
             }
         }
 
@@ -128,7 +128,7 @@ namespace orchid_backend_net.API.Controllers.UserController
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while processing token refresh at {Time}", DateTime.UtcNow);
-                return BadRequest(new ProblemDetails { Title = "Token refresh failed", Detail = ex.Message });
+                return BadRequest(new ProblemDetails { Title = "Refresh token thất bại", Detail = ex.Message });
             }
         }
 
@@ -152,7 +152,7 @@ namespace orchid_backend_net.API.Controllers.UserController
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while processing POST request at {Time}", DateTime.UtcNow);
-                return BadRequest(new ProblemDetails { Title = "User creation failed", Detail = ex.Message });
+                return BadRequest(new ProblemDetails { Title = "Tạo tài khoản thất bại", Detail = ex.Message });
             }
         }
 
@@ -176,7 +176,7 @@ namespace orchid_backend_net.API.Controllers.UserController
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while processing DELETE request at {Time}", DateTime.UtcNow);
-                return BadRequest(ex.Message);
+                return BadRequest("Lỗi khi xóa với lỗi sau: " + ex.Message);
             }
         }
 
