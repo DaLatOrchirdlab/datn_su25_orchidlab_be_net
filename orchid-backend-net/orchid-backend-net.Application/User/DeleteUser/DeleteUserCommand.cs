@@ -15,7 +15,7 @@ namespace orchid_backend_net.Application.User.DeleteUser
         {
             var user = await userRepository.FindAsync(x => x.ID.Equals(request.Id) && x.Status, cancellationToken);
             user.Status = false;
-            user.Delete_date = DateTime.UtcNow;
+            user.Delete_date = DateTime.UtcNow.AddHours(7);
             user.Delete_by = currentUserService.UserName;
             userRepository.Update(user);
             return await userRepository.UnitOfWork.SaveChangesAsync() > 0

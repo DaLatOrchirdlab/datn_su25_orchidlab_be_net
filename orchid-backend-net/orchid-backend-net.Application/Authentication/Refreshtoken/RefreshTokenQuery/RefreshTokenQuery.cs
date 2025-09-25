@@ -33,12 +33,12 @@ namespace orchid_backend_net.Application.Authentication.Refreshtoken.RefreshToke
             //Check if the user exists in the database
             var user = await userRepository.FindAsync(x => x.ID.Equals(userId)
                         && x.Status == true
-                        && x.RefreshTokenExpiryTime >= DateTime.UtcNow, cancellationToken);
+                        && x.RefreshTokenExpiryTime >= DateTime.UtcNow.AddHours(7), cancellationToken);
 
             //Fallback if the user is not found
             user ??= await userRepository.FindAsync(x => x.RefreshToken!.Equals(request.RefreshToken.Trim())
                         && x.Status == true
-                        && x.RefreshTokenExpiryTime >= DateTime.UtcNow, cancellationToken);
+                        && x.RefreshTokenExpiryTime >= DateTime.UtcNow.AddHours(7), cancellationToken);
 
             if(user is null)
                 throw new UnauthorizedAccessException("User not found or token expired");

@@ -41,7 +41,7 @@ namespace orchid_backend_net.Application.User.CreateUser
                 Status = true,
                 Password = BCrypt.Net.BCrypt.HashPassword(defaultPassword),
                 Create_by = currentUserService.UserId,
-                Create_date = DateTime.UtcNow,
+                Create_date = DateTime.UtcNow.AddHours(7),
             };
 
             var templatePath = Path.Combine(AppContext.BaseDirectory, "User", "EmailTemplate.html");

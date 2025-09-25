@@ -24,7 +24,7 @@ namespace orchid_backend_net.Application.Tasks.DeleteTask
             try
             {
                 var task = await taskRepository.FindAsync(x => x.ID.Equals(request.ID), cancellationToken);
-                task.Delete_date = DateTime.UtcNow;
+                task.Delete_date = DateTime.UtcNow.AddHours(7);
                 task.Delete_by = currentUserService.UserId;
                 task.Status = 5;
                 await sender.Send(new DeleteTaskAssignCommand(task.ID), cancellationToken);

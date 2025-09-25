@@ -41,8 +41,8 @@ namespace orchid_backend_net.Application.Tasks.GenerateTask
                     var taskCommand = new CreateTaskWhenCreateExperimentLogCommand(
                         name: taskTemplate.Name,
                         description: taskTemplate.Description,
-                        start_date: DateTime.UtcNow,
-                        end_date: DateTime.UtcNow.AddDays(1),
+                        start_date: DateTime.UtcNow.AddHours(7),
+                        end_date: DateTime.UtcNow.AddDays(1).AddHours(7),
                         attribute: attributes,
                         technicianID: request.TechnicianID,
                         experimentLogID: request.ExperimentLogId);

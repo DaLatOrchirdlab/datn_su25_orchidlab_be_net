@@ -23,7 +23,7 @@ namespace orchid_backend_net.Application.ExperimentLog.UpdateExperimentLog
         }
     }
 
-    internal class UpdateExperimentLogCommandHandler(IExperimentLogRepository experimentLogRepository, IHybridizationRepository hybridizationRepository, ISeedlingRepository seedlingRepository) : IRequestHandler<UpdateExperimentLogCommand, string>
+    internal class UpdateExperimentLogCommandHandler(IExperimentLogRepository experimentLogRepository, IHybridizationRepository hybridizationRepository) : IRequestHandler<UpdateExperimentLogCommand, string>
     {
 
         public async Task<string> Handle(UpdateExperimentLogCommand request, CancellationToken cancellationToken)

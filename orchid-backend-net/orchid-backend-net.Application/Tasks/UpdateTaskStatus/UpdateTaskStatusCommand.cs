@@ -15,7 +15,7 @@ namespace orchid_backend_net.Application.Tasks.UpdateTaskStatus
         {
             var task = await taskRepository.FindAsync(x => x.ID == request.TaskId, cancellationToken);
             task.Status = request.Status;
-            task.Update_date = DateTime.UtcNow;
+            task.Update_date = DateTime.UtcNow.AddHours(7);
             task.Update_by = currentUserService.UserId;
             taskRepository.Update(task);
             return await taskRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 

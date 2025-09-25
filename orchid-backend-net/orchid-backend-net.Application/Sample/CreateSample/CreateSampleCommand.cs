@@ -21,7 +21,7 @@ namespace orchid_backend_net.Application.Sample.CreateSample
                 {
                     Name = request.Name,
                     Description = request.Description,
-                    Dob = DateOnly.FromDateTime(DateTime.UtcNow),
+                    Dob = DateOnly.FromDateTime(DateTime.UtcNow.AddHours(7)),
                     Status = 0
                 };
                 sampleRepository.Add(createdSample);

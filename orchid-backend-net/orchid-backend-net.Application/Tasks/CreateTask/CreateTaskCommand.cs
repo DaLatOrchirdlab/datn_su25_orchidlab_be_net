@@ -47,7 +47,7 @@ namespace orchid_backend_net.Application.Tasks.CreateTask
                 var task = new Domain.Entities.Tasks()
                 {
                     Name = request.Name,
-                    Create_at = DateTime.UtcNow,
+                    Create_at = DateTime.UtcNow.AddHours(7),
                     Start_date = request.Start_date,
                     End_date = request.End_date,
                     Description = request.Description,

@@ -35,7 +35,7 @@ namespace orchid_backend_net.Application.Seedling.UpdateSeedling
                 seedling.Parent1 = request.Parent1 ?? seedling.Parent1;
                 seedling.Parent2 = request.Parent2 ?? seedling.Parent2;
                 seedling.Dob = request.DoB ?? seedling.Dob;
-                seedling.Update_date = DateTime.UtcNow;
+                seedling.Update_date = DateTime.UtcNow.AddHours(7);
                 seedling.Update_by = currentUserService.UserName ?? "system";
                 seedlingRepository.Update(seedling);
                 if(request.Characteristics == null || request.Characteristics.Count() == 0)

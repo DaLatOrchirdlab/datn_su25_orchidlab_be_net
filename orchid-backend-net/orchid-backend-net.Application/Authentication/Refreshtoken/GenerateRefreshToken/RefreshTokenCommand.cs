@@ -17,11 +17,11 @@ namespace orchid_backend_net.Application.Authentication.Refreshtoken.GenerateRef
             var refreshToken = new RefreshToken
             {
                 Token = token,
-                Expired = DateTime.UtcNow.AddDays(7)
+                Expired = DateTime.UtcNow.AddDays(7).AddHours(7)
             };
 
 
-            var expiryDateInRedis = refreshToken.Expired - DateTime.UtcNow;
+            var expiryDateInRedis = refreshToken.Expired - DateTime.UtcNow.AddHours(7);
             //tf am i doing?
             //Check if the expiry date is valid
             //Sometimes the expiry date can be in the past due to clock skew or other issues

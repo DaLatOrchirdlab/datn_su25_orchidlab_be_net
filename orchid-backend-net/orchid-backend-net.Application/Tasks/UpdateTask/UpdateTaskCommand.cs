@@ -38,7 +38,7 @@ namespace orchid_backend_net.Application.Tasks.UpdateTask
                 var task = await taskRepository.FindAsync(x => x.ID == request.ID, cancellationToken);
                 task.Name = request.Name ?? task.Name;
                 task.Description = request.Description ?? task.Description;
-                task.Update_date = DateTime.UtcNow;
+                task.Update_date = DateTime.UtcNow.AddHours(7);
                 task.Update_by = currentUserService.UserId;
 
                 //check task attribute list to update

@@ -25,7 +25,7 @@ namespace orchid_backend_net.Application.Report.UpdateReport
                 report.Name = request.Name ?? report.Name;
                 report.Description = request.Description ?? report.Description;
                 report.Update_by = currentUserService.UserId;
-                report.Update_date = DateTime.UtcNow;
+                report.Update_date = DateTime.UtcNow.AddHours(7);
                 reportRepository.Update(report);
 
                 if(request.CreateCommands != null && request.CreateCommands.Count > 0)

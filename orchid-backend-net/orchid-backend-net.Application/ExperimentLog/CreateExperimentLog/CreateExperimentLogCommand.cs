@@ -19,7 +19,7 @@ namespace orchid_backend_net.Application.ExperimentLog.CreateExperimentLog
         public List<string> TechnicianID { get; set; }
     }
 
-    internal class CreateExperimentLogCommandHandler(IExperimentLogRepository experimentLogRepository, IHybridizationRepository hybridizationRepository,
+    internal class CreateExperimentLogCommandHandler(IExperimentLogRepository experimentLogRepository,
         IStageRepository stageRepository, ICurrentUserService currentUserService, ISender sender) : IRequestHandler<CreateExperimentLogCommand, string>
     {
         public async Task<string> Handle(CreateExperimentLogCommand request, CancellationToken cancellationToken)
@@ -38,7 +38,7 @@ namespace orchid_backend_net.Application.ExperimentLog.CreateExperimentLog
                     Description = request.Description,
                     TissueCultureBatchID = request.TissueCultureBatchID,
                     Status = 0,
-                    Create_date = DateTime.UtcNow,
+                    Create_date = DateTime.UtcNow.AddHours(7),
                     Create_by = currentUserService.UserName,
                 };
 

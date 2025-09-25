@@ -200,8 +200,8 @@ namespace orchid_backend_net.Application.Report.ExportReportPDF
                 : new List<Seedlings>();
 
             var totalTasks = allStageTasks.Count;
-            var tasksOnTime = allStageTasks.Count(t => t.End_date <= DateTime.UtcNow);
-            var tasksLate = allStageTasks.Count(t => t.End_date > DateTime.UtcNow);
+            var tasksOnTime = allStageTasks.Count(t => t.End_date <= DateTime.UtcNow.AddHours(7));
+            var tasksLate = allStageTasks.Count(t => t.End_date > DateTime.UtcNow.AddHours(7));
             var tasksCancelled = allStageTasks.Count(t => t.Status == 5);
 
             var totalSamples = allStageSamples.Count;

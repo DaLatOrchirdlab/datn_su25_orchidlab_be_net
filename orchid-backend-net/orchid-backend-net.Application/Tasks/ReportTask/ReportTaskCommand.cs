@@ -45,7 +45,7 @@ namespace orchid_backend_net.Application.Tasks.ReportTask
                     throw new NotFoundException($"Not found task with ID :{request.ID}");
                 task.ReportInformation = request.ReportInformation;
                 task.Url = await _uploaderService.UpdloadImageAsync(request.FileStream, request.FileName);
-                if(DateTime.UtcNow > task.End_date)
+                if(DateTime.UtcNow.AddHours(7) > task.End_date)
                 {
                     task.Status = 4;
                 }
@@ -53,7 +53,7 @@ namespace orchid_backend_net.Application.Tasks.ReportTask
                 {
                     task.Status = 3;
                 }
-                task.ReportInformation += "/nTask had done in: " + DateTime.UtcNow;
+                task.ReportInformation += "/nTask had done in: " + DateTime.UtcNow.AddHours(7);
                 this._taskRepository?.Update(task);
                 return (await this._taskRepository.UnitOfWork.SaveChangesAsync(cancellationToken)) > 0 ? "Successed" : "Failed";
             }

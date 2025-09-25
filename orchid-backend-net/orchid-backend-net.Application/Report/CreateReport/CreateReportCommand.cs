@@ -38,7 +38,7 @@ namespace orchid_backend_net.Application.Report.CreateReport
                     IsLatest = true, 
                     Status = 0,
                     Create_by = currentUserService.UserName, 
-                    Create_date = DateTime.UtcNow
+                    Create_date = DateTime.UtcNow.AddHours(7)
                 };
                 reportRepository.Add(obj);
                 foreach (var attributeCommand in request.AttributeCommands)

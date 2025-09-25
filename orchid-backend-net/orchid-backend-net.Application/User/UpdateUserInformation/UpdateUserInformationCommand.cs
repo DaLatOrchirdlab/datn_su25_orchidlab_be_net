@@ -32,7 +32,7 @@ namespace orchid_backend_net.Application.User.UpdateUser
             user.PhoneNumber = request.PhoneNumber ?? user.PhoneNumber;
             user.RoleID = request.RoleId ?? user.RoleID;
             user.Status = request.IsActive ?? user.Status;
-            user.Update_date = DateTime.UtcNow;
+            user.Update_date = DateTime.UtcNow.AddHours(7);
             user.Update_by = currentUserService.UserName;
             userRepository.Update(user);
             return await userRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0

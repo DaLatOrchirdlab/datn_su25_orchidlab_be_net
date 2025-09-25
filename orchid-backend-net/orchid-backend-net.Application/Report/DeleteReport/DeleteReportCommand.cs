@@ -17,7 +17,7 @@ namespace orchid_backend_net.Application.Report.DeleteReport
             {
                 var report = await reportRepository.FindAsync(r => r.ID.Equals(request.ReportId) && r.Delete_date == null, cancellationToken);
                 report.Delete_by = currentUserService.UserId;
-                report.Delete_date = DateTime.UtcNow;
+                report.Delete_date = DateTime.UtcNow.AddHours(7);
                 report.Status = 2;
                 report.IsLatest = false;
                 reportRepository.Update(report);

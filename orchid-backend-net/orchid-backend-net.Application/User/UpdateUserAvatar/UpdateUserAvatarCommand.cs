@@ -22,7 +22,7 @@ namespace orchid_backend_net.Application.User.UpdateUserAvatar
                 var imageUrl = await imageUploaderService.UpdloadImageAsync(request.FileStream, request.FileName, "user-avatar");
                 var user = await userRepository.FindAsync(x => x.ID.Equals(request.Id) && x.Status, cancellationToken);
                 user.AvatarUrl = imageUrl;
-                user.Update_date = DateTime.UtcNow;
+                user.Update_date = DateTime.UtcNow.AddHours(7);
                 user.Update_by = currentUserService.UserName;
                 userRepository.Update(user);
                 return await userRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0

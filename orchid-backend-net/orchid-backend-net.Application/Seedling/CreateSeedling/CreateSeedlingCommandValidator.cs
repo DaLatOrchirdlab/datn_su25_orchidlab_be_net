@@ -27,7 +27,7 @@ namespace orchid_backend_net.Application.Seedling.CreateSeedling
                 .MaximumLength(500).WithMessage("Description must not exceed 500 characters.");
             RuleFor(x => x.DoB)
                 .NotEmpty().WithMessage("Date of Birth is required.")
-                .LessThanOrEqualTo(DateOnly.FromDateTime(DateTime.UtcNow)).WithMessage("Date of Birth cannot be in the future.");
+                .LessThanOrEqualTo(DateOnly.FromDateTime(DateTime.UtcNow.AddHours(7))).WithMessage("Date of Birth cannot be in the future.");
             RuleForEach(x => x.Characteristics)
                 .SetValidator(new CharacteristicsDTOValidator());
         }

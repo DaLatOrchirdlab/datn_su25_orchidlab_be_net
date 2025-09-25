@@ -20,7 +20,7 @@ namespace orchid_backend_net.Application.Seedling.DeleteSeedling
         public async Task<string> Handle(DeleteSeedlingCommand request, CancellationToken cancellationToken)
         {
             var seedling = await seedlingRepository.FindAsync(x => x.ID.Equals(request.ID), cancellationToken);
-            seedling.Delete_date = DateTime.UtcNow;
+            seedling.Delete_date = DateTime.UtcNow.AddHours(7);
             seedling.Delete_by = currentUserService.UserName;
             seedlingRepository.Update(seedling);
             return await seedlingRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? $"Deleted Seedling with ID: {seedling.ID}" : "Failed to deleted Seedling.";

@@ -170,7 +170,7 @@ namespace orchid_backend_net.API.Controllers.Task
 
 
         /// <summary>
-        /// researcher update task
+        /// technician report task
         /// </summary>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
