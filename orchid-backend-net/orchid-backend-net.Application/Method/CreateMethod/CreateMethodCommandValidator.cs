@@ -39,7 +39,7 @@ namespace orchid_backend_net.Application.Method.CreateMethod
                 .WithMessage("Type of Method must be Clonel or Sexual propagation");
             RuleFor(x => x.Type)
                 .LessThanOrEqualTo(2)
-                .GreaterThanOrEqualTo(1);
+                .GreaterThanOrEqualTo(0);
         }
         async Task<bool> IsNameDuplicated(string name)
         {

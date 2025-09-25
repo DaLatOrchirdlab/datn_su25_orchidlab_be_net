@@ -39,7 +39,7 @@ namespace orchid_backend_net.API.Controllers.Element
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while processing GET request at {Time}", DateTime.UtcNow);
-                return BadRequest(ex.Message);
+                return BadRequest("Lỗi khi lấy với lỗi sau: " + ex.Message);
             }
         }
 
@@ -65,7 +65,7 @@ namespace orchid_backend_net.API.Controllers.Element
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while processing GET request at {Time}", DateTime.UtcNow);
-                return BadRequest(ex.Message);
+                return BadRequest("Lỗi khi lấy với lỗi sau: " + ex.Message);
             }
         }
         [HttpPut]
@@ -88,7 +88,7 @@ namespace orchid_backend_net.API.Controllers.Element
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while processing PUT request at {Time}", DateTime.UtcNow);
-                return BadRequest(ex.Message);
+                return BadRequest("Lỗi khi cập nhật với lỗi sau: " + ex.Message);
             }
         }
         [HttpPost]
@@ -111,7 +111,7 @@ namespace orchid_backend_net.API.Controllers.Element
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while processing POST request at {Time}", DateTime.UtcNow);
-                return BadRequest(ex.Message);
+                return BadRequest("Lỗi khi tạo với lỗi sau: " + ex.Message);
             }
         }
         [HttpDelete]
@@ -133,7 +133,7 @@ namespace orchid_backend_net.API.Controllers.Element
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while processing DELETE request at {Time}", DateTime.UtcNow);
-                return BadRequest(ex.Message);
+                return BadRequest("Lỗi khi xóa với lỗi sau: " + ex.Message);
             }
         }
     }
