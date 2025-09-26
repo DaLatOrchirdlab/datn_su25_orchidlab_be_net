@@ -11,14 +11,16 @@ namespace orchid_backend_net.Application.User.CreateUser
         public required string Name { get; set; }
         public required string Email { get; set; }
         public required string PhoneNumber { get; set; }
+        public required string Password { get; set; }
         public required int RoleID { get; set; }
 
-        public CreateUserCommand(string name, string email, string phoneNumber, int roleID)
+        public CreateUserCommand(string name, string email, string phoneNumber, int roleID, string password)
         {
             Name = name;
             Email = email;
             PhoneNumber = phoneNumber;
             RoleID = roleID;
+            Password = password;
         }
 
         public CreateUserCommand()
@@ -31,7 +33,6 @@ namespace orchid_backend_net.Application.User.CreateUser
     {
         public async Task<string> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
-            string defaultPassword = "12345678";
             Users user = new()
             {
                 Name = request.Name,
@@ -39,16 +40,16 @@ namespace orchid_backend_net.Application.User.CreateUser
                 PhoneNumber = request.PhoneNumber,
                 RoleID = request.RoleID,
                 Status = true,
-                Password = BCrypt.Net.BCrypt.HashPassword(defaultPassword),
+                Password = BCrypt.Net.BCrypt.HashPassword(request.Password),
                 Create_by = currentUserService.UserId,
-                Create_date = DateTime.UtcNow,
+                Create_date = DateTime.UtcNow.AddHours(7),
             };
 
             var templatePath = Path.Combine(AppContext.BaseDirectory, "User", "EmailTemplate.html");
             var emailBody = await File.ReadAllTextAsync(templatePath);
             emailBody = emailBody.Replace("{UserName}", user.Name)
                 .Replace("{UserEmail}", user.Email)
-                .Replace("{UserPassword}", defaultPassword);
+                .Replace("{UserPassword}", request.Password);
             await emailSender.SendEmailAsync(user.Email, "Thông báo tài khoản hệ thống OrchidLab", emailBody);
             userRepository.Add(user);
             return await userRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0
